@@ -1,0 +1,67 @@
+.btn-grub {
+	background: transparent;
+	color: $red;
+	border: 1px solid $red;
+	&:hover {
+		color: $white;
+		background: $red;
+	}
+}
+.btn-grub-alt {
+	background: $red;
+	color: $white;
+	border: 1px solid $red;
+	&:hover {
+		background: transparent;
+		color: $red;
+	}
+}
+
+input.searchbar-search {
+	background: $red;
+	border:none;
+	padding-left: 2px;
+	width: 66%;
+	
+	&:focus {
+		outline: none;
+	}
+}
+.searchbar-search::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+	color: rgba(#fff,.6);
+	font-weight: normal;
+	font-size: 1em;
+
+}
+.searchbar-search:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color: rgba(#fff,.6);
+   font-weight: normal;
+   font-size: 1em;
+   opacity: 1;
+}
+.searchbar-search::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color: rgba(#fff,.6);
+   font-weight: normal;
+   font-size: 1em;
+
+   opacity: 1;
+}
+.searchbar-search:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color: rgba(#fff,.6);
+   font-weight: normal;
+   font-size: 1em;
+}
+.searchbar-submit {
+	width: 125px;
+	background: transparent;
+	color: $white;
+	border: 1px solid $white;
+	padding: 0em auto;
+	border-radius: 3px;
+	transition: .2s letter-spacing linear;
+
+	&:hover {
+		background: $white;
+		color: $red;
+	}
+}

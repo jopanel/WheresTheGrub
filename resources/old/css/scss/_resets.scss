@@ -1,0 +1,29 @@
+*{box-sizing:border-box;border-collapse:collapse;}
+
+html { 
+	height: 100%
+}
+body {
+	height: 100%;
+    font-family: 'raleway', sans-serif;
+    font-size: 16px;
+    color: $black;
+    margin: 0;
+}
+ul,li {
+    margin: 0;
+    padding: 0;
+}
+
+h1,h2,h3,p,ul,label {
+    margin: 0;
+}
+
+h1 { font-size:1.5em; }
+h2 { font-size:1.2em; }
+h3 { font-size:1.1em; }
+label { 
+	font-size: .9em;
+	font-weight: normal;
+	line-height: .9em;
+}

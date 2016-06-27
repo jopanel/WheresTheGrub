@@ -1,0 +1,16 @@
+@media (max-width: 768px){
+	.grub-brand {
+		margin-left: 10px;
+	}
+}
+
+// Removes map on mobile view and puts list to full width
+@media (max-width: 420px){
+	.map-wrapper {
+		display: none;
+	}
+	.results-wrapper {
+		width: 100%;
+
+	}
+}
