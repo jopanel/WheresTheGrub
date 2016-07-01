@@ -58,7 +58,13 @@ class General_model extends CI_Model {
 	public function getRecommended($limit=25) {
 		$latitude = $this->session->userdata("userdata_lat");
 		$longitude = $this->session->userdata("userdata_lon");
-		$sql = "SELECT * FROM leads WHERE `latitude` between ($latitude-((15+5)/69)) and ($latitude+((15+5)/69)) and `longitude` between ($longitude-(((15+5)/69)*cos(15/69))) and ($longitude+(((15+5)/69)*cos(15/69))) and ACOS(SIN(RADIANS(latitude)) * SIN(RADIANS($latitude)) + COS(RADIANS(latitude)) * COS(RADIANS($latitude)) * COS(RADIANS(longitude) - RADIANS($longitude))) * 3959 <= 25 ORDER BY RAND() LIMIT ".$limit;
+		//echo $latitude." ".$longitude;
+		$sql = "SELECT *, ( 3959 * acos( cos( radians(".$latitude.") ) 
+              * cos( radians( latitude ) ) 
+              * cos( radians( longitude ) - radians(".$longitude.") ) 
+              + sin( radians(".$latitude.") ) 
+              * sin( radians( latitude ) ) ) ) AS distance  FROM leads WHERE category_labels NOT LIKE '%fast food%' AND category_labels NOT LIKE '%COFFEE AND TEA HOUSES%' HAVING distance < 10 ORDER BY distance LIMIT ".$limit;
+		//echo $sql;
 		$result = $this->db->query($sql);
 		if ($result) {
 			return $result->result_array();
@@ -71,7 +77,11 @@ class General_model extends CI_Model {
 	public function getBestRated($limit=25) {
 		$latitude = $this->session->userdata("userdata_lat");
 		$longitude = $this->session->userdata("userdata_lon");
-		$sql = "SELECT * FROM leads WHERE `latitude` between ($latitude-((15+5)/69)) and ($latitude+((15+5)/69)) and `longitude` between ($longitude-(((15+5)/69)*cos(15/69))) and ($longitude+(((15+5)/69)*cos(15/69))) and ACOS(SIN(RADIANS(latitude)) * SIN(RADIANS($latitude)) + COS(RADIANS(latitude)) * COS(RADIANS($latitude)) * COS(RADIANS(longitude) - RADIANS($longitude))) * 3959 <= 25 ORDER BY rating DESC LIMIT ".$limit;
+		$sql = "SELECT *, ( 3959 * acos( cos( radians(".$latitude.") ) 
+              * cos( radians( latitude ) ) 
+              * cos( radians( longitude ) - radians(".$longitude.") ) 
+              + sin( radians(".$latitude.") ) 
+              * sin( radians( latitude ) ) ) ) AS distance FROM leads HAVING distance < 10 ORDER BY rating DESC LIMIT ".$limit;
 		$result = $this->db->query($sql);
 		if ($result) {
 			return $result->result_array();

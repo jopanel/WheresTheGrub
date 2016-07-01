@@ -11,13 +11,13 @@ class Start extends CI_Controller {
 		$this->load->model('General_model');
 		if ( !$this->session->userdata('zipcode') ) {
 			if ($this->_bot_detected() == TRUE) {
-				$this->session->set_userdata("zipcode", "90713");
+				$this->session->set_userdata("zipcode", "90248");
 			} else {
 			$ip = $this->General_model->getIP();	
 			}
 			if ($ip) {
 				if ($ip == "127.0.0.1") {
-					$this->session->set_userdata('zipcode', '90713');
+					$this->session->set_userdata('zipcode', '90248');
 				} else {
 					$details = json_decode(file_get_contents("http://ipinfo.io/{$ip}/json"));
 					$this->session->set_userdata('zipcode', $details->postal);
