@@ -10,9 +10,9 @@
             "type": "Sedan",
             "gallery":
                 [
-                    "assets/img/items/cars/1.jpg",
-                    "assets/img/items/cars/2.jpg",
-                    "assets/img/items/cars/3.jpg"
+                    "resources/img/items/cars/1.jpg",
+                    "resources/img/items/cars/2.jpg",
+                    "resources/img/items/cars/3.jpg"
                 ],
             "features":
                 [
@@ -54,9 +54,9 @@
             "type": "SUV",
             "gallery":
                 [
-                    "assets/img/items/cars/3.jpg",
-                    "assets/img/items/cars/6.jpg",
-                    "assets/img/items/cars/5.jpg"
+                    "resources/img/items/cars/3.jpg",
+                    "resources/img/items/cars/6.jpg",
+                    "resources/img/items/cars/5.jpg"
                 ],
             "features":
                 [
@@ -98,9 +98,9 @@
             "type": "Sport Car",
             "gallery":
                 [
-                    "assets/img/items/cars/8.jpg",
-                    "assets/img/items/cars/6.jpg",
-                    "assets/img/items/cars/5.jpg"
+                    "resources/img/items/cars/8.jpg",
+                    "resources/img/items/cars/6.jpg",
+                    "resources/img/items/cars/5.jpg"
                 ],
             "features":
                 [
@@ -142,9 +142,9 @@
             "type": "Sport Car",
             "gallery":
                 [
-                    "assets/img/items/cars/7.jpg",
-                    "assets/img/items/cars/6.jpg",
-                    "assets/img/items/cars/5.jpg"
+                    "resources/img/items/cars/7.jpg",
+                    "resources/img/items/cars/6.jpg",
+                    "resources/img/items/cars/5.jpg"
                 ],
             "features":
                 [

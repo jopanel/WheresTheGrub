@@ -13,9 +13,9 @@
             "rating": 4,
             "gallery":
                 [
-                    "assets/img/items/1.jpg",
-                    "assets/img/items/5.jpg",
-                    "assets/img/items/4.jpg"
+                    "resources/img/items/1.jpg",
+                    "resources/img/items/5.jpg",
+                    "resources/img/items/4.jpg"
                 ],
             "features":
                 [
@@ -60,9 +60,9 @@
             "rating": 5,
             "gallery":
                 [
-                    "assets/img/items/3.jpg",
-                    "assets/img/items/5.jpg",
-                    "assets/img/items/4.jpg"
+                    "resources/img/items/3.jpg",
+                    "resources/img/items/5.jpg",
+                    "resources/img/items/4.jpg"
                 ],
             "features":
                 [
@@ -102,9 +102,9 @@
             "rating": 2,
             "gallery":
                 [
-                    "assets/img/items/2.jpg",
-                    "assets/img/items/5.jpg",
-                    "assets/img/items/4.jpg"
+                    "resources/img/items/2.jpg",
+                    "resources/img/items/5.jpg",
+                    "resources/img/items/4.jpg"
                 ],
             "features":
                 [
@@ -144,9 +144,9 @@
             "rating": 0,
             "gallery":
                 [
-                    "assets/img/items/1.jpg",
-                    "assets/img/items/5.jpg",
-                    "assets/img/items/4.jpg"
+                    "resources/img/items/1.jpg",
+                    "resources/img/items/5.jpg",
+                    "resources/img/items/4.jpg"
                 ],
             "features":
                 [
@@ -186,9 +186,9 @@
             "rating": 4,
             "gallery":
                 [
-                    "assets/img/items/4.jpg",
-                    "assets/img/items/5.jpg",
-                    "assets/img/items/1.jpg"
+                    "resources/img/items/4.jpg",
+                    "resources/img/items/5.jpg",
+                    "resources/img/items/1.jpg"
                 ],
             "features":
                 [
@@ -228,9 +228,9 @@
             "rating": 5,
             "gallery":
                 [
-                    "assets/img/items/1.jpg",
-                    "assets/img/items/5.jpg",
-                    "assets/img/items/4.jpg"
+                    "resources/img/items/1.jpg",
+                    "resources/img/items/5.jpg",
+                    "resources/img/items/4.jpg"
                 ],
             "features":
                 [
@@ -270,9 +270,9 @@
             "rating": 4,
             "gallery":
                 [
-                    "assets/img/items/1.jpg",
-                    "assets/img/items/5.jpg",
-                    "assets/img/items/4.jpg"
+                    "resources/img/items/1.jpg",
+                    "resources/img/items/5.jpg",
+                    "resources/img/items/4.jpg"
                 ],
             "features":
                 [
@@ -313,9 +313,9 @@
             "featured": 0,
             "gallery":
                 [
-                    "assets/img/items/2.jpg",
-                    "assets/img/items/5.jpg",
-                    "assets/img/items/4.jpg"
+                    "resources/img/items/2.jpg",
+                    "resources/img/items/5.jpg",
+                    "resources/img/items/4.jpg"
                 ],
             "features":
                 [
@@ -355,9 +355,9 @@
             "rating": 4,
             "gallery":
                 [
-                    "assets/img/items/4.jpg",
-                    "assets/img/items/1.jpg",
-                    "assets/img/items/5.jpg"
+                    "resources/img/items/4.jpg",
+                    "resources/img/items/1.jpg",
+                    "resources/img/items/5.jpg"
                 ],
             "features":
                 [
@@ -397,9 +397,9 @@
             "rating": 4,
             "gallery":
                 [
-                    "assets/img/items/4.jpg",
-                    "assets/img/items/1.jpg",
-                    "assets/img/items/5.jpg"
+                    "resources/img/items/4.jpg",
+                    "resources/img/items/1.jpg",
+                    "resources/img/items/5.jpg"
                 ],
             "features":
                 [

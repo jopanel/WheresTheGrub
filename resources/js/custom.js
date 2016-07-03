@@ -405,7 +405,7 @@ function rating(element){
 // Owl Carousel in Modal Window ----------------------------------------------------------------------------------------
 
 function drawOwlCarousel(_rtl){
-    $.getScript( "assets/js/owl.carousel.min.js", function( data, textStatus, jqxhr ) {
+    $.getScript( "resources/js/owl.carousel.min.js", function( data, textStatus, jqxhr ) {
         $(".image .gallery").owlCarousel({
             rtl: _rtl,
             items: 1,
@@ -456,7 +456,7 @@ function equalHeight(container){
 // Initialize Owl carousel ---------------------------------------------------------------------------------------------
 
 function initializeOwl(_rtl){
-    $.getScript( "assets/js/owl.carousel.min.js", function( data, textStatus, jqxhr ) {
+    $.getScript( "resources/js/owl.carousel.min.js", function( data, textStatus, jqxhr ) {
         if ($('.owl-carousel').length > 0) {
             if ($('.carousel-full-width').length > 0) {
                 setCarouselWidth();
@@ -516,16 +516,16 @@ function drawItemSpecific(category, json, a){
         if( category == 'real_estate' ){
             if( json.data[a].item_specific ){
                 if( json.data[a].item_specific.bedrooms ){
-                    itemSpecific += '<span title="Bedrooms"><img src="assets/img/bedrooms.png">' + json.data[a].item_specific.bedrooms + '</span>';
+                    itemSpecific += '<span title="Bedrooms"><img src="resources/img/bedrooms.png">' + json.data[a].item_specific.bedrooms + '</span>';
                 }
                 if( json.data[a].item_specific.bathrooms ){
-                    itemSpecific += '<span title="Bathrooms"><img src="assets/img/bathrooms.png">' + json.data[a].item_specific.bathrooms + '</span>';
+                    itemSpecific += '<span title="Bathrooms"><img src="resources/img/bathrooms.png">' + json.data[a].item_specific.bathrooms + '</span>';
                 }
                 if( json.data[a].item_specific.area ){
-                    itemSpecific += '<span title="Area"><img src="assets/img/area.png">' + json.data[a].item_specific.area + '<sup>2</sup></span>';
+                    itemSpecific += '<span title="Area"><img src="resources/img/area.png">' + json.data[a].item_specific.area + '<sup>2</sup></span>';
                 }
                 if( json.data[a].item_specific.garages ){
-                    itemSpecific += '<span title="Garages"><img src="assets/img/garages.png">' + json.data[a].item_specific.garages + '</span>';
+                    itemSpecific += '<span title="Garages"><img src="resources/img/garages.png">' + json.data[a].item_specific.garages + '</span>';
                 }
                 return itemSpecific;
             }

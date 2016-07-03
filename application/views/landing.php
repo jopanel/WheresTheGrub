@@ -10,12 +10,12 @@
                                     <div class="input-row">
                                         <div class="form-group">
                                             <label for="keyword">Food</label>
-                                            <input type="text" class="form-control" id="keyword" placeholder="Maybe Pizza? BBQ? Sushi? more">
+                                            <input type="text" class="form-control" placeholder="Maybe Pizza? BBQ? Sushi? more">
                                         </div>
                                         <div class="form-group">
                                             <label for="location">Location</label>
                                             <div class="input-group location">
-                                                <input type="text" class="form-control" id="location" value="<?=$this->session->userdata("userdata_city")?>, <?=$this->session->userdata("userdata_state_name")?> <?=$this->session->userdata("zipcode")?>" placeholder="Enter Location">
+                                                <input type="text" class="form-control" value="<?=$this->session->userdata("userdata_city")?>, <?=$this->session->userdata("userdata_state_name")?> <?=$this->session->userdata("zipcode")?>" placeholder="Enter Location">
                                             </div>
                                         </div>
                                         <!-- /.form-group -->
@@ -52,20 +52,21 @@
                                             if (isset($rec["hours"]) && !empty($rec["hours"])) {
                                                 $hoursarray = json_decode($rec["hours"], true);
                                                 $day = date("l");
+                                                $day = strtolower($day);
                                                 $now = date("H:s");
                                                 $open = 0;
                                                 $until = " ";
                                                 foreach ($hoursarray as $theday => $thetimes) {
                                                     if ($theday == $day) {
                                                         foreach ($thetimes as $times) {
-                                                            if ($times[0] < $now && $now < $times[1]) {
+                                                            if (strtotime($times[0]) < strtotime($now) && strtotime($now) < strtotime($times[1])) {
                                                                 $open = 1;
                                                                 $until .= date("h:i a", strtotime($times[1]));
                                                             }
                                                         }
                                                     }
                                                 }
-                                                if ($open == 0) { $hours = "<p>Closed</p>"; } else { $hours = "<p>Open".$until."</p>"; }
+                                                if ($open == 0) { $hours = "<p>Closed</p>"; } else { $hours = "<p>Open until ".$until."</p>"; }
                                             } else {
                                                 $hours = "<p>Closed</p>";
                                             }
@@ -160,10 +161,37 @@
                                                 <div class="image"><img src="resources/img/items/<?=$br["rating"]?>.jpg" alt=""></div>
                                                 <div class="info">
                                                     <div class="type">
-                                                        <i><img src="resources/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
+                                                        <div class="rating" data-rating="<?=$br["rating"]?>"></div>
+                                                        <?php
+
+                                            if (isset($rec["hours"]) && !empty($rec["hours"])) {
+                                                $hoursarray = json_decode($rec["hours"], true);
+                                                $day = date("l");
+                                                $day = strtolower($day);
+                                                $now = date("H:s");
+                                                $open = 0;
+                                                $until = " ";
+                                                foreach ($hoursarray as $theday => $thetimes) {
+                                                    if ($theday == $day) {
+                                                        foreach ($thetimes as $times) {
+                                                            if (strtotime($times[0]) < strtotime($now) && strtotime($now) < strtotime($times[1])) {
+                                                                $open = 1;
+                                                                $until .= date("h:i a", strtotime($times[1]));
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                if ($open == 0) { $hours = "<span>Closed</span>"; } else { $hours = "<span>Open until ".$until."</span>"; }
+                                            } else {
+                                                $hours = "<span>Closed</span>";
+                                            }
+                                            echo $hours;
+                                            ?>
+                                                    </div>
+                                                    <div class="type">
                                                         <span><?=$label?></span>
                                                     </div>
-                                                    <div class="rating" data-rating="<?=$br["rating"]?>"></div>
+                                                    
                                                 </div>
                                             </div>
                                         </a>

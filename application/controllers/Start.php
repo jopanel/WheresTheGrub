@@ -11,13 +11,13 @@ class Start extends CI_Controller {
 		$this->load->model('General_model');
 		if ( !$this->session->userdata('zipcode') ) {
 			if ($this->_bot_detected() == TRUE) {
-				$this->session->set_userdata("zipcode", "90248");
+				$this->session->set_userdata("zipcode", "90713");
 			} else {
 			$ip = $this->General_model->getIP();	
 			}
 			if ($ip) {
 				if ($ip == "127.0.0.1") {
-					$this->session->set_userdata('zipcode', '90248');
+					$this->session->set_userdata('zipcode', '90713');
 				} else {
 					$details = json_decode(file_get_contents("http://ipinfo.io/{$ip}/json"));
 					$this->session->set_userdata('zipcode', $details->postal);
@@ -28,12 +28,13 @@ class Start extends CI_Controller {
 				}
 			}
 		}
-		if (!empty($this->session->userdata("zipcode"))) {
+		if ($this->session->userdata("zipcode")) {
 				$zipdata = $this->General_model->getZipDetails($this->session->userdata("zipcode"));
 				foreach($zipdata as $key => $value){
 					$this->session->set_userdata("userdata_".$key,$value);
 				}
 			}
+			//var_dump($this->session->userdata());
 		date_default_timezone_set($this->session->userdata("userdata_time_zone"));
 	}
 

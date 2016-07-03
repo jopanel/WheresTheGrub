@@ -10,12 +10,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Find who delivers food, where restaurants are, and your favorite grub.">
     <meta name="author" content="support@wheresthegrub.com">
+
+
     <link href="http://<?=$_SERVER['SERVER_NAME']?>/resources/fonts/font-awesome.css" rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="http://<?=$_SERVER['SERVER_NAME']?>/resources/bootstrap/css/bootstrap.css" type="text/css">
     <link rel="stylesheet" href="http://<?=$_SERVER['SERVER_NAME']?>/resources/css/bootstrap-select.min.css" type="text/css">
+    <link rel="stylesheet" href="http://<?=$_SERVER['SERVER_NAME']?>/resources/css/owl.carousel.css" type="text/css">
+    <link rel="stylesheet" href="http://<?=$_SERVER['SERVER_NAME']?>/resources/css/jquery.mCustomScrollbar.css" type="text/css">
     <link rel="stylesheet" href="http://<?=$_SERVER['SERVER_NAME']?>/resources/css/style.css" type="text/css">
     <link rel="stylesheet" href="http://<?=$_SERVER['SERVER_NAME']?>/resources/css/user.style.css" type="text/css">
+
+
     <title>Wheres The Grub - Find Your Food Fast!</title>
     <meta name="robots" content="index, nofollow">
     <meta name="DC.Creator" content="Opanel, Joseph">
@@ -26,7 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta name="DC.title" content="Wheres The Grub Food Finder Delivery Takeout Restaurant">
 </head>
 
-<body onunload="" class="page-subpage page-register navigation-top-header" id="page-top">
+<body onunload="" class="map-fullscreen page-homepage navigation-off-canvas" id="page-top">
 
 <!-- Outer Wrapper-->
 <div id="outer-wrapper">

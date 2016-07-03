@@ -11,9 +11,9 @@
             "type": "Sedan",
             "gallery":
                 [
-                    "assets/img/items/travel/1.jpg",
-                    "assets/img/items/travel/2.jpg",
-                    "assets/img/items/travel/3.jpg"
+                    "resources/img/items/travel/1.jpg",
+                    "resources/img/items/travel/2.jpg",
+                    "resources/img/items/travel/3.jpg"
                 ],
             "features":
                 [
@@ -57,9 +57,9 @@
             "type": "Sedan",
             "gallery":
                 [
-                    "assets/img/items/travel/2.jpg",
-                    "assets/img/items/travel/4.jpg",
-                    "assets/img/items/travel/3.jpg"
+                    "resources/img/items/travel/2.jpg",
+                    "resources/img/items/travel/4.jpg",
+                    "resources/img/items/travel/3.jpg"
                 ],
             "features":
                 [
@@ -103,9 +103,9 @@
             "type": "Sedan",
             "gallery":
                 [
-                    "assets/img/items/travel/7.jpg",
-                    "assets/img/items/travel/4.jpg",
-                    "assets/img/items/travel/3.jpg"
+                    "resources/img/items/travel/7.jpg",
+                    "resources/img/items/travel/4.jpg",
+                    "resources/img/items/travel/3.jpg"
                 ],
             "features":
                 [
@@ -149,9 +149,9 @@
             "type": "Sedan",
             "gallery":
                 [
-                    "assets/img/items/travel/8.jpg",
-                    "assets/img/items/travel/4.jpg",
-                    "assets/img/items/travel/3.jpg"
+                    "resources/img/items/travel/8.jpg",
+                    "resources/img/items/travel/4.jpg",
+                    "resources/img/items/travel/3.jpg"
                 ],
             "features":
                 [

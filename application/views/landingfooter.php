@@ -117,8 +117,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/icheck.min.js"></script>
 <script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/custom.js"></script>
 
+
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyCDTwL2hG2qQ2lXuGw-voeiY6KuVZtFCio&amp;sensor=false&amp;libraries=places"></script>
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/infobox.js"></script>
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/richmarker-compiled.js"></script>
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/markerclusterer.js"></script> 
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/maps.js"></script>
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js\jquery.mCustomScrollbar.concat.min.js"></script>
 <!--[if lte IE 9]>
-<script type="text/javascript" src="resources/js/ie-scripts.js"></script>
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/ie-scripts.js"></script>
 <![endif]-->
+
+<script>
+    var _latitude = 51.541216;
+    var _longitude = -0.095678;
+    var jsonPath = 'http://<?=$_SERVER['SERVER_NAME']?>/resources/json/items.json.txt';
+
+    // Load JSON data and create Google Maps
+
+    $.getJSON(jsonPath)
+        .done(function(json) {
+            createHomepageGoogleMap(_latitude,_longitude,json);
+        })
+        .fail(function( jqxhr, textStatus, error ) {
+            console.log(error);
+        })
+    ;
+
+    // Set if language is RTL and load Owl Carousel
+
+    $(window).load(function(){
+        var rtl = false; // Use RTL
+        initializeOwl(rtl);
+    });
+
+    autoComplete();
+
+</script>
+
+
 </body>
 </html>
