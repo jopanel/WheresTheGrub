@@ -72,6 +72,11 @@ class Api extends CI_Controller {
 				}
 				// start getting information
 				$sql = "SELECT * FROM leads WHERE ";
+				if (isset($post("distance")) && !empty($post("distance"))) {
+					$sql .= " AND `distance` = '".."'";
+				} else {
+					$sql .= "";
+				}
 
 				if (isset($post("accessible_wheelchair")) && !empty($post("accessible_wheelchair"))) {
 					$sql .= " AND `accessible_wheelchair` = '".."'";
