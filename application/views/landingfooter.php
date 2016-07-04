@@ -118,7 +118,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/custom.js"></script>
 
 
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyCDTwL2hG2qQ2lXuGw-voeiY6KuVZtFCio&amp;sensor=false&amp;libraries=places"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyCDTwL2hG2qQ2lXuGw-voeiY6KuVZtFCio&amp;libraries=places"></script>
 <script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/infobox.js"></script>
 <script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/richmarker-compiled.js"></script>
 <script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/markerclusterer.js"></script> 
@@ -128,32 +128,114 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/ie-scripts.js"></script>
 <![endif]-->
 
-<script>
-    var _latitude = 51.541216;
-    var _longitude = -0.095678;
+<?php
+if ($this->uri->segment(1)) {
+    if ($this->uri->segment(1) == "search") { ?>
+        <script>
+    var filters = 0;
+    var filters2 = 0;
+    var jsonData;
     var jsonPath = 'http://<?=$_SERVER['SERVER_NAME']?>/resources/json/items.json.txt';
+    var _latitude = <?=$this->session->userdata("userdata_lat")?>;
+    var _longitude = <?=$this->session->userdata("userdata_lon")?>; 
+    getLoad();
+    function getFilters() {
+        if (filters == 0) {
+            $("#filtersBox").show();
+            $("#morefilterbtn").show();
+            filters = 1;
+        } else {
+            $("#filtersBox").hide();
+            $("#morefilterbtn").hide();
+            $("#moreFilters").hide();
+            filters = 0;
+            filters2 = 0;
+        }
+    }
+    function getMoreFilters() {
+        if (filters2 == 0) {
+            $("#moreFilters").show();
+            filters2 = 1;
+        } else { 
+            $("#moreFilters").hide();
+            filters2 = 0;
+        }
+    }
 
-    // Load JSON data and create Google Maps
+    function getLoad() {
+        var apiData = $("#apiSearch").serialize();
+        apiData = JSON.stringify(apiData);
 
-    $.getJSON(jsonPath)
-        .done(function(json) {
-            createHomepageGoogleMap(_latitude,_longitude,json);
-        })
-        .fail(function( jqxhr, textStatus, error ) {
-            console.log(error);
-        })
-    ;
+        ajax("http://local.wheresthegrub.com/api/search", apiData, function(data){
+          jsonData = JSON.parse(data);
+        });
+        $.getJSON(jsonPath)
+            .done(function(json) {
+                createHomepageGoogleMap(_latitude,_longitude,json);
+            })
+            .fail(function( jqxhr, textStatus, error ) {
+                console.log(error);
+            });
+        $(window).load(function(){
+            var rtl = false; // Use RTL
+            initializeOwl(rtl);
+        });
 
-    // Set if language is RTL and load Owl Carousel
+        autoComplete();
+    }
+    
+    function getXmlHttpObject() {
+        var xmlHttp;
+        try {
+            // Firefox, Opera 8.0+, Safari
+            xmlHttp = new XMLHttpRequest();
+        } catch (e) {
+            // Internet Explorer
+            try {
+                xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+            } catch (e) {
+                xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+        }
+        if (!xmlHttp) {
+            showprompt("Your browser does not support AJAX!", "Hold Up");
+        }
+        return xmlHttp;
+    }
 
-    $(window).load(function(){
-        var rtl = false; // Use RTL
-        initializeOwl(rtl);
-    });
 
-    autoComplete();
+    function ajax(url, postdata, onSuccess, onError) {
+    
+        var xmlHttp = getXmlHttpObject();
+        
+        xmlHttp.onreadystatechange = function() {
+            if (this.readyState === 4) {
+                
+                // onSuccess
+                if (this.status === 200 && typeof onSuccess == 'function') {
+                    onSuccess(this.responseText);
+                    
+                }
+                
+                // onError
+                else if(typeof onError == 'function') {
+                    onError();
+                }
+                
+            }
+        };
+        xmlHttp.open("POST", url, true);
+        xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlHttp.send(postdata);
+        return xmlHttp;
+    }
 
 </script>
+   <?php }
+}
+?>
+
+
 
 
 </body>

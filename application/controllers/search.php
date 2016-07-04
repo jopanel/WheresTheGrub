@@ -33,6 +33,7 @@ class Search extends CI_Controller {
 				foreach($zipdata as $key => $value){
 					$this->session->set_userdata("userdata_".$key,$value);
 				}
+				$this->session->set_userdata("location", $this->session->userdata("userdata_city").", ".$this->session->userdata("userdata_state_name")." ".$this->session->userdata("zipcode"));
 			}
 			//var_dump($this->session->userdata());
 		date_default_timezone_set($this->session->userdata("userdata_time_zone"));
@@ -48,9 +49,10 @@ class Search extends CI_Controller {
 	}
 	public function index()
 	{
+		
 		//var_dump($this->session->userdata());
-		$data["recommended"] = $this->General_model->getRecommended(12);
-		$data["bestrated"] = $this->General_model->getBestRated(8);
+		$data["recommended"] = $this->General_model->getRecommended(6);
+		$data["bestrated"] = $this->General_model->getBestRated(5);
 		$this->load->view('landingheader');
 		$this->load->view('home', $data);
 		$this->load->view('landingfooter');
