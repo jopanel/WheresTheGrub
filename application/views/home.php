@@ -66,11 +66,11 @@
                                             <input type="checkbox" value="1" class="form-control" name="wifi" placeholder="textplaceholder" value="1"> 
                                             </div>
                                             <div class="form-group">
-                                                <span style="text-align: center; margin: 10px 0px 0px 0px; position: absolute;">Good For Vegetarians</span>
+                                                <span style="text-align: center; margin: 10px 0px 0px 0px; position: absolute;">Vegetarian Options</span>
                                                 <input type="checkbox" value="1" class="form-control" name="options_vegetarian" placeholder="textplaceholder" value="1"> 
                                             </div>
                                             <div class="form-group">
-                                                <span style="text-align: center; margin: 10px 0px 0px 0px; position: absolute;">Healthy</span>
+                                                <span style="text-align: center; margin: 10px 0px 0px 0px; position: absolute;">Healthy Options</span>
                                                 <input type="checkbox" value="1" class="form-control" name="options_healthy" placeholder="textplaceholder" value="1"> 
                                             </div>
                                             <div class="form-group">
@@ -96,7 +96,7 @@
                                         </div>
                                         <div class="input-row">
                                             <div class="form-group">
-                                            <span style="text-align: center; margin: 10px 0px 0px 0px; position: absolute;">Good for Kids</span>
+                                            <span style="text-align: center; margin: 10px 0px 0px 0px; position: absolute;">Family Friendly</span>
                                             <input type="checkbox" value="1" class="form-control" name="kids_goodfor" placeholder="textplaceholder" value="1"> 
                                             </div>
                                             <div class="form-group">
@@ -106,6 +106,23 @@
                                             <div class="form-group">
                                                 <span style="text-align: center; margin: 10px 0px 0px 0px; position: absolute;">Open 24 Hours</span>
                                                 <input type="checkbox" value="1" class="form-control" name="open_24hrs" placeholder="textplaceholder" value="1"> 
+                                            </div>
+                                            <div class="form-group">
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="input-row">
+                                            <div class="form-group">
+                                            <span style="text-align: center; margin: 10px 0px 0px 0px; position: absolute;">Full Bar</span>
+                                            <input type="checkbox" value="1" class="form-control" name="alcohol" placeholder="textplaceholder" value="1"> 
+                                            </div>
+                                            <div class="form-group">
+                                                <span style="text-align: center; margin: 10px 0px 0px 0px; position: absolute;">Beer Only</span>
+                                                <input type="checkbox" value="1" class="form-control" name="alcohol_beer" placeholder="textplaceholder" value="1"> 
+                                            </div>
+                                            <div class="form-group">
+                                                <span style="text-align: center; margin: 10px 0px 0px 0px; position: absolute;">Beer & Wine Only</span>
+                                                <input type="checkbox" value="1" class="form-control" name="alcohol_beer_wine" placeholder="textplaceholder" value="1"> 
                                             </div>
                                             <div class="form-group">
                                                 

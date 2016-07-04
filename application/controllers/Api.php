@@ -73,42 +73,52 @@ class Api extends CI_Controller {
 				// start getting information
 				$sql = "SELECT * FROM leads WHERE ";
 
-				if (isset() && !empty()) {
+				if (isset($post("accessible_wheelchair")) && !empty($post("accessible_wheelchair"))) {
+					$sql .= " AND `accessible_wheelchair` = '".."'";
+				}
+				if (isset($post("kids_goodfor")) && !empty($post("kids_goodfor"))) {
+					$sql .= " AND `kids_goodfor` = '".."'";
+				}
+				if (isset($post("meal_breakfast")) && !empty($post("meal_breakfast"))) {
+					$sql .= " AND `meal_breakfast`  = '".."'";
+				}
+				if (isset($post("meal_dinner")) && !empty($post("meal_dinner"))) {
+					$sql .= " AND `meal_dinner` = '".."'";
+				}
+				if (isset($post("meal_lunch")) && !empty($post("meal_lunch"))) {
+					$sql .= " AND `meal_lunch` = '".."'";
+				}
+				if (isset($post("open_24hrs")) && !empty($post("open_24hrs"))) {
+					$sql .= " AND `open_24hrs` = '".."'";
+				}
+				if (isset($post("options_healthy")) && !empty($post("options_healthy"))) {
+					$sql .= " AND `options_healthy` = '".."'";
+				}
+				if (isset($post("wifi")) && !empty($post("wifi"))) {
+					$sql .= " AND `wifi` = '".."'";
+				}
+				if (isset($post("options_vegetarian")) && !empty($post("options_vegetarian"))) {
+					$sql .= " AND `options_vegetarian` = '".."'";
+				}
+				if (isset($post("alcohol")) && !empty($post("alcohol"))) {
+					$sql .= " AND `alcohol` = '".."'";
+				}
+				if (isset($post("alcohol_beer")) && !empty($post("alcohol_beer"))) {
+					$sql .= " AND `alcohol_beer` = '".."'";
+				}
+				if (isset($post("alcohol_beer_wine")) && !empty($post("alcohol_beer_wine"))) {
+					$sql .= " AND `alcohol_beer_wine` = '".."'";
+				}
+				if (isset($post("deliverypickup")) && !empty($post("deliverypickup"))) {
 					$sql .= " AND `` = '".."'";
 				}
-				if (isset() && !empty()) {
+				if (isset($post("ratingpopularity")) && !empty($post("ratingpopularity"))) {
 					$sql .= " AND `` = '".."'";
 				}
-				if (isset() && !empty()) {
+				if (isset($post("opennow")) && !empty($post("opennow"))) {
 					$sql .= " AND `` = '".."'";
 				}
-				if (isset() && !empty()) {
-					$sql .= " AND `` = '".."'";
-				}
-				if (isset() && !empty()) {
-					$sql .= " AND `` = '".."'";
-				}
-				if (isset() && !empty()) {
-					$sql .= " AND `` = '".."'";
-				}
-				if (isset() && !empty()) {
-					$sql .= " AND `` = '".."'";
-				}
-				if (isset() && !empty()) {
-					$sql .= " AND `` = '".."'";
-				}
-				if (isset() && !empty()) {
-					$sql .= " AND `` = '".."'";
-				}
-				if (isset() && !empty()) {
-					$sql .= " AND `` = '".."'";
-				}
-				if (isset() && !empty()) {
-					$sql .= " AND `` = '".."'";
-				}
-				if (isset() && !empty()) {
-					$sql .= " AND `` = '".."'";
-				}
+				
 				
 
 			}
