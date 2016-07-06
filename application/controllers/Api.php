@@ -128,7 +128,7 @@ class Api extends CI_Controller {
 					}
 				}
 				if (isset($post["ratingpopularity"])) {
-					if ($post("ratingpopularity") == 1) {
+					if ($post["ratingpopularity"] == 1) {
 						$sql .= " AND `rating` >= '4'";
 					} else {
 						// needs updating for popularity after the restaurant page is made

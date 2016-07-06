@@ -234,14 +234,7 @@ function createHomepageGoogleMap(_latitude,_longitude,json){
             rating('.results .item');
 
             var $singleItem = $('.results .item');
-            $singleItem.hover(
-                function(){
-                    newMarkers[ $(this).attr('id') - 1 ].content.className = 'marker-active marker-loaded';
-                },
-                function() {
-                    newMarkers[ $(this).attr('id') - 1 ].content.className = 'marker-loaded';
-                }
-            );
+           
         });
 
         redrawMap('google', map);

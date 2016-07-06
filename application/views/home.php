@@ -13,7 +13,7 @@
 
                             <div class="input-row">  
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="keyword" name="keyword" placeholder="Enter Keyword">
+                                    <input type="text" class="form-control" id="keyword" name="keyword" value="" placeholder="Enter Keyword">
                                 </div>
                                 
                                 <!-- /.form-group -->
