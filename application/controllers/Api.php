@@ -61,8 +61,13 @@ class Api extends CI_Controller {
 					$output= json_decode($geocode);
 					if ($output->status == "OK") {
 						$this->session->set_userdata("location", $output->results[0]->formatted_address);
-						//var_dump($output);
-						$zipdata = $this->General_model->getZipDetails($output->results[0]->address_components[0]->short_name);
+						$addressComponents = $output->results[0]->address_components;
+			            foreach($addressComponents as $addrComp){
+			                if($addrComp->types[0] == 'postal_code'){
+			                    $theirzip = $addrComp->short_name;
+			                }
+			            }
+						$zipdata = $this->General_model->getZipDetails($theirzip);
 						foreach($zipdata as $key => $value){
 							$this->session->set_userdata("userdata_".$key,$value);
 						}
