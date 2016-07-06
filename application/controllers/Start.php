@@ -33,6 +33,7 @@ class Start extends CI_Controller {
 				foreach($zipdata as $key => $value){
 					$this->session->set_userdata("userdata_".$key,$value);
 				}
+				$this->session->set_userdata("location", $this->session->userdata("userdata_city").", ".$this->session->userdata("userdata_state_name")." ".$this->session->userdata("zipcode"));
 			}
 			//var_dump($this->session->userdata());
 		date_default_timezone_set($this->session->userdata("userdata_time_zone"));

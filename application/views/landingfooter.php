@@ -130,7 +130,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <?php
 if ($this->uri->segment(1)) {
-    if ($this->uri->segment(1) == "search") { ?>
+    if (strtolower($this->uri->segment(1)) == "search") { ?>
         <script>
     var filters = 0;
     var filters2 = 0;
@@ -165,17 +165,25 @@ if ($this->uri->segment(1)) {
     function getLoad() {
         var apiData = $("#apiSearch").serialize();
         apiData = JSON.stringify(apiData);
-
-        ajax("http://local.wheresthegrub.com/api/search", apiData, function(data){
-          jsonData = JSON.parse(data);
+        //ajax("http://local.wheresthegrub.com/api/search", apiData, function(data){
+        //  jsonData = JSON.parse(data);
+        //});
+        $.ajax({
+            type: 'POST',
+            url: 'http://local.wheresthegrub.com/api/search',
+            data: apiData,
+            cache: false,
+            success: function (data) {
+                
+                loadMap(JSON.parse(data));
+            }
         });
-        $.getJSON(jsonPath)
-            .done(function(json) {
-                createHomepageGoogleMap(_latitude,_longitude,json);
-            })
-            .fail(function( jqxhr, textStatus, error ) {
-                console.log(error);
-            });
+    }
+
+    function loadMap(jsonData) {
+
+            createHomepageGoogleMap(_latitude,_longitude,jsonData);
+           
         $(window).load(function(){
             var rtl = false; // Use RTL
             initializeOwl(rtl);

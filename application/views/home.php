@@ -161,7 +161,7 @@
                 </div>
                 <!-- end Map -->
                 <!--Items List-->
-                <div class="items-list">
+                <div class="items-list background-color-grey-dark">
                     <div class="inner">
                         <header>
                             <h3>Restaurants</h3>

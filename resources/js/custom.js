@@ -105,7 +105,7 @@ $(document).ready(function($) {
 
 // Set width for inputs in horizontal search bar -----------------------------------------------------------------------
 
-    $( "#redefine-search-form" ).load( "assets/external/_search-bar.html", function() {
+    $( "#redefine-search-form" ).load( "resources/external/_search-bar.html", function() {
         setInputsWidth();
         //autoComplete();
     });
@@ -551,7 +551,7 @@ function drawItemSpecific(category, json, a){
 function quickView(id){
     $.ajax({
         type: 'POST',
-        url: 'assets/external/_modal.html',
+        url: 'resources/external/_modal.html',
         data: id,
         success: function (data) {
             // Create HTML element with loaded data

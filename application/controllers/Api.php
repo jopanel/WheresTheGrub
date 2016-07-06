@@ -52,81 +52,208 @@ class Api extends CI_Controller {
 		if ($this->input->post()) {
 
 			$post = $this->input->post();
-			$buildarray = [];
-			var_dump($post);
-
-			if (isset($this->session->userdata("userdata_zip_code_id")) && isset($this->session->userdata("userdata_lat")) && isset($this->session->userdata("userdata_lon"))) {
-				if ($this->session->userdata("location") != $post("location")) {
+			//echo $post("location");
+			$buildarray = []; 
+			if ($this->session->userdata("userdata_zip_code_id") && $this->session->userdata("userdata_lat") && $this->session->userdata("userdata_lon") && $post["location"] && $this->session->userdata("location")) {
+				if ($this->session->userdata("location") != $post["location"]) {
 					// user posted new location to view
-					$geocode=file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($post("location")));
+					$geocode=file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($post["location"]));
 					$output= json_decode($geocode);
 					if ($output->status == "OK") {
-						$this->session->set_userdata("location") = $output->results[0]->formatted_address;
-						$zipdata = $this->General_model->getZipDetails($output->results[0]->address_components[6]->short_name);
+						$this->session->set_userdata("location", $output->results[0]->formatted_address);
+						//var_dump($output);
+						$zipdata = $this->General_model->getZipDetails($output->results[0]->address_components[0]->short_name);
 						foreach($zipdata as $key => $value){
 							$this->session->set_userdata("userdata_".$key,$value);
 						}
-						$this->session->set_userdata("userdata_lat") = $output->results[0]->geometry->location->lat;
-						$this->session->set_userdata("userdata_lon") = $output->results[0]->geometry->location->lng;
+						$this->session->set_userdata("userdata_lat",$output->results[0]->geometry->location->lat);
+						$this->session->set_userdata("userdata_lon",$output->results[0]->geometry->location->lng);
 					} 
 				}
 				// start getting information
-				$sql = "SELECT * FROM leads WHERE ";
-				if (isset($post("distance")) && !empty($post("distance"))) {
-					$sql .= " AND `distance` = '".."'";
+				$latitude = $this->session->userdata("userdata_lat");
+				$longitude = $this->session->userdata("userdata_lon");
+				$sql = "SELECT *, ( 3959 * acos( cos( radians(".$latitude.") ) 
+		              * cos( radians( latitude ) ) 
+		              * cos( radians( longitude ) - radians(".$longitude.") ) 
+		              + sin( radians(".$latitude.") ) 
+		              * sin( radians( latitude ) ) ) ) AS distance FROM leads WHERE `active` = '1'";
+				$yes = 1;
+				if (isset($post["accessible_wheelchair"])) {
+					$sql .= " AND `accessible_wheelchair` = '".$yes."'";
+				}
+				if (isset($post["kids_goodfor"])) {
+					$sql .= " AND `kids_goodfor` = '".$yes."'";
+				}
+				if (isset($post["meal_breakfast"])) {
+					$sql .= " AND `meal_breakfast`  = '".$yes."'";
+				}
+				if (isset($post["meal_dinner"])) {
+					$sql .= " AND `meal_dinner` = '".$yes."'";
+				}
+				if (isset($post["meal_lunch"])) {
+					$sql .= " AND `meal_lunch` = '".$yes."'";
+				}
+				if (isset($post["open_24hrs"])) {
+					$sql .= " AND `open_24hrs` = '".$yes."'";
+				}
+				if (isset($post["options_healthy"])) {
+					$sql .= " AND `options_healthy` = '".$yes."'";
+				}
+				if (isset($post["wifi"])) {
+					$sql .= " AND `wifi` = '".$yes."'";
+				}
+				if (isset($post["options_vegetarian"])) {
+					$sql .= " AND `options_vegetarian` = '".$yes."'";
+				}
+				if (isset($post["alcohol"])) {
+					$sql .= " AND `alcohol` = '".$yes."'";
+				}
+				if (isset($post["alcohol_beer"])) {
+					$sql .= " AND `alcohol_beer` = '".$yes."'";
+				}
+				if (isset($post["alcohol_beer_wine"])) {
+					$sql .= " AND `alcohol_beer_wine` = '".$yes."'";
+				}
+				if (isset($post["deliverypickup"])) {
+					if ($post["deliverypickup"] == 1) {
+						$sql .= " AND `meal_deliver` = '".$yes."'";
+					} else {
+						$sql .= " AND `meal_takeout` = '".$yes."'";
+					}
+				}
+				if (isset($post["ratingpopularity"])) {
+					if ($post("ratingpopularity") == 1) {
+						$sql .= " AND `rating` >= '4'";
+					} else {
+						// needs updating for popularity after the restaurant page is made
+					}
+				}
+				if (isset($post["opennow"])) { 
+					$sql .= " AND `hours` IS NOT NULL";
+				}
+				if (isset($post["keyword"])) {
+					// needs updating for keyword searching, this part should probably be pretty advanced.
+					// im thinking create another function that builds a large where clause for different keyword specifics
+				}
+				if (isset($post["distance"])) {
+					if ($post["distance"] == 1) {
+						$sql .= " HAVING distance < 1";
+					} elseif ($post["distance"] == 5) {
+						$sql .= " HAVING distance < 5";
+					} elseif ($post["distance"] == 10) {
+						$sql .= " HAVING distance < 10";
+					} elseif ($post["distance"] == 25) {
+						$sql .= " HAVING distance < 25";
+					} elseif ($post["distance"] == 50) {
+						$sql .= " HAVING distance < 50";
+					} else {
+						// somebody modified the site and maybe we should ban them for trying? nah lets just do default
+						$sql .= " HAVING distance < 2";
+					}
 				} else {
-					$sql .= "";
+					$sql .= " HAVING distance < 2";
 				}
 
-				if (isset($post("accessible_wheelchair")) && !empty($post("accessible_wheelchair"))) {
-					$sql .= " AND `accessible_wheelchair` = '".."'";
-				}
-				if (isset($post("kids_goodfor")) && !empty($post("kids_goodfor"))) {
-					$sql .= " AND `kids_goodfor` = '".."'";
-				}
-				if (isset($post("meal_breakfast")) && !empty($post("meal_breakfast"))) {
-					$sql .= " AND `meal_breakfast`  = '".."'";
-				}
-				if (isset($post("meal_dinner")) && !empty($post("meal_dinner"))) {
-					$sql .= " AND `meal_dinner` = '".."'";
-				}
-				if (isset($post("meal_lunch")) && !empty($post("meal_lunch"))) {
-					$sql .= " AND `meal_lunch` = '".."'";
-				}
-				if (isset($post("open_24hrs")) && !empty($post("open_24hrs"))) {
-					$sql .= " AND `open_24hrs` = '".."'";
-				}
-				if (isset($post("options_healthy")) && !empty($post("options_healthy"))) {
-					$sql .= " AND `options_healthy` = '".."'";
-				}
-				if (isset($post("wifi")) && !empty($post("wifi"))) {
-					$sql .= " AND `wifi` = '".."'";
-				}
-				if (isset($post("options_vegetarian")) && !empty($post("options_vegetarian"))) {
-					$sql .= " AND `options_vegetarian` = '".."'";
-				}
-				if (isset($post("alcohol")) && !empty($post("alcohol"))) {
-					$sql .= " AND `alcohol` = '".."'";
-				}
-				if (isset($post("alcohol_beer")) && !empty($post("alcohol_beer"))) {
-					$sql .= " AND `alcohol_beer` = '".."'";
-				}
-				if (isset($post("alcohol_beer_wine")) && !empty($post("alcohol_beer_wine"))) {
-					$sql .= " AND `alcohol_beer_wine` = '".."'";
-				}
-				if (isset($post("deliverypickup")) && !empty($post("deliverypickup"))) {
-					$sql .= " AND `` = '".."'";
-				}
-				if (isset($post("ratingpopularity")) && !empty($post("ratingpopularity"))) {
-					$sql .= " AND `` = '".."'";
-				}
-				if (isset($post("opennow")) && !empty($post("opennow"))) {
-					$sql .= " AND `` = '".."'";
-				}
+				//$sql .= " LIMIT 300";
 				
+				$result = $this->db->query($sql);
+				if ($result) {
+					$resultset = $result->result_array();
+					$result = null;
+					if (isset($post["opennow"])) {
+						foreach ($resultset as $firstkey => $value) {
+							 $hoursarray = json_decode($value["hours"], true);
+                             $day = date("l");
+                             $day = strtolower($day);
+                             $now = date("H:s");
+                             $open = 0;
+                             foreach ($hoursarray as $theday => $thetimes) {
+                                 if ($theday == $day) {
+                                     foreach ($thetimes as $times) {
+                                         if (strtotime($times[0]) < strtotime($now) && strtotime($now) < strtotime($times[1])) {
+                                             $open = 1;
+                                         }
+                                     }
+                                 }
+                             }
+                             if ($open == 0) {
+                             	unset($resultset[$firstkey]);
+                             }
+                        }   
+					}
+					$count = 0;
+					foreach ($resultset as $resarr) {
+						// build the data translation
+
+						//category
+						$label = "";
+						if ($resarr["category_labels"]) {
+							$categoryarray = json_decode($resarr["category_labels"], true);
+                            foreach ($categoryarray[0] as $labels) {
+                                $label .= $labels." ";
+                            }
+                            $categoryarray = null;
+						}
+
+						// url
+						
+						//type
+						$type = "Place";
+						if ($resarr["cuisine"]) {
+							$categoryarray = json_decode($resarr["cuisine"], true);
+                            $type = $categoryarray[0][0];
+						} 
+
+						//gallery
+
+						//features
+
+						//featured
+
+						// special offer 1/0
+
+						//item specific
+
+						//last review
+
+						// last review rating
+
+						$buildarray["data"][] = array(
+							"id" => $resarr["id"],
+							"category" =>$label,
+							"title" =>$resarr["name"],
+							"location" =>$resarr["address"],
+							"latitude" =>$resarr["latitude"],
+							"longitude" =>$resarr["longitude"],
+							"url" =>0,
+							"type" =>$type,
+							"type_icon" =>"resources/icons/restaurants-bars/restaurants/restaurant.png",
+							"rating" =>$resarr["rating"],
+							"gallery" =>array("resources/img/items/4.jpg"),
+							"features" =>array("Free parking?"),
+							"date_created" =>"2014-11-03",
+							"featured" =>0,
+							"color" =>"",
+							"person_id" =>$resarr["id"],
+							"year" => "",
+							"special_offer" =>0,
+							"item_specific" => array(
+								"menu" => 0,
+								"offer1" =>0,
+								"offer1_price" =>0
+								),
+							"description" =>0,
+							"last_review" =>0,
+							"last_review_rating" =>0
+							);
+					}
+				} else {
+					$buildarray["data"] = array();
+				}
 				
 
-			}
+			} // end of requests that have session data
 
 
 			/*
@@ -180,10 +307,18 @@ class Api extends CI_Controller {
         }
 		*/
 
-		//echo json_encode($data);
+		echo json_encode($buildarray);
 		} else {
 			echo "You require more pylons.";
 		}
+	}
+
+	protected function keywordAnalysis($keyword = null) {
+		if ($keyword == null) {
+			return FALSE;
+		}
+
+		//possible keywords
 	}
 
 }
