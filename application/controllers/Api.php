@@ -61,9 +61,12 @@ class Api extends CI_Controller {
 					$output= json_decode($geocode);
 					if ($output->status == "OK") {
 						$this->session->set_userdata("location", $output->results[0]->formatted_address);
+						//var_dump($output);
 						$addressComponents = $output->results[0]->address_components;
+						$haszip = 0;
 			            foreach($addressComponents as $addrComp){
 			                if($addrComp->types[0] == 'postal_code'){
+			                	$haszip = 1;
 			                    $theirzip = $addrComp->short_name;
 			                }
 			            }
@@ -71,6 +74,7 @@ class Api extends CI_Controller {
 						foreach($zipdata as $key => $value){
 							$this->session->set_userdata("userdata_".$key,$value);
 						}
+						$this->session->set_userdata("zipcode", $theirzip);
 						$this->session->set_userdata("userdata_lat",$output->results[0]->geometry->location->lat);
 						$this->session->set_userdata("userdata_lon",$output->results[0]->geometry->location->lng);
 					} 

@@ -138,6 +138,8 @@ if ($this->uri->segment(1)) {
     var jsonPath = 'http://<?=$_SERVER['SERVER_NAME']?>/resources/json/items.json.txt';
     var _latitude = <?=$this->session->userdata("userdata_lat")?>;
     var _longitude = <?=$this->session->userdata("userdata_lon")?>; 
+    var quickload = ["data"];
+    loadMap(quickload);
     getLoad();
     function getFilters() {
         if (filters == 0) {
@@ -174,14 +176,12 @@ if ($this->uri->segment(1)) {
             data: apiData,
             cache: false,
             success: function (data) {
-                
                 loadMap(JSON.parse(data));
             }
         });
     }
 
-    function loadMap(jsonData) {
-
+    function loadMap(jsonData) { 
             createHomepageGoogleMap(_latitude,_longitude,jsonData);
            
         $(window).load(function(){

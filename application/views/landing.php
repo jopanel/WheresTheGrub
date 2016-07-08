@@ -6,16 +6,16 @@
                         <div class="container">
                             <h1><?=$phrase?></h1>
                             <div class="search-bar horizontal">
-                                <form class="main-search border-less-inputs background-dark narrow" role="form" method="post" action="?">
+                                <form class="main-search border-less-inputs background-dark narrow" role="form" method="post" action="search">
                                     <div class="input-row">
                                         <div class="form-group">
                                             <label for="keyword">Food</label>
-                                            <input type="text" class="form-control" placeholder="Maybe Pizza? BBQ? Sushi? more">
+                                            <input type="text" class="form-control" name="keyword" placeholder="Maybe Pizza? BBQ? Sushi? more">
                                         </div>
                                         <div class="form-group">
                                             <label for="location">Location</label>
                                             <div class="input-group location">
-                                                <input type="text" class="form-control" value="<?=$this->session->userdata("userdata_city")?>, <?=$this->session->userdata("userdata_state_name")?> <?=$this->session->userdata("zipcode")?>" placeholder="Enter Location">
+                                                <input type="text" class="form-control" id="location" name="location" value="<?=$this->session->userdata("location")?>" placeholder="Enter Location">
                                             </div>
                                         </div>
                                         <!-- /.form-group -->

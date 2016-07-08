@@ -9,35 +9,36 @@ class Search extends CI_Controller {
 		$this->load->helper('url');
 		date_default_timezone_set('America/Los_Angeles');
 		$this->load->model('General_model');
-		if ( !$this->session->userdata('zipcode') ) {
-			if ($this->_bot_detected() == TRUE) {
-				$this->session->set_userdata("zipcode", "90713");
-			} else {
-			$ip = $this->General_model->getIP();	
-			}
-			if ($ip) {
-				if ($ip == "127.0.0.1") {
-					$this->session->set_userdata('zipcode', '90713');
+			if ( !$this->session->userdata('zipcode') ) {
+				if ($this->_bot_detected() == TRUE) {
+					$this->session->set_userdata("zipcode", "90713");
 				} else {
-					$details = json_decode(file_get_contents("http://ipinfo.io/{$ip}/json"));
-					$this->session->set_userdata('zipcode', $details->postal);
+				$ip = $this->General_model->getIP();	
 				}
-			} else {
-				if ($this->uri->segment(1)."/".$this->uri->segment(2) != "start/location") {
-					redirect("start/location");
+				if ($ip) {
+					if ($ip == "127.0.0.1") {
+						$this->session->set_userdata('zipcode', '90713');
+					} else {
+						$details = json_decode(file_get_contents("http://ipinfo.io/{$ip}/json"));
+						$this->session->set_userdata('zipcode', $details->postal);
+					}
+				} else {
+					if ($this->uri->segment(1)."/".$this->uri->segment(2) != "start/location") {
+						redirect("start/location");
+					}
 				}
 			}
-		}
-		if ($this->session->userdata("zipcode")) {
-				$zipdata = $this->General_model->getZipDetails($this->session->userdata("zipcode"));
-				foreach($zipdata as $key => $value){
-					$this->session->set_userdata("userdata_".$key,$value);
+			if ($this->session->userdata("zipcode")) {
+					$zipdata = $this->General_model->getZipDetails($this->session->userdata("zipcode"));
+					foreach($zipdata as $key => $value){
+						$this->session->set_userdata("userdata_".$key,$value);
+					}
+					$this->session->set_userdata("location", $this->session->userdata("userdata_city").", ".$this->session->userdata("userdata_state_name")." ".$this->session->userdata("zipcode"));
 				}
-				$this->session->set_userdata("location", $this->session->userdata("userdata_city").", ".$this->session->userdata("userdata_state_name")." ".$this->session->userdata("zipcode"));
-			}
-			//var_dump($this->session->userdata());
-		date_default_timezone_set($this->session->userdata("userdata_time_zone"));
+				//var_dump($this->session->userdata());
+			date_default_timezone_set($this->session->userdata("userdata_time_zone"));
 	}
+	
 
 	private function _bot_detected() {
 	  if (isset($_SERVER['HTTP_USER_AGENT']) && preg_match('/bot|crawl|slurp|spider/i', $_SERVER['HTTP_USER_AGENT'])) {
@@ -49,7 +50,38 @@ class Search extends CI_Controller {
 	}
 	public function index()
 	{
-		
+		if ($this->input->post()) {
+			$post = $this->input->post();
+			if (isset($post["location"]) && $this->session->userdata("location")) {
+				if ($post["location"] != $this->session->userdata("location")) {
+					$geocode=file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($post["location"]));
+					$output= json_decode($geocode);
+					if ($output->status == "OK") {
+						$this->session->set_userdata("location", $output->results[0]->formatted_address);
+						$addressComponents = $output->results[0]->address_components;
+						$foundzip = 0;
+			            foreach($addressComponents as $addrComp){
+			                if($addrComp->types[0] == 'postal_code'){
+			                	$foundzip = 1;
+			                    $theirzip = $addrComp->short_name;
+			                }
+			            }
+			            if ($foundzip == 1) {
+			            	$zipdata = $this->General_model->getZipDetails($theirzip);
+							foreach($zipdata as $key => $value){
+								$this->session->set_userdata("userdata_".$key,$value);
+							}
+							$this->session->set_userdata("zipcode", $theirzip);
+							$this->session->set_userdata("userdata_lat",$output->results[0]->geometry->location->lat);
+							$this->session->set_userdata("userdata_lon",$output->results[0]->geometry->location->lng);
+			            }
+					}
+				}
+				if (isset($post["keyword"])) {
+					$this->session->set_userdata("keyword", $post["keyword"]);
+				}
+			}
+		}
 		//var_dump($this->session->userdata());
 		$data["recommended"] = $this->General_model->getRecommended(6);
 		$data["bestrated"] = $this->General_model->getBestRated(5);

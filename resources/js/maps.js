@@ -26,7 +26,7 @@ function createHomepageGoogleMap(_latitude,_longitude,json){
     function gMap(){
         var mapCenter = new google.maps.LatLng(_latitude,_longitude);
         var mapOptions = {
-            zoom: 14,
+            zoom: 15,
             center: mapCenter,
             disableDefaultUI: false,
             scrollwheel: false,
@@ -597,7 +597,7 @@ function pushItemsToArray(json, a, category, visibleItemsArray){
                     '</div>' +
                 '</a>' +
                 '<div class="wrapper">' +
-                    '<a href="#" id="' + json.data[a].id + '"><h3>' + json.data[a].title + '</h3></a>' +
+                    '<a href="#" style="color:#ff4330" id="' + json.data[a].id + '"><h3>' + json.data[a].title + '</h3></a>' +
                     '<figure>' + json.data[a].location + '</figure>' +
                     drawPrice(json.data[a].price) +
                     '<div class="info">' +

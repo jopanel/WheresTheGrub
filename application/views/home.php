@@ -13,13 +13,13 @@
 
                             <div class="input-row">  
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="keyword" name="keyword" value="" placeholder="Enter Keyword">
+                                    <input type="text" class="form-control" id="keyword" name="keyword" value="<?=$this->session->userdata("keyword")?>" placeholder="Enter Keyword">
                                 </div>
                                 
                                 <!-- /.form-group -->
                                 <div class="form-group">
                                     <div class="input-group location">
-                                        <input type="text" class="form-control" name="location" id="location" value="<?=$this->session->userdata("userdata_city")?>, <?=$this->session->userdata("userdata_state_name")?> <?=$this->session->userdata("zipcode")?>" placeholder="Enter Location">
+                                        <input type="text" class="form-control" name="location" id="location" value="<?=$this->session->userdata("location")?>" placeholder="Enter Location">
                                         <span class="input-group-addon"><i class="fa fa-map-marker geolocation" data-toggle="tooltip" data-placement="bottom" title="Find my position"></i></span>
 
                                     </div>
@@ -414,6 +414,8 @@
                                 <!--Recent-->
                                 <section id="recent">
                                     <header><h2>Recent</h2></header>
+
+
                                         <div class="item list">
                                         <div class="image">
                                             <div class="quick-view"><i class="fa fa-eye"></i><span>Quick View</span></div>
@@ -450,66 +452,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- /.item-->
-                                    <div class="item list">
-                                        <div class="image">
-                                            <div class="quick-view"><i class="fa fa-eye"></i><span>Quick View</span></div>
-                                            <a href="item-detail.html">
-                                                <div class="overlay">
-                                                    <div class="inner">
-                                                        <div class="content">
-                                                            <h4>Description</h4>
-                                                            <p>Curabitur odio nibh, luctus non pulvinar a, ultricies ac diam. Donec neque massa</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <img src="resources/img/items/2.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="wrapper">
-                                            <a href="item-detail.html"><h3>Benny’s Cafeteria</h3></a>
-                                            <figure>63 Birch Street</figure>
-                                            <div class="info">
-                                                <div class="type">
-                                                    <i><img src="resources/icons/restaurants-bars/restaurants/cafetaria.png" alt=""></i>
-                                                    <span>Cafeteria</span>
-                                                </div>
-                                                <div class="rating" data-rating="4"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- /.item-->
-                                    <div class="item list">
-                                        <div class="image">
-                                            <div class="quick-view"><i class="fa fa-eye"></i><span>Quick View</span></div>
-                                            <a href="item-detail.html">
-                                                <div class="overlay">
-                                                    <div class="inner">
-                                                        <div class="content">
-                                                            <h4>Description</h4>
-                                                            <p>Curabitur odio nibh, luctus non pulvinar a, ultricies ac diam. Donec neque massa</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="item-specific">
-                                                    <span>Daily menu from: $6</span>
-                                                </div>
-                                                <img src="resources/img/items/restaurant/9.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="wrapper">
-                                            <a href="item-detail.html"><h3>Big Bamboo</h3></a>
-                                            <figure>4662 Bruce Street</figure>
-                                            <div class="info">
-                                                <div class="type">
-                                                    <i><img src="resources/icons/restaurants-bars/restaurants/japanese-food.png" alt=""></i>
-                                                    <span>Sushi</span>
-                                                </div>
-                                                <div class="rating" data-rating="3"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- /.item-->
+                                
                                 </section>
                                 <!--end Recent-->
                             </div>
@@ -584,14 +527,3 @@
                     </div>
                 </section>
 
-                <!--Banner-->
-                <section>
-                    <div class="container">
-                        <div class="block">
-                            <a href="#"><img src="resources/img/ad-banner.png" alt=""></a>
-                        </div>
-                    </div>
-                </section>
-                <!--end Banner-->
-<hr>
- <?=var_dump($this->session->userdata())?>
