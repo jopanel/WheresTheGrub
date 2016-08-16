@@ -29,9 +29,7 @@
                                                 <option disabled selected>Distance</option>
                                                 <option value="1">Within 1 Mile</option>
                                                 <option value="5">Within 5 Miles</option>
-                                                <option value="10">Within 10 Miles</option>
-                                                <option value="25">Within 25 Miles</option>
-                                                <option value="50">Within 50 Miles</option>
+                                                <option value="10">Within 10 Miles</option> 
                                     </select>
                                 </div>
                                 <!-- /.form-group -->

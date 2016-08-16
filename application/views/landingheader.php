@@ -32,7 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta name="DC.title" content="Wheres The Grub Food Finder Delivery Takeout Restaurant">
 </head>
 
-<body onunload="" class="map-fullscreen page-homepage navigation-off-canvas" id="page-top">
+<body onunload="" class="map-fullscreen page-homepage navigation-off-canvas"  id="page-top">
 
 <!-- Outer Wrapper-->
 <div id="outer-wrapper">
@@ -70,7 +70,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
         <!-- end Navigation-->
         <!-- Page Canvas-->
-        <div id="page-canvas">
+        <div id="page-canvas" <?php if (isset($bgstyle)) { echo $bgstyle; } ?>>
             <!--Off Canvas Navigation-->
             <nav class="off-canvas-navigation">
                 <header>Navigation</header>

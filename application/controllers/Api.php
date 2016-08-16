@@ -82,7 +82,7 @@ class Api extends CI_Controller {
 				// start getting information
 				$latitude = $this->session->userdata("userdata_lat");
 				$longitude = $this->session->userdata("userdata_lon");
-				$sql = "SELECT *, ( 3959 * acos( cos( radians(".$latitude.") ) 
+				$sql = "SELECT hours, category_labels, cuisine, id, name, address, latitude, longitude, rating,( 3959 * acos( cos( radians(".$latitude.") ) 
 		              * cos( radians( latitude ) ) 
 		              * cos( radians( longitude ) - radians(".$longitude.") ) 
 		              + sin( radians(".$latitude.") ) 
@@ -152,10 +152,6 @@ class Api extends CI_Controller {
 						$sql .= " HAVING distance < 5";
 					} elseif ($post["distance"] == 10) {
 						$sql .= " HAVING distance < 10";
-					} elseif ($post["distance"] == 25) {
-						$sql .= " HAVING distance < 25";
-					} elseif ($post["distance"] == 50) {
-						$sql .= " HAVING distance < 50";
 					} else {
 						// somebody modified the site and maybe we should ban them for trying? nah lets just do default
 						$sql .= " HAVING distance < 2";
