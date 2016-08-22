@@ -78,7 +78,9 @@ class Register extends CI_Controller {
 			//var_dump($response);
 			$response = json_decode($response, true);
 			if ($response == TRUE) {
-
+				$this->load->model('User_model');
+				$this->User_model->Register($post);
+				redirect("user/profile");
 			} else {
 				// they failed at captcha :O
 			}

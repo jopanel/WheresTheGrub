@@ -8,5 +8,11 @@ class General_model extends CI_Model {
 
     }
 
+    public function Register($post=0) {
+    	if (!empty($post)) {
+    		//["fullname"]=> string(4) "asdf" ["email"]=> string(13) "asdf@asdf.com" ["password"]=> string(4) "asdf" ["password2"]=> string(4) "asdf" ["optin"]=> string(2) "on"
+    		
+    	}
+    }
 
 }
