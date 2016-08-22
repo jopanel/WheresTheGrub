@@ -548,11 +548,11 @@ function drawItemSpecific(category, json, a){
 
 // Quick View ----------------------------------------------------------------------------------------------------------
 
-function quickView(id){
+function quickView(pid){
     $.ajax({
         type: 'POST',
-        url: 'resources/external/_modal.html',
-        data: id,
+        url: 'api/quickview',
+        data: {id:pid},
         success: function (data) {
             // Create HTML element with loaded data
             $('body').append(data);

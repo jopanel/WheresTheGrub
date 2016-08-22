@@ -33,7 +33,7 @@
                                     </div><!-- /.form-group -->
                                     <br><br>
                                     <div class="form-group clearfix">
-                                        <button type="submit" class="btn pull-right btn-default" id="account-submit">Create an Account</button>
+                                        <button type="submit" class="btn btn-default" id="account-submit">Create an Account</button>
                                     </div><!-- /.form-group -->
                                 </form>
                                 <hr>

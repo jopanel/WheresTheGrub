@@ -36,6 +36,30 @@ class Api extends CI_Controller {
     	return $remove_statecode ? preg_replace("/[^\d\-]/", "", extract_zipcode($matches[0])) : $matches[0];
 	}
 
+	public function quickview() {
+		 if($this->input->is_ajax_request()) {
+		 	if ($this->input->post()) {
+		 		$post = $this->input->post();
+		 		if (is_int((int)$post["id"])) {
+		 			$buildarray = [];
+		 			$sql = "SELECT * FROM leads WHERE id = ".(int)$post["id"];
+		 			$query = $this->db->query($sql);
+		 			if ($query->num_rows() > 0) {
+		 				foreach ($query->result_array() as $res) {
+		 					foreach ($res as $key=>$value) {
+		 						$buildarray[$key] = $value;
+		 					}
+		 				}
+		 				$data["arraydata"] = $buildarray;
+		 				$this->load->view('quickview', $data);
+		 			} else {
+		 				return FALSE;
+		 			}
+		 		}
+		 	}
+		 }
+	}
+
 	public function search() {
 		/*
 			Steps to complete:

@@ -17,7 +17,7 @@
                                         <input type="password" class="form-control" id="form-sign-in-password" name="form-sign-in-password" required>
                                     </div><!-- /.form-group -->
                                     <div class="form-group clearfix">
-                                        <button type="submit" class="btn pull-right btn-default" id="account-submit">Sign In</button>
+                                        <button type="submit" class="btn btn-default" id="account-submit">Sign In</button>
                                     </div><!-- /.form-group -->
                                 </form>
                             </div>

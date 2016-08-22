@@ -63,25 +63,6 @@ class Signin extends CI_Controller {
 		if ($this->input->post()) {
 			$post = $this->input->post();
 			// check if they are a bot
-			$data = array(
-            'secret' => "6Lc9jCcTAAAAAJFxIm_L4KmZJnpanMTWFdeGy5uD",
-            'response' => $post["g-recaptcha-response"]
-        	);
-
-			$verify = curl_init();
-			curl_setopt($verify, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
-			curl_setopt($verify, CURLOPT_POST, true);
-			curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($data));
-			curl_setopt($verify, CURLOPT_SSL_VERIFYPEER, false);
-			curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
-			$response = curl_exec($verify);
-			//var_dump($response);
-			$response = json_decode($response, true);
-			if ($response == TRUE) {
-
-			} else {
-				// they failed at captcha :O
-			}
 			
 
 		}
