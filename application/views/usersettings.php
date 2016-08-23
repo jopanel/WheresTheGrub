@@ -3,8 +3,11 @@
                 <section class="container">
                     <header>
                         <ul class="nav nav-pills">
-                            <li class="active"><a href="profile.html"><h1 class="page-title">John Doe</h1></a></li>
-                            <li><a href="my-items.html"><h1 class="page-title">My Items</h1></a></li>
+                            <li><a href="profile.html"><h1 class="page-title">My Feed</h1></a></li>
+                            <li><a href="my-items.html"><h1 class="page-title">Following</h1></a></li>
+                            <li><a href="my-items.html"><h1 class="page-title">My Reviews</h1></a></li>
+                            <li><a href="my-items.html"><h1 class="page-title">My Profile</h1></a></li>
+                            <li class="active"><a href="my-items.html"><h1 class="page-title">Settings</h1></a></li>
                         </ul>
                     </header>
                     <div class="row">
