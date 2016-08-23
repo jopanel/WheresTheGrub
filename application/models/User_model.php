@@ -38,6 +38,7 @@ class User_model extends CI_Model {
     		//["fullname"]=> string(4) "asdf" ["email"]=> string(13) "asdf@asdf.com" ["password"]=> string(4) "asdf" ["password2"]=> string(4) "asdf" ["optin"]=> string(2) "on"
     		$mobilecode = $this->randomString(8);
             $verification = $this->randomString();
+            $sessiontoken = $this->randomString();
             $ip = $this->getIP();
             $problem = 0;
             if ($post["password"] != $post["password2"]) { $problem = 1; }
@@ -50,8 +51,11 @@ class User_model extends CI_Model {
                 $sql = "SELECT * FROM users WHERE email = '".$post["email"]."'";
                 $query = $this->db->query($sql);
                 if ($query->num_rows() == 0) {
-                    $sql2 = "INSERT INTO users (`verification key`, mobilecode, email, password, level, newsletter, active, created, ip, fullname) VALUES (".$verification.",".$mobilecode.",'".$post["email"]."','".md5($post["password"])."','notactive',".$newsletter.",1,NOW(),".$ip.",'".$post["fullname"]."') ";
+                    $sql2 = "INSERT INTO users (`sessiontoken`, `verification key`, mobilecode, email, password, level, newsletter, active, created, ip, fullname) VALUES ('".$sessiontoken."','".$verification."','".$mobilecode."','".$post["email"]."','".md5($post["password"])."','notactive',".$newsletter.",1,NOW(),'".$ip."','".$post["fullname"]."') ";
                     $this->db->query($sql2);
+                    $this->session->set_userdata('email', $post["email"]);
+                    $this->session->set_userdata('usertoken', $sessiontoken);
+                    $this->session->set_userdata('loggedin', '1');
                     return "SUCCESS";
                 } else {
                     $problem = 5;
