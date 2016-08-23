@@ -10,6 +10,7 @@ class User extends CI_Controller {
 		date_default_timezone_set('America/Los_Angeles');
 		$this->load->model('General_model');
 		$this->load->model('Restaurant_model');
+		$this->load->model('User_model');
 		if ( !$this->session->userdata('zipcode') ) {
 			if ($this->_bot_detected() == TRUE) {
 				$this->session->set_userdata("zipcode", "90713");
@@ -49,14 +50,49 @@ class User extends CI_Controller {
 	  }
 	}
 
+	public function logout() {
+		if ($this->User_model->verifyUser()) {
+			$this->User_model->logout();
+			redirect("../../signin");
+		} else {
+			redirect("../../signin");
+		}
+	}
+
+	public function feed() {
+		if ($this->User_model->verifyUser()) {
+
+		}
+	}
+
+	public function following() {
+		if ($this->User_model->verifyUser()) {
+			
+		}
+	}
+
+	public function reviews() {
+		if ($this->User_model->verifyUser()) {
+			
+		}
+	}
+
+	public function index($userid=0){
+		if (!empty($userid)){ 
+
+		} else {
+			redirect("../../signin");
+		}
+	}
+
 	public function profile()
 	{
-		if (!$this->session->userdata("loggedin") && $this->session->userdata("loggedin") != 1) {
-			redirect("../../signin");
-		}		
-		$this->load->view('landingheader');
-		$this->load->view('usersettings');
-		$this->load->view('landingfooter');
+		if ($this->User_model->verifyUser()) {
+			$this->load->view('landingheader');
+			$this->load->view('usersettings');
+			$this->load->view('landingfooter');
+		}
+		
 	}
 
 

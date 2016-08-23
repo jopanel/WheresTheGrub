@@ -88,7 +88,7 @@ class Register extends CI_Controller {
 		if ($this->session->userdata("email")) {
 			// do nothing
 		} else {
-			$this->load->view('register');
+			$this->load->view('register',$data);
 		}
 
 		$this->load->view('landingfooter');

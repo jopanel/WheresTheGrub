@@ -52,21 +52,22 @@ class Signin extends CI_Controller {
 	{
 		$data["bgstyle"] = 'style="background-image: url(resources/img/signinbg.jpg); background-position: center top; background-size: 100% auto; background-repeat: no-repeat;"';
 		$this->load->view('landingheader', $data);
-		if ($this->session->userdata("email")) {
-			// do nothing
-		} else {
-			$this->load->view('signin');
-		}
-		
-
-		// good array(6) { ["fullname"]=> string(4) "asdf" ["email"]=> string(13) "asdf@asdf.com" ["password"]=> string(4) "asdf" ["password2"]=> string(4) "asdf" ["optin"]=> string(2) "on" ["g-recaptcha-response"]=> string(1252) "03AHJ_VutbEjcAcKnd0Dr2txuDDUEXPdYncqS0jB5XiTOuYJ3QwNkk7tpThLXFY1UaFavyDeh1k-pfvLXwXx1WN-c4ditInzA3IaI8amblZeDzk6usKg5lCZOAs6odLv1dj0BVW3siMtSTSiEtzOFAbRW-LjlWTRHPck63x6ixkqMJtIyyXXHnb2mxyt5N23Umv-GSHcuWZi_oWi1qIkKBHP5WfVTt2qrb4PXjSVkV-uANs_kEsETdL4D-vjXJEy3-DCne3_lk7v03mmeYeXhSjA4kAWq5eIhIbDSnpxxSjkJN0-xwHcqxG4gyzj8bklFT4aXo5gdZH2wcGLlkD25Q833O5VxjOqprs-ce2CPPqYUWKVrQPd4YxExnSNtkAk7XmdXmQr5V6VEXm3wj66u9_C3eTcgrqGEFybmF8etsPTF8e5p5H9NFIp3dictVkCFv55PlQL-lXY56LAY9XGasqBiQ-5NvyUURmARoNYVOdFaFYX1uzKzCffmE5Lli9g4hQKDwcw8BrmERXk_hHOwwdDuuLhI50TsS933LBZQah5ZeyxpoYGTezakg2RWGCmFoZGVtXrhwaaqcqIianhYDlW2pCnZnoa2Hjc7YNToS-eps0WoriJz6JLR171sqO5w-ESH4W8d9n8ykKBxXOs4RdouXjY021AuJYnQaNsZhMMVhP035xJLbQEKN1c6MADsDCg8mhQsVj7-59-TWLz0mbreJ4zAJnyextCKhZemqv_ygB8K6RCNucbClhdk6PIDFQiaX0ooVngVawCIxt-pYxToxIUslAo0lKhFeW1UQHy6MXnAOLhPAeqZIws17WLfnRpVN-pgIvjXz53CTBjw-s5tiSyFILvQF7TYFDjqL7fdoZY0zckXJvsFDDtc5i30BgiXGaPb1HwvIlQcBqq39UwBHFvUsnatRGTXisXTFJUPDa2y2poPnbf5HV1OR3wKTTqgEoM-7YqfNagC2khe6eHLFS2JknC5L8MXPkaLG6Lxt30Xbxdha2eGjnPYZAsALdPS2-OjHks6k5mFQF7SPL6NdATBzCGy_iAwkSxKgo1b-NorqxBgoLEPJCbQXISIyeS73RU1SYT4rFjq15JU8AcVV3hMVlz47gsE2_JUxNARScK0YsnnIHvmyopWkcXxl1qYutzEjx5Hh2cfZj92M-ohv7QhyTEPTjo34R6f6FfU05ThN4kvN2DanekqksgZsJ5i0zHHBm0tO83sWNbS44RdtgR6qIXaDFA" }
+		$data["problem"] = 0;
 		if ($this->input->post()) {
 			$post = $this->input->post();
-			// check if they are a bot
-			
-
+			$this->load->model('User_model');
+			$verifyUser = $this->User_model->userLogin($post);
+			if ($verifyUser == "SUCCESS") {
+				redirect("../../user/feed");
+			} else {
+				$data["problem"] = $verifyUser;
+			}
 		}
-
+		if ($this->session->userdata("email")) {
+			redirect("../../user/feed");
+		} else {
+			$this->load->view('signin', $data);
+		}
 		$this->load->view('landingfooter');
 	}
 

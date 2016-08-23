@@ -10,11 +10,11 @@
                                 <form role="form" id="form-sign-in-account" method="post" action="?">
                                     <div class="form-group">
                                         <label for="form-sign-in-email">Email:</label>
-                                        <input type="email" class="form-control" id="form-sign-in-email" name="form-sign-in-email" required>
+                                        <input type="email" class="form-control" id="form-sign-in-email" name="email" required>
                                     </div><!-- /.form-group -->
                                     <div class="form-group">
                                         <label for="form-sign-in-password">Password:</label>
-                                        <input type="password" class="form-control" id="form-sign-in-password" name="form-sign-in-password" required>
+                                        <input type="password" class="form-control" id="form-sign-in-password" name="password" required>
                                     </div><!-- /.form-group -->
                                     <div class="form-group clearfix">
                                         <button type="submit" class="btn btn-default" id="account-submit">Sign In</button>
