@@ -28,7 +28,7 @@ class User_model extends CI_Model {
         $destroy = 0;
         if ($this->session->userdata("usertoken")) { $sessiontoken = strip_tags($this->session->userdata("usertoken")); } else { $destroy = 1;}
         if ($this->session->userdata("email")) {$email = strip_tags($this->session->userdata("email"));} else {$destroy = 1;}
-        if ($this->session->userdata("loggedin")) {$islogged strip_tags($this->session->userdata("loggedin"));} else {$destroy = 1;}
+        if ($this->session->userdata("loggedin")) {$islogged = strip_tags($this->session->userdata("loggedin"));} else {$destroy = 1;}
         $ip = $this->getIP();
         if ($destroy == 0) {
             if ($islogged == 1) {

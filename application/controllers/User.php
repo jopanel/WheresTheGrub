@@ -61,27 +61,35 @@ class User extends CI_Controller {
 
 	public function feed() {
 		if ($this->User_model->verifyUser()) {
-
+			$this->load->view('landingheader');
+			
+			$this->load->view('landingfooter');
 		}
 	}
 
 	public function following() {
 		if ($this->User_model->verifyUser()) {
+			$this->load->view('landingheader');
 			
+			$this->load->view('landingfooter');
 		}
 	}
 
 	public function reviews() {
 		if ($this->User_model->verifyUser()) {
+			$this->load->view('landingheader');
 			
+			$this->load->view('landingfooter');
 		}
 	}
 
 	public function index($userid=0){
 		if (!empty($userid)){ 
-
+			$this->load->view('landingheader');
+			
+			$this->load->view('landingfooter');
 		} else {
-			redirect("../../signin");
+			redirect("../signin");
 		}
 	}
 
