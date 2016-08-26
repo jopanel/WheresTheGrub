@@ -96,8 +96,41 @@ class User extends CI_Controller {
 	public function profile()
 	{
 		if ($this->User_model->verifyUser()) {
+			$problem = 1;
+			if ($this->input->post()) {
+				$post = $this->input->post();
+				if ($post["type"] == "changepassword") { 
+					$problem = $this->User_model->changePassword($post); 
+					if ($problem == 0) { 
+
+					} elseif ($problem == 2) {
+
+					} elseif ($problem == 3) {
+
+					}
+				}
+				if ($post["type"] == "uploadpic") { 
+					$problem = $this->User_model->uploadAvatar($post); 
+				}
+				if ($post["type"] == "updateprofile") {
+					$problem = $this->User_model->updateProfile($post); 
+					if ($problem == 0) {
+
+					} elseif ($problem == 2) {
+
+					}
+				}
+			}
+
+			// build page and data
+			$userinfo = $this->User_model->getUserProfileInfo();
+			if ($userinfo == FALSE) {
+				redirect("../404");
+			}
+			$data["problem"] = $problem;
+			$data["userinfo"] = $userinfo;
 			$this->load->view('landingheader');
-			$this->load->view('usersettings');
+			$this->load->view('usersettings', $data);
 			$this->load->view('landingfooter');
 		}
 		

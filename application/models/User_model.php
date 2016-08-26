@@ -24,6 +24,81 @@ class User_model extends CI_Model {
         return $ip;
     }
 
+    public function changePassword($post=0) {
+        if (!empty($post)) {
+            if ($post["newpassword"] != $post["confirmpassword"]) { return 2; }
+            $sql = "SELECT password FROM users WHERE email = '".strip_tags($this->session->userdata("email"))."' AND password = '".strip_tags(md5($post["currentpassword"]))."'";
+            $query = $this->db->query($sql);
+            if ($query->result_array() > 0) {
+                $sql = "UPDATE users SET password = '".md5($post["newpassword"])."' WHERE email = '".strip_tags($this->session->userdata("email"))."'";
+                $this->db->query($sql);
+                return TRUE; 
+            } else {
+                return 3;
+            }
+        } else {
+            return FALSE;
+        }
+    }
+
+    public function uploadAvatar($post=0) {
+        
+    }
+
+    public function updateProfile($post=0) {
+        // fullname, email, phone, state, city, address, about, newsletter, zip
+        if (!empty($post)) { 
+            if (!isset($post["newsletter"]) || empty($post["newsletter"])) { $newsletter = 0; } else {$newsletter = 1;}
+            // change user information no email verification required
+            if ($this->session->userdata("email") == $post["email"]) {
+                $sql2 = "UPDATE users SET fullname = '".strip_tags($post["fullname"])."',phone = '".strip_tags($post["phone"])."',state = '".strip_tags($post["state"])."',city = '".strip_tags($post["city"])."',address = '".strip_tags($post["address"])."',about = '".strip_tags($post["about"])."',newsletter = '".strip_tags($newsletter)."',zip = '".strip_tags($post["zip"])."' WHERE email = '".strip_tags($this->session->userdata("email"))."' ";
+                $this->db->query($sql2);
+                return TRUE;
+            } else {
+                // validate email
+
+                // send email change request
+
+
+                // update rest of information
+                $sql2 = "UPDATE users SET fullname = '".strip_tags($post["fullname"])."',phone = '".strip_tags($post["phone"])."',state = '".strip_tags($post["state"])."',city = '".strip_tags($post["city"])."',address = '".strip_tags($post["address"])."',about = '".strip_tags($post["about"])."',newsletter = '".strip_tags($newsletter)."',zip = '".strip_tags($post["zip"])."' WHERE email = '".strip_tags($this->session->userdata("email"))."' ";
+                $this->db->query($sql2);
+                return 2;
+            }
+            
+        } else {
+            return FALSE;
+        }
+    }
+
+    public function getUserProfileInfo($user=0) {
+        $buildarray = [];
+        if ($user == 0) { $user = "WHERE u.email = '".strip_tags($this->session->userdata->("email"))."'"; } else {$user = "WHERE u.id = '".strip_tags($user)."'"; }
+        //[profilepic],fullname,email,phone,state,city,address,zip, aboutme,
+        $sql = "SELECT u.fullname, u.email, u.phone, u.state, u.address, u.zip, u.about, a.href, u.newsletter FROM users u 
+        LEFT JOIN avatar a ON u.id = a.uid ".$user;
+        $result = $this->db->query($sql);
+        if ($result) {
+            foreach ($result->result_array() as $res) {
+                if ($res["newsletter"] == 1) { $newsletter = "checked"; } else { $newsletter = ""; }
+                $buildarray = array(
+                    "fullname"=>$res["fullname"],
+                    "email"=>$res["email"],
+                    "phone"=>$res["phone"],
+                    "state"=>$res["state"],
+                    "address"=>$res[""],
+                    "zip"=>$res["zip"],
+                    "about"=>$res["about"],
+                    "href"=>$res["href"],
+                    "newsletter" =>$newsletter
+                    );
+            }
+            return $buildarray;
+        } else {
+            return FALSE;
+        }
+    }
+
     public function verifyUser() {
         $destroy = 0;
         if ($this->session->userdata("usertoken")) { $sessiontoken = strip_tags($this->session->userdata("usertoken")); } else { $destroy = 1;}
