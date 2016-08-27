@@ -11,7 +11,7 @@ class Restaurant_model extends CI_Model {
     public function getRestaurantInfo($restaurant=0) {
     	$buildarray = [];
     	if (!empty($restaurant)) {
-    		$sql = "SELECT * FROM leads WHERE url = '".$restaurant."'";
+    		$sql = "SELECT * FROM leads WHERE url = ".$this->db->escape($restaurant);
     		$query = $this->db->query($sql);
     		if ($query) {
     			foreach ($query->result_array() as $res) {

@@ -27,10 +27,10 @@ class User_model extends CI_Model {
     public function changePassword($post=0) {
         if (!empty($post)) {
             if ($post["newpassword"] != $post["confirmpassword"]) { return 2; }
-            $sql = "SELECT password FROM users WHERE email = '".strip_tags($this->session->userdata("email"))."' AND password = '".strip_tags(md5($post["currentpassword"]))."'";
+            $sql = "SELECT password FROM users WHERE email = ".$this->db->escape(strip_tags($this->session->userdata("email")))." AND password = ".$this->db->escape(strip_tags(md5($post["currentpassword"])))."";
             $query = $this->db->query($sql);
             if ($query->result_array() > 0) {
-                $sql = "UPDATE users SET password = '".md5($post["newpassword"])."' WHERE email = '".strip_tags($this->session->userdata("email"))."'";
+                $sql = "UPDATE users SET password = ".$this->db->escape(md5($post["newpassword"]))." WHERE email = ".$this->db->escape(strip_tags($this->session->userdata("email")))."";
                 $this->db->query($sql);
                 return TRUE; 
             } else {
@@ -51,7 +51,7 @@ class User_model extends CI_Model {
             if (!isset($post["newsletter"]) || empty($post["newsletter"])) { $newsletter = 0; } else {$newsletter = 1;}
             // change user information no email verification required
             if ($this->session->userdata("email") == $post["email"]) {
-                $sql2 = "UPDATE users SET fullname = '".strip_tags($post["fullname"])."',phone = '".strip_tags($post["phone"])."',state = '".strip_tags($post["state"])."',city = '".strip_tags($post["city"])."',address = '".strip_tags($post["address"])."',about = '".strip_tags($post["about"])."',newsletter = '".strip_tags($newsletter)."',zip = '".strip_tags($post["zip"])."' WHERE email = '".strip_tags($this->session->userdata("email"))."' ";
+                $sql2 = "UPDATE users SET fullname = ".$this->db->escape(strip_tags($post["fullname"])).",phone = ".$this->db->escape(strip_tags($post["phone"])).",state = ".$this->db->escape(strip_tags($post["state"])).",city = ".$this->db->escape(strip_tags($post["city"])).",address = ".$this->db->escape(strip_tags($post["address"])).",about = ".$this->db->escape(strip_tags($post["about"])).",newsletter = ".$this->db->escape(strip_tags($newsletter)).",zip = ".$this->db->escape(strip_tags($post["zip"]))." WHERE email = ".$this->db->escape(strip_tags($this->session->userdata("email")))."";
                 $this->db->query($sql2);
                 return TRUE;
             } else {
@@ -61,7 +61,7 @@ class User_model extends CI_Model {
 
 
                 // update rest of information
-                $sql2 = "UPDATE users SET fullname = '".strip_tags($post["fullname"])."',phone = '".strip_tags($post["phone"])."',state = '".strip_tags($post["state"])."',city = '".strip_tags($post["city"])."',address = '".strip_tags($post["address"])."',about = '".strip_tags($post["about"])."',newsletter = '".strip_tags($newsletter)."',zip = '".strip_tags($post["zip"])."' WHERE email = '".strip_tags($this->session->userdata("email"))."' ";
+                $sql2 = "UPDATE users SET fullname = ".$this->db->escape(strip_tags($post["fullname"])).",phone = ".$this->db->escape(strip_tags($post["phone"])).",state = ".$this->db->escape(strip_tags($post["state"])).",city = ".$this->db->escape(strip_tags($post["city"])).",address = ".$this->db->escape(strip_tags($post["address"])).",about = ".$this->db->escape(strip_tags($post["about"])).",newsletter = ".$this->db->escape(strip_tags($newsletter)).",zip = ".$this->db->escape(strip_tags($post["zip"]))." WHERE email = ".$this->db->escape(strip_tags($this->session->userdata("email")))."";
                 $this->db->query($sql2);
                 return 2;
             }
@@ -73,10 +73,14 @@ class User_model extends CI_Model {
 
     public function getUserProfileInfo($user=0) {
         $buildarray = [];
-        if ($user == 0) { $user = "WHERE u.email = '".strip_tags($this->session->userdata->("email"))."'"; } else {$user = "WHERE u.id = '".strip_tags($user)."'"; }
+        if ($user == 0) { 
+            $user = "WHERE u.email = ".$this->db->escape(strip_tags($this->session->userdata("email")));
+             } else {
+                $user = "WHERE u.id = ".$this->db->escape(strip_tags($user)); 
+            }
         //[profilepic],fullname,email,phone,state,city,address,zip, aboutme,
-        $sql = "SELECT u.fullname, u.email, u.phone, u.state, u.address, u.zip, u.about, a.href, u.newsletter FROM users u 
-        LEFT JOIN avatar a ON u.id = a.uid ".$user;
+        $sql = "SELECT u.fullname, u.email, u.phone, u.state, u.address, u.zip, u.about, a.href, u.newsletter, u.city FROM users u 
+        LEFT JOIN avatars a ON u.id = a.uid ".$user;
         $result = $this->db->query($sql);
         if ($result) {
             foreach ($result->result_array() as $res) {
@@ -86,7 +90,8 @@ class User_model extends CI_Model {
                     "email"=>$res["email"],
                     "phone"=>$res["phone"],
                     "state"=>$res["state"],
-                    "address"=>$res[""],
+                    "address"=>$res["address"],
+                    "city"=>$res["city"],
                     "zip"=>$res["zip"],
                     "about"=>$res["about"],
                     "href"=>$res["href"],
@@ -107,7 +112,7 @@ class User_model extends CI_Model {
         $ip = $this->getIP();
         if ($destroy == 0) {
             if ($islogged == 1) {
-                $sql = "SELECT * FROM users WHERE email = '".$email."'";
+                $sql = "SELECT * FROM users WHERE email = ".$this->db->escape($email)."";
                 $query = $this->db->query($sql);
                 if ($query->num_rows() > 0) {
                     foreach ($query->result_array() as $res) {
@@ -159,10 +164,10 @@ class User_model extends CI_Model {
             if ($problem == 0) {
                 $email = strip_tags($post["email"]);
                 $password = strip_tags($post["password"]);
-                $sql = "SELECT * FROM users WHERE email = '".$email."' AND password = '".md5($password)."'";
+                $sql = "SELECT * FROM users WHERE email = ".$this->db->escape($email)." AND password = ".$this->db->escape(md5($password));
                 $query = $this->db->query($sql);
                 if ($query->num_rows() > 0) {
-                    $sql2 = "UPDATE users SET `sessiontoken` = '".$sessiontoken."', ip = '".$ip."', `last login` = NOW() WHERE email = '".$email."'";
+                    $sql2 = "UPDATE users SET `sessiontoken` = ".$this->db->escape($sessiontoken).", ip = ".$this->db->escape($ip).", `last login` = NOW() WHERE email = ".$this->db->escape($email);
                     $this->db->query($sql2);
                     $this->session->set_userdata('email', $email);
                     $this->session->set_userdata('usertoken', $sessiontoken);
@@ -191,10 +196,10 @@ class User_model extends CI_Model {
             if (!isset($post["fullname"]) || empty($post["fullname"])) { $problem = 4; }
             if ($problem == 0) {
                 // check if email exists
-                $sql = "SELECT * FROM users WHERE email = '".strip_tags($post["email"])."'";
+                $sql = "SELECT * FROM users WHERE email = ".$this->db->escape(strip_tags($post["email"]));
                 $query = $this->db->query($sql);
                 if ($query->num_rows() == 0) {
-                    $sql2 = "INSERT INTO users (`sessiontoken`, `verification key`, mobilecode, email, password, level, newsletter, active, created, ip, fullname) VALUES ('".$sessiontoken."','".$verification."','".$mobilecode."','".strip_tags($post["email"])."','".strip_tags(md5($post["password"]))."','notactive',".$newsletter.",1,NOW(),'".$ip."','".strip_tags($post["fullname"])."') ";
+                    $sql2 = "INSERT INTO users (`sessiontoken`, `verification key`, mobilecode, email, password, level, newsletter, active, created, ip, fullname) VALUES (".$this->db->escape($sessiontoken).",".$this->db->escape($verification).",".$this->db->escape($mobilecode).",".$this->db->escape(strip_tags($post["email"])).",".$this->db->escape(strip_tags(md5($post["password"]))).",".'notactive'.",".$this->db->escape($newsletter).",1,NOW(),".$this->db->escape($ip).",".$this->db->escape(strip_tags($post["fullname"])).")";
                     $this->db->query($sql2);
                     $this->session->set_userdata('email', strip_tags($post["email"]));
                     $this->session->set_userdata('usertoken', $sessiontoken);

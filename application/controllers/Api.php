@@ -42,7 +42,7 @@ class Api extends CI_Controller {
 		 		$post = $this->input->post();
 		 		if (is_int((int)$post["id"])) {
 		 			$buildarray = [];
-		 			$sql = "SELECT * FROM leads WHERE id = ".(int)$post["id"];
+		 			$sql = "SELECT * FROM leads WHERE id = ".$this->db->escape((int)$post["id"]);
 		 			$query = $this->db->query($sql);
 		 			if ($query->num_rows() > 0) {
 		 				foreach ($query->result_array() as $res) {
@@ -106,10 +106,10 @@ class Api extends CI_Controller {
 				// start getting information
 				$latitude = $this->session->userdata("userdata_lat");
 				$longitude = $this->session->userdata("userdata_lon");
-				$sql = "SELECT hours, category_labels, cuisine, id, name, address, latitude, longitude, rating,( 3959 * acos( cos( radians(".$latitude.") ) 
+				$sql = "SELECT hours, category_labels, cuisine, id, name, address, latitude, longitude, rating,( 3959 * acos( cos( radians(".$this->db->escape($latitude).") ) 
 		              * cos( radians( latitude ) ) 
-		              * cos( radians( longitude ) - radians(".$longitude.") ) 
-		              + sin( radians(".$latitude.") ) 
+		              * cos( radians( longitude ) - radians(".$this->db->escape($longitude).") ) 
+		              + sin( radians(".$this->db->escape($latitude).") ) 
 		              * sin( radians( latitude ) ) ) ) AS distance FROM leads WHERE `active` = '1'";
 				$yes = 1;
 				if (isset($post["accessible_wheelchair"])) {
