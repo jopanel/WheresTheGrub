@@ -102,11 +102,11 @@ class User extends CI_Controller {
 				if ($post["type"] == "changepassword") { 
 					$problem = $this->User_model->changePassword($post); 
 					if ($problem == 0) { 
-
+						$problem = "There was a problem with your request";
 					} elseif ($problem == 2) {
-
+						$problem = "Password Does Not Match";
 					} elseif ($problem == 3) {
-
+						$problem = "Invalid Current Password";
 					}
 				}
 				if ($post["type"] == "uploadpic") { 
@@ -115,9 +115,9 @@ class User extends CI_Controller {
 				if ($post["type"] == "updateprofile") {
 					$problem = $this->User_model->updateProfile($post); 
 					if ($problem == 0) {
-
+						$problem = "There was a problem with your request";
 					} elseif ($problem == 2) {
-
+						$problem = "We have sent a verification request email to the email you previously provided.";
 					}
 				}
 			}

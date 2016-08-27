@@ -55,17 +55,34 @@ class User_model extends CI_Model {
                 $this->db->query($sql2);
                 return TRUE;
             } else {
-                // validate email
+                // check if current email is validated
+                $validatedemail = 0;
+                $sql3 = "SELECT level FROM users WHERE email = ".$this->db->escape(strip_tags($post["email"]));
+                $query = $this->db->query($sql3);
+                if ($query->num_rows() > 0) {
+                    foreach ($query->result_array() as $res) {
+                        if ($res["level"] == "normal") {
+                            $validatedemail = 1;
+                        }
+                    }
+                }
+                if ($validatedemail == 1) {
+                    // validate email
 
-                // send email change request
+                    // send email change request
 
 
-                // update rest of information
-                $sql2 = "UPDATE users SET fullname = ".$this->db->escape(strip_tags($post["fullname"])).",phone = ".$this->db->escape(strip_tags($post["phone"])).",state = ".$this->db->escape(strip_tags($post["state"])).",city = ".$this->db->escape(strip_tags($post["city"])).",address = ".$this->db->escape(strip_tags($post["address"])).",about = ".$this->db->escape(strip_tags($post["about"])).",newsletter = ".$this->db->escape(strip_tags($newsletter)).",zip = ".$this->db->escape(strip_tags($post["zip"]))." WHERE email = ".$this->db->escape(strip_tags($this->session->userdata("email")))."";
+                    // update rest of information
+                    $sql2 = "UPDATE users SET fullname = ".$this->db->escape(strip_tags($post["fullname"])).",phone = ".$this->db->escape(strip_tags($post["phone"])).",state = ".$this->db->escape(strip_tags($post["state"])).",city = ".$this->db->escape(strip_tags($post["city"])).",address = ".$this->db->escape(strip_tags($post["address"])).",about = ".$this->db->escape(strip_tags($post["about"])).",newsletter = ".$this->db->escape(strip_tags($newsletter)).",zip = ".$this->db->escape(strip_tags($post["zip"]))." WHERE email = ".$this->db->escape(strip_tags($this->session->userdata("email")))."";
+                    $this->db->query($sql2);
+                    return 2;
+                } else {
+                $sql2 = "UPDATE users SET email = ".$this->db->escape(strip_tags($post["email"])).", fullname = ".$this->db->escape(strip_tags($post["fullname"])).",phone = ".$this->db->escape(strip_tags($post["phone"])).",state = ".$this->db->escape(strip_tags($post["state"])).",city = ".$this->db->escape(strip_tags($post["city"])).",address = ".$this->db->escape(strip_tags($post["address"])).",about = ".$this->db->escape(strip_tags($post["about"])).",newsletter = ".$this->db->escape(strip_tags($newsletter)).",zip = ".$this->db->escape(strip_tags($post["zip"]))." WHERE email = ".$this->db->escape(strip_tags($this->session->userdata("email")))."";
                 $this->db->query($sql2);
-                return 2;
-            }
-            
+                $this->session->set_userdata("email", strip_tags($post["email"]));
+                return TRUE;
+                }
+            }    
         } else {
             return FALSE;
         }
