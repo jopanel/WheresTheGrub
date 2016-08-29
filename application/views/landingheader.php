@@ -54,8 +54,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <li><a href="/business">Services</a></li>
                             <li><a href="/contactus">Contact Us</a></li>
                             <li><a href="/download">Get App</a></li>
+                            <?php if ($this->session->userdata("email")) { ?>
+                            <li><a href="/user/feed"><strong>Coupons & Deals</strong></a></li>
+                            <li><a href="/user/profile">Settings</a></li>
+                           <?php } else { ?>
                             <li><a href="/signin">Sign In</a></li>
                             <li><a href="/register"><strong>Register</strong></a></li>
+                                <?php } ?>
+                            
                         </ul>
                         <div class="toggle-navigation">
                             <div class="icon">
@@ -80,8 +86,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <li><a href="/business">Services</a></li>
                             <li><a href="/contactus">Contact Us</a></li>
                             <li><a href="/download">Get App</a></li>
+                            <?php if ($this->session->userdata("email")) { ?>
+                            <li><a href="/user/feed">Coupons & Deals</a></li>
+                            <li><a href="/user/following">Following</a></li>
+                            <li><a href="/user/reviews">My Reviews</a></li>
+                            <li><a href="/user/">My Profile</a></li>
+                            <li><a href="/user/profile">Settings</a></li>
+                            <li><a href="/user/logout">Logout</a></li>
+                           <?php } else { ?>
                             <li><a href="/signin">Sign In</a></li>
                             <li><a href="/register"><strong>Register</strong></a></li>
+                                <?php } ?>
                         </ul>
             </nav>
                 <?php } ?>

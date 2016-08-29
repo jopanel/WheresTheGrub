@@ -3,11 +3,12 @@
                 <section class="container">
                     <header>
                         <ul class="nav nav-pills">
-                            <li><a href="http://<?=$_SERVER['SERVER_NAME']?>/user/feed"><h1 class="page-title">My Feed</h1></a></li>
+                            <li><a href="http://<?=$_SERVER['SERVER_NAME']?>/user/feed"><h1 class="page-title">Coupons & Deals</h1></a></li>
                             <li><a href="http://<?=$_SERVER['SERVER_NAME']?>/user/following"><h1 class="page-title">Following</h1></a></li>
                             <li><a href="http://<?=$_SERVER['SERVER_NAME']?>/user/reviews"><h1 class="page-title">My Reviews</h1></a></li>
                             <li><a href="http://<?=$_SERVER['SERVER_NAME']?>/user/"><h1 class="page-title">My Profile</h1></a></li>
                             <li class="active"><a href="http://<?=$_SERVER['SERVER_NAME']?>/user/profile"><h1 class="page-title">Settings</h1></a></li>
+                            <li><a href="http://<?=$_SERVER['SERVER_NAME']?>/user/logout"><h1 class="page-title">Logout</h1></a></li>
                         </ul>
                     </header>
                     <div class="row">

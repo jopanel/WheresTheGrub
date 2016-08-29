@@ -89,7 +89,11 @@ class User extends CI_Controller {
 			
 			$this->load->view('landingfooter');
 		} else {
-			redirect("../signin");
+			if ($this->User_model->verifyUser()) {
+				$this->load->view('landingheader');
+			
+				$this->load->view('landingfooter');
+			}
 		}
 	}
 
