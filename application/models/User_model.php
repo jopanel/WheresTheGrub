@@ -221,6 +221,43 @@ class User_model extends CI_Model {
                     $this->session->set_userdata('email', strip_tags($post["email"]));
                     $this->session->set_userdata('usertoken', $sessiontoken);
                     $this->session->set_userdata('loggedin', '1');
+
+                    $url = 'https://api.sendgrid.com/';
+                    $user = 'joe.o123';
+                    $pass = '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';
+                    $json_string = array(
+
+                      'to' => array(
+                        $email
+                      ),
+                      'category' => $campaignname.$campaignid
+                    );
+                    $params = array(
+                        'api_user'  => $user,
+                        'api_key'   => $pass,
+                        'x-smtpapi' => json_encode($json_string),
+                        'to'        => $email,
+                        'subject'   => '(Reminder) Free $20 Credit For You @ Hollywood Body Jewelry',
+                        'html'      => $body,
+                        'text'      => 'Hollywood Body Jewelry',
+                        'from'      => 'nereply@hbjus.com',
+                      );
+                    $request =  $url.'api/mail.send.json';
+                    // Generate curl request
+                    $session = curl_init($request);
+                    // Tell curl to use HTTP POST
+                    curl_setopt ($session, CURLOPT_POST, true);
+                    // Tell curl that this is the body of the POST
+                    curl_setopt ($session, CURLOPT_POSTFIELDS, $params);
+                    // Tell curl not to return headers, but do return the response
+                    curl_setopt($session, CURLOPT_HEADER, false);
+                    // Tell PHP not to use SSLv3 (instead opting for TLS)
+                    curl_setopt($session, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
+                    curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
+                    // obtain response
+                    $response = curl_exec($session);
+                    curl_close($session);
+                    
                     return "SUCCESS";
                 } else {
                     $problem = 5;
