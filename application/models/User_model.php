@@ -223,24 +223,24 @@ class User_model extends CI_Model {
                     $this->session->set_userdata('loggedin', '1');
 
                     $url = 'https://api.sendgrid.com/';
-                    $user = 'joe.o123';
-                    $pass = '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';
+                    $user = 'frontendkey';
+                    $pass = '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';
                     $json_string = array(
 
                       'to' => array(
                         $email
                       ),
-                      'category' => $campaignname.$campaignid
+                      'category' => "register"
                     );
                     $params = array(
                         'api_user'  => $user,
                         'api_key'   => $pass,
                         'x-smtpapi' => json_encode($json_string),
                         'to'        => $email,
-                        'subject'   => '(Reminder) Free $20 Credit For You @ Hollywood Body Jewelry',
+                        'subject'   => 'Wheres The Grub E-Mail Verification',
                         'html'      => $body,
-                        'text'      => 'Hollywood Body Jewelry',
-                        'from'      => 'nereply@hbjus.com',
+                        'text'      => 'Wheres The Grub',
+                        'from'      => 'nereply@wheresthegrub.com',
                       );
                     $request =  $url.'api/mail.send.json';
                     // Generate curl request
