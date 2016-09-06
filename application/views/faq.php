@@ -5,7 +5,7 @@
                         <!--Content-->
                         <div class="col-md-9">
                             <header>
-                                <h1 class="page-title">FAQ</h1>
+                                <h1 class="page-title">Support</h1>
                             </header>
                             <section class="faq-form">
                                 <figure class="clearfix">
@@ -183,35 +183,6 @@
                                         </div>
                                     </a>
                                     <!--/.item-horizontal small-->
-                                </section>
-                                <section>
-                                    <a href="#"><img src="assets/img/ad-banner-sidebar.png" alt=""></a>
-                                </section>
-                                <section>
-                                    <header><h2>Categories</h2></header>
-                                    <ul class="bullets">
-                                        <li><a href="#" >Restaurant</a></li>
-                                        <li><a href="#" >Steak House & Grill</a></li>
-                                        <li><a href="#" >Fast Food</a></li>
-                                        <li><a href="#" >Breakfast</a></li>
-                                        <li><a href="#" >Winery</a></li>
-                                        <li><a href="#" >Bar & Lounge</a></li>
-                                        <li><a href="#" >Pub</a></li>
-                                    </ul>
-                                </section>
-                                <section>
-                                    <header><h2>Events</h2></header>
-                                    <div class="form-group">
-                                        <select class="framed" name="events">
-                                            <option value="">Select Your City</option>
-                                            <option value="1">London</option>
-                                            <option value="2">New York</option>
-                                            <option value="3">Barcelona</option>
-                                            <option value="4">Moscow</option>
-                                            <option value="5">Tokyo</option>
-                                        </select>
-                                    </div>
-                                    <!-- /.form-group -->
                                 </section>
                             </aside>
                             <!-- /#sidebar-->

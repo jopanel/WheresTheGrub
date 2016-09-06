@@ -1,92 +1,137 @@
-<!--Page Content-->
+ <!--Page Content-->
             <div id="page-content">
-                <section id="map-simple" class="map-contact"></section>
                 <section class="container">
                     <div class="row">
                         <!--Content-->
                         <div class="col-md-9">
                             <header>
-                                <h1 class="page-title">Contact</h1>
+                                <h1 class="page-title">FAQ</h1>
                             </header>
-                            <section>
-                                <div class="row">
-                                    <div class="col-md-4 col-sm-4">
-                                        <header class="no-border"><h3>Address</h3></header>
-                                        <address>
-                                            <div><strong>Spotter Limited</strong></div>
-                                            <div>63 Birch Street</div>
-                                            <div>Granada Hills, CA 91344</div>
-                                            <br>
-                                            <figure>
-                                                <div class="info">
-                                                    <i class="fa fa-mobile"></i>
-                                                    <span>818-832-5258</span>
-                                                </div>
-                                                <div class="info">
-                                                    <i class="fa fa-phone"></i>
-                                                    <span>+1 123 456 789</span>
-                                                </div>
-                                                <div class="info">
-                                                    <i class="fa fa-globe"></i>
-                                                    <a href="#">www.spotterlimited.com</a>
-                                                </div>
-                                            </figure>
-                                        </address>
+                            <section class="faq-form">
+                                <figure class="clearfix">
+                                    <i class="fa fa-question"></i>
+                                    <div class="wrapper">
+                                        <div class="pull-left">
+                                            <strong>Didn't find an answer?</strong>
+                                            <h3>Ask Your Question</h3>
+                                        </div>
+                                        <a href="#form-faq" class="btn btn-default pull-right" data-toggle="collapse" aria-expanded="false" aria-controls="form-faq">Ask Question</a>
                                     </div>
-                                    <!--/.col-md-4-->
-                                    <div class="col-md-4 col-sm-4">
-                                        <header class="no-border"><h3>Social Networks</h3></header>
-                                        <a href="#" class="social-button"><i class="fa fa-twitter"></i>Twitter</a>
-                                        <a href="#" class="social-button"><i class="fa fa-facebook"></i>Facebook</a>
-                                        <a href="#" class="social-button"><i class="fa fa-pinterest"></i>Pinterest</a>
+                                </figure>
+                                <div class="collapse" id="form-faq">
+                                    <div class="">
+                                        <form role="form" action="?" method="post">
+                                            <div class="form-group">
+                                                <label for="faq-form-email">Email</label>
+                                                <input type="email" class="form-control" id="faq-form-email" required="">
+                                            </div>
+                                            <!-- /.form-group -->
+                                            <div class="form-group">
+                                                <label for="faq-form-question">Question</label>
+                                                <textarea class="form-control" id="faq-form-question" name="faq-form-question"  rows="3" required=""></textarea>
+                                            </div>
+                                            <!-- /.form-group -->
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-default">Submit Question</button>
+                                            </div>
+                                            <!-- /.form-group -->
+                                        </form>
+                                        <!-- /form-->
                                     </div>
-                                    <!--/.col-md-4-->
-                                    <div class="col-md-4 col-sm-4">
-                                        <header class="no-border"><h3>About Us</h3></header>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tristique imperdiet
-                                            nibh tincidunt fermentum. Nunc enim nibh, convallis et tincidunt in, vehicula a diam.
-                                            Nullam in risus erat
-                                        </p>
-                                        <a href="about-us.html" class="read-more icon">Read More</a>
-                                    </div>
-                                    <!--/.col-md-4-->
+                                    <!-- /.content-->
                                 </div>
-                                <!--/.row-->
+                                <!-- /#form-faq-->
                             </section>
-                            <hr>
-                            <section>
-                                <header class="no-border"><h3>Contact Form</h3></header>
-                                <form id="contact-form" role="form" method="post" action="?" class="background-color-white">
-                                    <div class="row">
-                                        <div class="col-md-6 col-sm-6">
-                                            <div class="form-group">
-                                                <label for="company-form-name">Name</label>
-                                                <input type="text" class="form-control" id="company-form-name" name="company-form-name" required="">
-                                            </div>
-                                            <!-- /.form-group -->
-                                        </div>
-                                        <!--/.col-md-6-->
-                                        <div class="col-md-6 col-sm-6">
-                                            <div class="form-group">
-                                                <label for="company-form-email">Email</label>
-                                                <input type="email" class="form-control" id="company-form-email" name="company-form-email" required="">
-                                            </div>
-                                            <!-- /.form-group -->
-                                        </div>
-                                        <!--/.col-md-6-->
+                            <!-- /#faq-form-->
+                            <article class="faq-single">
+                                <i class="fa fa-question-circle"></i>
+                                <div class="wrapper">
+                                    <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel viverra tellus,
+                                        at porttitor turpis. Vivamus ultricies orci quam, vitae pharetra lectus scelerisque nec.
+                                    </h4>
+                                    <div class="answer">
+                                        <figure>Answer</figure>
+                                        <p>
+                                            Vivamus ut turpis risus. Vestibulum gravida dictum sem a rutrum. Fusce tincidunt
+                                            rhoncus nulla vel rutrum. Nunc vel luctus dui. Phasellus egestas interdum lacinia.
+                                            Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos
+                                            himenaeos. Nam ut commodo nulla, eu vulputate tellus.
+                                        </p>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="company-form-message">Message</label>
-                                        <textarea class="form-control" id="company-form-message" name="company-form-message"  rows="3" required=""></textarea>
+                                </div>
+                            </article>
+                            <!-- /.faq-single-->
+                            <article class="faq-single">
+                                <i class="fa fa-question-circle"></i>
+                                <div class="wrapper">
+                                    <h4>Morbi vehicula mauris vel bibendum molestie. Ut varius purus in odio elementum
+                                    </h4>
+                                    <div class="answer">
+                                        <figure>Answer</figure>
+                                        <p>
+                                            Sed placerat porta pretium. Sed in mauris at quam egestas vehicula. Cum sociis
+                                            natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+                                            Aliquam ac eleifend sapien. Quisque tempus dictum urna, in finibus erat luctus sed.
+                                        </p>
                                     </div>
-                                    <!-- /.form-group -->
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-default icon">Send a Message<i class="fa fa-angle-right"></i></button>
+                                </div>
+                            </article>
+                            <!-- /.faq-single-->
+                            <article class="faq-single">
+                                <i class="fa fa-question-circle"></i>
+                                <div class="wrapper">
+                                    <h4>Donec condimentum neque est, quis finibus velit laoreet vel.
+                                    </h4>
+                                    <div class="answer">
+                                        <figure>Answer</figure>
+                                        <p>
+                                            Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+                                            Integer molestie viverra neque sit amet posuere. Nullam eget ultricies mi. Proin pulvinar
+                                            quam porttitor consequat pulvinar. Etiam non neque et quam euismod cursus. Praesent eu
+                                            sem interdum, pharetra metus sed, sollicitudin sem. Curabitur tincidunt dolor
+                                            quis dolor iaculis, ut maximus ante fermentum
+                                        </p>
                                     </div>
-                                    <!-- /.form-group -->
-                                </form>
-                                <!--/#contact-form-->
-                            </section>
+                                </div>
+                            </article>
+                            <!-- /.faq-single-->
+                            <article class="faq-single">
+                                <i class="fa fa-question-circle"></i>
+                                <div class="wrapper">
+                                    <h4>Suspendisse et enim semper, porta nunc ut, ullamcorper magna. Duis ut metus eu
+                                        neque sollicitudin cursus non quis leo. Cras quis dignissim magna
+                                    </h4>
+                                    <div class="answer">
+                                        <figure>Answer</figure>
+                                        <p>
+                                            Vivamus ut turpis risus. Vestibulum gravida dictum sem a rutrum. Fusce tincidunt
+                                            rhoncus nulla vel rutrum. Nunc vel luctus dui. Phasellus egestas interdum lacinia.
+                                        </p>
+                                    </div>
+                                </div>
+                            </article>
+                            <!-- /.faq-single-->
+                            <article class="faq-single">
+                                <i class="fa fa-question-circle"></i>
+                                <div class="wrapper">
+                                    <h4>Praesent scelerisque consectetur velit luctus fermentum. Sed lacinia ut nunc id
+                                        consectetur. Praesent dignissim, enim in fringilla laoreet, est erat maximus nibh,
+                                        id auctor sapien nisl a nisi.
+                                    </h4>
+                                    <div class="answer">
+                                        <figure>Answer</figure>
+                                        <p>
+                                            Donec at arcu purus. Suspendisse laoreet quam ut purus aliquam, tempor pharetra
+                                            tellus maximus. Etiam semper velit tincidunt, accumsan neque non, blandit metus.
+                                            Aenean blandit felis at luctus condimentum. Nam gravida luctus mi, sed aliquet
+                                            ligula consectetur a. Nulla eget semper felis, eget iaculis ante. Aliquam tempus
+                                            molestie quam vel pellentesque. Aliquam nibh turpis, lobortis tempor euismod in,
+                                            faucibus ut eros. Cras accumsan gravida tellus.
+                                        </p>
+                                    </div>
+                                </div>
+                            </article>
+                            <!-- /.faq-single-->
                         </div>
                         <!--Sidebar-->
                         <div class="col-md-3">
