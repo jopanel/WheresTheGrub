@@ -65,4 +65,32 @@ class Start extends CI_Controller {
 		$this->load->view('landingfooter', $data);
 	}
 
+	public function about() {
+		$data["recommended"] = $this->General_model->getRecommended(12);
+		$data["phrase"] = $this->General_model->getStatePhrase();
+		$data["bestrated"] = $this->General_model->getBestRated(8);
+		$this->load->view('landingheader');
+		$this->load->view('about', $data);
+		$this->load->view('landingfooter');
+	}
+
+	public function faq() {
+		$data["recommended"] = $this->General_model->getRecommended(12);
+		$data["phrase"] = $this->General_model->getStatePhrase();
+		$data["bestrated"] = $this->General_model->getBestRated(8);
+		$this->load->view('landingheader');
+		$this->load->view('faq', $data);
+		$this->load->view('landingfooter');
+	}
+
+	public function support() {
+		$data["recommended"] = $this->General_model->getRecommended(12);
+		$data["phrase"] = $this->General_model->getStatePhrase();
+		$data["bestrated"] = $this->General_model->getBestRated(8);
+		$this->load->view('landingheader');
+		$this->load->view('support', $data);
+		$this->load->view('landingfooter');
+	}
+
+
 }

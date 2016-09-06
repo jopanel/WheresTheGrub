@@ -52,8 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <ul class="user-area">
                             <li><a href="/search">Find Food</a></li>
                             <li><a href="/business">Services</a></li>
-                            <li><a href="/contactus">Contact Us</a></li>
-                            <li><a href="/download">Get App</a></li>
+                            <li><a href="/start/support">Support</a></li>
                             <?php if ($this->session->userdata("email")) { ?>
                             <li><a href="/user/feed"><strong>Coupons & Deals</strong></a></li>
                             <li><a href="/user/profile">Settings</a></li>
@@ -84,8 +83,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <ul class="user-area">
                             <li><a href="/search">Find Food</a></li>
                             <li><a href="/business">Services</a></li>
-                            <li><a href="/contactus">Contact Us</a></li>
-                            <li><a href="/download">Get App</a></li>
+                            <li><a href="/start/support">Support</a></li>
+                            <li><a href="/start/about">About Us</a></li>
+                            <li><a href="/start/faq">FAQ</a></li>
                             <?php if ($this->session->userdata("email")) { ?>
                             <li><a href="/user/feed">Coupons & Deals</a></li>
                             <li><a href="/user/following">Following</a></li>
