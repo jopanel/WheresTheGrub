@@ -78,7 +78,7 @@ class User extends CI_Controller {
 	public function reviews() {
 		if ($this->User_model->verifyUser()) {
 			$this->load->view('landingheader');
-			
+			$this->load->view('userreviews');
 			$this->load->view('landingfooter');
 		}
 	}
