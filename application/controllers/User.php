@@ -61,8 +61,9 @@ class User extends CI_Controller {
 
 	public function feed() {
 		if ($this->User_model->verifyUser()) {
+			$data["feed"] = $this->User_model->userFeed();
 			$this->load->view('landingheader');
-			
+			$this->load->view('userfeed', $data);
 			$this->load->view('landingfooter');
 		}
 	}

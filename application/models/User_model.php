@@ -24,6 +24,23 @@ class User_model extends CI_Model {
         return $ip;
     }
 
+    public function userFeed() {
+        $buildarray = []; 
+        $sql2 = "SELECT c.* FROM followers f
+        LEFT JOIN coupons c ON f.rid = c.rid 
+        WHERE f.uid = ".$this->db->escape((int)$this->session->userdata("uid"))." AND f.rid = ".$this->db->escape((int)$post["rid"]);
+        $query = $this->db->query($sql2);
+        if ($query) {
+            if ($query->num_rows() > 0) {
+                return $query->result_array();
+            } else {
+                return $buildarray;
+            }
+        } else {
+            return $buildarray;
+        }
+    }
+
     public function updateFollow($post=0) {
         if (!empty($post)) {
             $sql = "SELECT id FROM followers WHERE uid = ".$this->db->escape((int)$this->session->userdata("uid"))." AND rid = ".$this->db->escape((int)$post["rid"]);
