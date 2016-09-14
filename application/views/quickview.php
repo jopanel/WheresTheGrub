@@ -121,10 +121,9 @@
                     </dl>
                 </section>
                 <section><h3>Last Review</h3>
-                    <div class="rating" data-rating="5"></div>
-                    <p>Curabitur odio nibh, luctus non pulvinar a, ultricies ac diam. Donec neque massa, viverra interdum eros ut, imperdiet</p>
-                </section>
-                <a href="item-detail.html" class="btn btn-default btn-large">Show Detail</a></div>
+                    <div class="rating" data-rating="<?=$arraydata["review"]["rating"]?>"></div>
+                    <p><?=$arraydata["review"]["review"]?></p>
+                </section></div>
         </div>
         <div class="modal-close"><img src="resources/img/close.png"></div>
     </div>

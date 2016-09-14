@@ -298,66 +298,36 @@
                                                 <!-- /.rating -->
                                             </article><!-- /.overall-rating-->
                                             <section class="reviews">
+ 
+                                            <?php
+                                            foreach ($res["reviews"] as $r) { ?>
                                                 <article class="review">
                                                     <figure class="author">
-                                                        <img src="assets/img/default-avatar.png" alt="">
-                                                        <div class="date">12.05.2014</div>
+                                                        <img src="<?=$r["avatar"]?>" alt="">
+                                                        <div class="date"><?=$r["date"]?></div>
                                                     </figure>
                                                     <!-- /.author-->
                                                     <div class="wrapper">
-                                                        <h5>Catherine Brown</h5>
+                                                        <h5><?=$r["user"]?></h5>
                                                         <figure class="rating big color" data-rating="4"></figure>
                                                         <p>
-                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                            Nulla vestibulum, sem ut sollicitudin consectetur, augue diam ornare massa,
-                                                            ac vehicula leo turpis eget purus. Nunc pellentesque vestibulum mauris,
-                                                            eget suscipit mauris imperdiet vel. Nulla et massa metus.
+                                                            <?=$r["review"]?>
                                                         </p>
                                                         <div class="individual-rating">
-                                                            <span>Value</span>
-                                                            <figure class="rating" data-rating="4"></figure>
+                                                            <span>Rating</span>
+                                                            <figure class="rating" data-rating="<?=$r["rating"]?>"></figure>
                                                         </div>
-                                                        <!-- /.user-rating -->
-                                                        <div class="individual-rating">
-                                                            <span>Service</span>
-                                                            <figure class="rating" data-rating="4"></figure>
-                                                        </div>
-                                                        <!-- /.user-rating -->
+                                                        <!-- /.user-rating --> 
                                                     </div>
                                                     <!-- /.wrapper-->
                                                 </article>
                                                 <!-- /.review -->
-                                                <article class="review">
-                                                    <figure class="author">
-                                                        <img src="assets/img/default-avatar.png" alt="">
-                                                        <div class="date">10.05.2014</div>
-                                                    </figure>
-                                                    <!-- /.author-->
-                                                    <div class="wrapper">
-                                                        <h5>John Doe</h5>
-                                                        <figure class="rating big color" data-rating="5"></figure>
-                                                        <p>
-                                                            Nunc pellentesque vestibulum mauris, eget suscipit mauris
-                                                            imperdiet vel. Nulla et massa metus. Nam porttitor quam eget ante
-                                                        </p>
-                                                        <div class="individual-rating">
-                                                            <span>Value</span>
-                                                            <figure class="rating" data-rating="5"></figure>
-                                                        </div>
-                                                        <!-- /.user-rating -->
-                                                        <div class="individual-rating">
-                                                            <span>Service</span>
-                                                            <figure class="rating" data-rating="5"></figure>
-                                                        </div>
-                                                        <!-- /.user-rating -->
-                                                    </div>
-                                                    <!-- /.wrapper-->
-                                                </article>
-                                                <!-- /.review -->
+                                            <?php } ?> 
+ 
                                             </section>
                                             <!-- /.reviews-->
                                         </section>
-                                        <!-- /#reviews -->
+                                        <!-- /#reviews --> 
                                         <!--end Reviews-->
                                         <!--Review Form-->
                                         <section id="write-review">
@@ -366,21 +336,12 @@
                                             </header>
                                             <form id="form-review" role="form" method="post" action="?" class="background-color-white">
                                             <input type="hidden" name="action" value="review">
+                                            <input type="hidden" name="rid" value="<?=$res["id"]?>">
                                                 <div class="row">
                                                     <div class="col-md-8">
                                                         <div class="form-group">
-                                                            <label for="form-review-name">Name</label>
-                                                            <input type="text" class="form-control" id="form-review-name" name="form-review-name" required="">
-                                                        </div>
-                                                        <!-- /.form-group -->
-                                                        <div class="form-group">
-                                                            <label for="form-review-email">Email</label>
-                                                            <input type="email" class="form-control" id="form-review-email" name="form-review-email" required="">
-                                                        </div>
-                                                        <!-- /.form-group -->
-                                                        <div class="form-group">
                                                             <label for="form-review-message">Message</label>
-                                                            <textarea class="form-control" id="form-review-message" name="form-review-message"  rows="3" required=""></textarea>
+                                                            <textarea class="form-control" id="form-review-message" name="reviewmessage"  rows="3" required=""></textarea>
                                                         </div>
                                                         <!-- /.form-group -->
                                                         <div class="form-group">
@@ -390,12 +351,8 @@
                                                     </div>
                                                     <div class="col-md-4">
                                                         <aside class="user-rating">
-                                                            <label>Value</label>
-                                                            <figure class="rating active" data-name="value"></figure>
-                                                        </aside>
-                                                        <aside class="user-rating">
-                                                            <label>Service</label>
-                                                            <figure class="rating active" data-name="score"></figure>
+                                                            <label>Ratings</label>
+                                                            <figure class="rating active" name="reviewrating" data-name="rating"></figure>
                                                         </aside>
                                                     </div>
                                                 </div>

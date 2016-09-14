@@ -24,6 +24,47 @@ class User_model extends CI_Model {
         return $ip;
     }
 
+    public function addReview($post=0) {
+        if (!empty($post)) { 
+            $stop = 0; 
+            if (!isset($post["reviewmessage"]) || empty($post["reviewmessage"])) { $stop = 1; }
+            if (!isset($post["reviewrating"]) || empty($post["reviewrating"])) { $stop = 1; } 
+            if (!isset($post["rid"]) || empty($post["rid"])) { $stop = 1; } 
+            if ($stop == 0) {
+                $ip = $this->getIP();
+                $message = strip_tags($post["reviewmessage"]);
+                $uid = $this->session->userdata("uid");
+                $sqlcheck = "SELECT count(id) FROM reviews WHERE uid = ".$this->db->escape($this->session->userdata("uid"))." rid = ".$this->db->escape((int)$post["rid"]);
+                $checkquery = $this->db->query($sqlcheck);
+                if ($checkquery->num_rows() > 0) {
+                    $sql = "UPDATE reviews SET active = '0' WHERE uid = ".$this->db->escape($this->session->userdata("uid"))." rid = ".$this->db->escape((int)$post["rid"]);
+                    $this->db->query($sql);
+                    $sql = null;
+                }
+                $sql = "INSERT INTO reviews (rid,uid,ip,rating,review,created,active) VALUES (".$this->db->escape((int)$post["rid"]).",".$this->db->escape((int)$uid).",".$this->db->escape($ip).",".$this->db->escape(strip_tags((int)$post["reviewrating"])).",".$this->db->escape($message).",NOW(),1)";
+                $this->db->query($sql);
+                $sql2 = "SELECT AVG(ROUND(rating)) as 'rating' FROM reviews WHERE rid = ".$this->db->escape((int)$post["rid"]);
+                $query = $this->db->query($sql2);
+                if ($query) {
+                    $rating = $query->row()->rating;
+                    $sqlupdate = "UPDATE leads SET rating = ".$this->db->escape($rating)." WHERE id = ".$this->db->escape((int)$post["rid"]);
+                    $this->db->query($sqlupdate);
+                }
+                return TRUE;
+            }
+        } else {
+            return FALSE;
+        }
+    }
+
+    public function contactRestaurant($post=0) {
+        if (!empty($post)) {
+
+        } else {
+            return FALSE;
+        }
+    }
+
     public function changePassword($post=0) {
         if (!empty($post)) {
             if ($post["newpassword"] != $post["confirmpassword"]) { return 2; }
@@ -186,6 +227,7 @@ class User_model extends CI_Model {
                 if ($query->num_rows() > 0) {
                     $sql2 = "UPDATE users SET `sessiontoken` = ".$this->db->escape($sessiontoken).", ip = ".$this->db->escape($ip).", `last login` = NOW() WHERE email = ".$this->db->escape($email);
                     $this->db->query($sql2);
+                    $this->session->set_userdata('uid', $query->row()->id);
                     $this->session->set_userdata('email', $email);
                     $this->session->set_userdata('usertoken', $sessiontoken);
                     $this->session->set_userdata('loggedin', '1');

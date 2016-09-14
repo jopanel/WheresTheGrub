@@ -49,18 +49,19 @@ class Place extends CI_Controller {
 	  }
 	}
 
-	public function _bot_detected() {
-
-	  if (isset($_SERVER['HTTP_USER_AGENT']) && preg_match('/bot|crawl|slurp|spider/i', $_SERVER['HTTP_USER_AGENT'])) {
-	    return TRUE;
-	  }
-	  else {
-	    return FALSE;
-	  }
-
-	}
 	public function index($restaurant=0)
 	{
+
+		if ($this->input->post()) {
+			$this->load->model('User_model');
+			$post = $this->input->post();
+			if ($post["action"] == "review") {
+				$this->User_model->addReview($post);
+			} elseif ($post["action"] == "contact") {
+				$this->User_model->contactRestaurant($post);
+			}
+		}
+
 		if (!empty($restaurant)) {
 			$data["problem"] = 0;
 			$basicinfo = $this->Restaurant_model->getRestaurantInfo($restaurant);

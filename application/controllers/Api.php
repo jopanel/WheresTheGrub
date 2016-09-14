@@ -50,6 +50,26 @@ class Api extends CI_Controller {
 		 						$buildarray[$key] = $value;
 		 					}
 		 				}
+		 				$reviewsarray = [];
+			            $sql3 = "SELECT COALESCE(p.url,0) as 'photo', COALESCE(r.rating,0) as 'rating', COALESCE(r.review,0) as 'review', u.fullname, COALESCE(a.href,0) as 'avatar', r.created FROM reviews r
+			            LEFT JOIN photos p ON r.id = p.rid 
+			            LEFT JOIN users u ON r.uid = u.id
+			            LEFT JOIN avatars a ON u.id = a.uid 
+			            WHERE r.active = '1' AND u.active = '1' AND r.rid = ".$this->db->escape((int)$post["id"])." ORDER BY r.created DESC LIMIT 1";
+			            $query3 = $this->db->query($sql3);
+			            if ($query3) {
+			                foreach ($query3->result_array() as $res) {
+			                    $reviewsarray = array(
+			                        "user" => $res["fullname"],
+			                        "avatar" => $res["avatar"],
+			                        "rating" => $res["rating"],
+			                        "review" => $res["review"],
+			                        "photo" => $res["photo"],
+			                        "date" => $res["created"]
+			                        );
+			                }
+			            }
+			            $buildarray["review"] = $reviewsarray;
 		 				$data["arraydata"] = $buildarray;
 		 				$this->load->view('quickview', $data);
 		 			} else {
