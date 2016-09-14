@@ -24,6 +24,25 @@ class User_model extends CI_Model {
         return $ip;
     }
 
+    public function updateFollow($post=0) {
+        if (!empty($post)) {
+            $sql = "SELECT id FROM followers WHERE uid = ".$this->db->escape((int)$this->session->userdata("uid"))." AND rid = ".$this->db->escape((int)$post["rid"]);
+            $query = $this->db->query($sql);
+            if ($query) {
+                if ($query->num_rows() > 0) {
+                    $sql = "DELETE FROM followers WHERE uid = ".$this->db->escape((int)$this->session->userdata("uid"))." AND rid = ".$this->db->escape((int)$post["rid"]);
+                    $this->db->query($sql);
+                } else {
+                    $sql = "INSERT INTO followers (uid,rid,created) VALUES (".$this->db->escape((int)$this->session->userdata("uid")).",".$this->db->escape((int)$post["rid"])).",NOW())";
+                    $this->db->query($sql);
+                }
+            }
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
     public function addReview($post=0) {
         if (!empty($post)) { 
             $stop = 0; 
