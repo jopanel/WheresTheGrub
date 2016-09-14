@@ -12,25 +12,7 @@
                         </ul>
                     </header>
                     <div class="row">
-                        <div class="col-md-3 col-sm-3">
-                            <aside id="sidebar">
-                                <ul class="navigation-sidebar list-unstyled">
-                                    <li class="active">
-                                        <a href="#">
-                                            <i class="fa fa-folder"></i>
-                                            <span>My Reviews</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-check"></i>
-                                            <span>Following</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </aside>
-                        </div>
-                        <div class="col-md-9 col-sm-9">
+                        <div class="col-md-9">
                             <section id="items">
            
 
