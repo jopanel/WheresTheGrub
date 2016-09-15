@@ -70,16 +70,18 @@ class User extends CI_Controller {
 
 	public function following() {
 		if ($this->User_model->verifyUser()) {
+			$data["following"] = $this->User_model->getFollowers();
 			$this->load->view('landingheader');
-			
+			$this->load->view('userfollowing', $data);
 			$this->load->view('landingfooter');
 		}
 	}
 
 	public function reviews() {
 		if ($this->User_model->verifyUser()) {
+			$data["reviews"] = $this->User_model->getUserReviews();
 			$this->load->view('landingheader');
-			$this->load->view('userreviews');
+			$this->load->view('userreviews', $data);
 			$this->load->view('landingfooter');
 		}
 	}

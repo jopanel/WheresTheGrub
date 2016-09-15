@@ -24,10 +24,12 @@ class User_model extends CI_Model {
         return $ip;
     }
 
+
     public function userFeed() {
         $buildarray = []; 
-        $sql2 = "SELECT c.* FROM followers f
+        $sql2 = "SELECT c.*, l.name, l.address, l.url FROM followers f
         LEFT JOIN coupons c ON f.rid = c.rid 
+        LEFT JOIN leads l ON l.id = c.rid
         WHERE f.uid = ".$this->db->escape((int)$this->session->userdata("uid"))." AND f.rid = ".$this->db->escape((int)$post["rid"]);
         $query = $this->db->query($sql2);
         if ($query) {
@@ -39,6 +41,22 @@ class User_model extends CI_Model {
         } else {
             return $buildarray;
         }
+    }
+
+    public function getFollowers() {
+        $buildarray = [];
+        $sql = "SELECT l.name, l.url, l.id FROM followers f
+        LEFT JOIN leads l ON f.rid = l.id
+        WHERE f.uid = ".$this->db->escape((int)$this->session->userdata("uid"));
+        $query = $this->db->query($sql);
+        if ($query) {
+            if ($query->num_rows() > 0) {
+                return $query->result_array();
+            } else {
+                return $buildarray;
+            }
+        }
+        return $buildarray;
     }
 
     public function updateFollow($post=0) {
@@ -58,6 +76,24 @@ class User_model extends CI_Model {
         } else {
             return FALSE;
         }
+    }
+
+    public function getUserReviews($user=0) {
+        if (empty($user)) {
+            $user = (int)$this->session->userdata("uid");
+        }
+        $sql = "SELECT r.*, l.name, l.url FROM reviews r
+        LEFT JOIN leads l ON l.id = r.rid
+        WHERE r.uid = ".$this->db->escape((int)$user);
+        $query = $this->db->query($sql);
+        if ($query) {
+            if ($query->num_rows() > 0) {
+                return $query->result_array();
+            } else {
+                return [];
+            }
+        }
+         return []; 
     }
 
     public function addReview($post=0) {
