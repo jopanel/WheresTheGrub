@@ -59,6 +59,8 @@ class Signin extends CI_Controller {
 			$verifyUser = $this->User_model->userLogin($post);
 			if ($verifyUser == "SUCCESS") {
 				redirect("../../user/feed");
+			} elseif ($verifyUser == "VENDOR") {
+				redirect("../../vendor/");
 			} else {
 				$data["problem"] = $verifyUser;
 			}
