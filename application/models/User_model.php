@@ -33,7 +33,7 @@ class User_model extends CI_Model {
             }
         }
         $query = $sql = null;
-        $sql = "SELECT l.id FROM leads l
+        $sql = "SELECT l.id, vu.sessiontoken, vu.email FROM leads l
         LEFT JOIN vendorusers vu ON l.email = vu.email AND vu.rid = l.id
         WHERE vu.sessiontoken = ".$this->db->escape((int)$code);
         $query = $this->db->query($sql);
@@ -41,10 +41,51 @@ class User_model extends CI_Model {
             if ($query->num_rows() > 0) {
                 // update vendoruser level to active, claimed to 1
                 // change claimed to 1 on leads
+                $sessiontoken = $query->row()->sessiontoken;
+                $email = $query->row()->email;
                 $sql2 = "UPDATE vendoruser SET level = 'active', claimed = '1' WHERE sessiontoken = ".$this->db->escape(strip_tags($code))." AND rid = ".$this->db->escape((int)$rid);
                 $this->db->query($sql2);
                 $sql2 = "UPDATE leads SET claimed = '1' WHERE id = ".$this->db->escape((int)$rid);
                 $this->db->query($sql2);
+                $this->session->set_userdata('vendoremail', $email);
+                $this->session->set_userdata('vendortoken', $sessiontoken);
+                $this->session->set_userdata('vendorloggedin', '1');
+
+                    $url = 'https://api.sendgrid.com/';
+                    $user = 'frontendkey';
+                    $pass = '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';
+                    $json_string = array(
+
+                      'to' => array(
+                        $email
+                      ),
+                      'category' => "claimed"
+                    );
+                    $params = array(
+                        'api_user'  => $user,
+                        'api_key'   => $pass,
+                        'x-smtpapi' => json_encode($json_string),
+                        'to'        => $email,
+                        'subject'   => 'Welcome to Wheres The Grub',
+                        'html'      => $body,
+                        'text'      => 'Wheres The Grub',
+                        'from'      => 'nereply@wheresthegrub.com',
+                      );
+                    $request =  $url.'api/mail.send.json';
+                    // Generate curl request
+                    $session = curl_init($request);
+                    // Tell curl to use HTTP POST
+                    curl_setopt ($session, CURLOPT_POST, true);
+                    // Tell curl that this is the body of the POST
+                    curl_setopt ($session, CURLOPT_POSTFIELDS, $params);
+                    // Tell curl not to return headers, but do return the response
+                    curl_setopt($session, CURLOPT_HEADER, false);
+                    // Tell PHP not to use SSLv3 (instead opting for TLS)
+                    curl_setopt($session, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
+                    curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
+                    // obtain response
+                    $response = curl_exec($session);
+                    curl_close($session);
                 return 2;
             }
         }
