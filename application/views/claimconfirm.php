@@ -1,4 +1,7 @@
-                <section class="container" >
+                <?php
+
+                if ($data == 4) { ?>
+                    <section class="container" >
                     <div class="block">
                         <div class="row">
                             <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3" style="background-color: white;">
@@ -44,3 +47,56 @@
                     </div>
                 </section>
                 <script src='https://www.google.com/recaptcha/api.js'></script>
+                <?php } elseif ($data == 0) { ?>
+                    <section class="container" >
+                    <div class="block">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3" style="background-color: white;">
+                                <header>
+                                    <h1 class="page-title">Bad Request</h1>
+                                </header>
+                                <hr>
+                                <div class="center">
+                                    <figure class="note">It appears that there was a problem with your request to confirm the listing. This could be because it is already claimed. Your activiation code was incorrect. If you need assistance please contact us.</figure>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <?php } elseif ($data == 1) { ?>
+                    <section class="container" >
+                    <div class="block">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3" style="background-color: white;">
+                                <header>
+                                    <h1 class="page-title">Your E-Mail is Confirmed</h1>
+                                </header>
+                                <hr>
+                                <div class="center">
+                                    <figure class="note">We have confirmed your email address in your attempt to claim the business. We do not have enough information matching to instantly allow you access to claim your listing. You may be contacted via email, phone, or your business phone on record. We also may activate you without contacting you. If you would like access as soon as possible please contact us.</figure>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <?php } elseif ($data == 2) { 
+                    // EXTREMELY IMPORTANT PART, MUST UPSELL THIS!!!! THIS PAGE MUST BE GOOD!
+                    ?>
+                    <section class="container" >
+                    <div class="block">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3" style="background-color: white;">
+                                <header>
+                                    <h1 class="page-title">Congratulations!</h1>
+                                </header>
+                                <hr>
+                                <div class="center">
+                                    <figure class="note">We have confirmed your identity and are allowing you instant access to your business.</figure>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <?php } ?>
+
+                

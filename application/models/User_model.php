@@ -25,7 +25,41 @@ class User_model extends CI_Model {
     }
 
     public function claimConfirmListing($rid,$code) {
-        
+        $sql = "SELECT claimed FROM leads WHERE id = ".$this->db->escape((int)$rid)." AND claimed = '1'";
+        $query = $this->db->query($sql);
+        if ($query) {
+            if ($query->num_rows() > 0) {
+                return 0;
+            }
+        }
+        $query = $sql = null;
+        $sql = "SELECT l.id FROM leads l
+        LEFT JOIN vendorusers vu ON l.email = vu.email AND vu.rid = l.id
+        WHERE vu.sessiontoken = ".$this->db->escape((int)$code);
+        $query = $this->db->query($sql);
+        if ($query) {
+            if ($query->num_rows() > 0) {
+                // update vendoruser level to active, claimed to 1
+                // change claimed to 1 on leads
+                $sql2 = "UPDATE vendoruser SET level = 'active', claimed = '1' WHERE sessiontoken = ".$this->db->escape(strip_tags($code))." AND rid = ".$this->db->escape((int)$rid);
+                $this->db->query($sql2);
+                $sql2 = "UPDATE leads SET claimed = '1' WHERE id = ".$this->db->escape((int)$rid);
+                $this->db->query($sql2);
+                return 2;
+            }
+        }
+        $query = $sql = null;
+        $sql = "SELECT id FROM vendoruser WHERE rid = ".$this->db->escape((int)$rid)." AND verification_key = ".$this->db->escape(strip_tags($code));
+        $query = $this->db->query($sql);
+        if ($query) {
+            if ($query->num_rows() > 0) {
+                $sql2 = "UPDATE vendoruser SET level = 'confirmed' WHERE sessiontoken = ".$this->db->escape(strip_tags($code))." AND rid = ".$this->db->escape((int)$rid);
+                $this->db->query($sql2);
+                return 1;
+            }
+        }
+        return 0;
+
     }
 
     public function claimListing($post=0) {
@@ -46,7 +80,7 @@ class User_model extends CI_Model {
                 $query = $this->db->query($sql);
                 if ($query->num_rows() == 0) {
                     $claimed = 0;
-                    $sql2 = "INSERT INTO vendorusers (rid, `sessiontoken`, `verification_key`, email, password, claimed, active, created, ip, fullname, phone) VALUES (".$this->db->escape($rid).",".$this->db->escape($sessiontoken).",".$this->db->escape($verification).",".$this->db->escape(strip_tags($post["email"])).",".$this->db->escape(strip_tags(md5($post["password"]))).",".$claimed.",1,NOW(),".$this->db->escape($ip).",".$this->db->escape(strip_tags($post["fullname"])).",".$this->db->escape(strip_tags($post["phone"])).")";
+                    $sql2 = "INSERT INTO vendorusers (rid, `sessiontoken`, `verification_key`, email, password, claimed, active, created, ip, fullname, phone, level) VALUES (".$this->db->escape($rid).",".$this->db->escape($sessiontoken).",".$this->db->escape($verification).",".$this->db->escape(strip_tags($post["email"])).",".$this->db->escape(strip_tags(md5($post["password"]))).",".$claimed.",1,NOW(),".$this->db->escape($ip).",".$this->db->escape(strip_tags($post["fullname"])).",".$this->db->escape(strip_tags($post["phone"])).", 'notactive')";
                     $this->db->query($sql2);
 
 
