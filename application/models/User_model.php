@@ -24,6 +24,83 @@ class User_model extends CI_Model {
         return $ip;
     }
 
+    public function claimConfirmListing($rid,$code) {
+        
+    }
+
+    public function claimListing($post=0) {
+        if (!empty($post)) {
+            $verification = $this->randomString();
+            $sessiontoken = $this->randomString();
+            $ip = $this->getIP();
+            $problem = 0;
+            if ($post["password"] != $post["password2"]) { $problem = 6; } 
+            if (empty($post["password"]) || empty($post["password2"])) { $problem = 7; }
+            if (!isset($post["email"]) || empty($post["email"])) { $problem = 7; }
+            if (!isset($post["fullname"]) || empty($post["fullname"])) { $problem = 7; }
+            if (!isset($post["phone"]) || empty($post["phone"])) { $problem = 7; } 
+            if (!isset($post["rid"]) || empty($post["rid"])) { $problem = 3; } else {$rid = (int)$post["rid"];}
+            if ($problem == 0) {
+                // check if email exists
+                $sql = "SELECT * FROM vendorusers WHERE email = ".$this->db->escape(strip_tags($post["email"]));
+                $query = $this->db->query($sql);
+                if ($query->num_rows() == 0) {
+                    $claimed = 0;
+                    $sql2 = "INSERT INTO vendorusers (rid, `sessiontoken`, `verification_key`, email, password, claimed, active, created, ip, fullname, phone) VALUES (".$this->db->escape($rid).",".$this->db->escape($sessiontoken).",".$this->db->escape($verification).",".$this->db->escape(strip_tags($post["email"])).",".$this->db->escape(strip_tags(md5($post["password"]))).",".$claimed.",1,NOW(),".$this->db->escape($ip).",".$this->db->escape(strip_tags($post["fullname"])).",".$this->db->escape(strip_tags($post["phone"])).")";
+                    $this->db->query($sql2);
+
+
+                    $this->session->set_userdata('vendoremail', strip_tags($post["email"]));
+                    $this->session->set_userdata('vendortoken', $sessiontoken);
+                    $this->session->set_userdata('vendorloggedin', '1');
+
+                    $url = 'https://api.sendgrid.com/';
+                    $user = 'frontendkey';
+                    $pass = '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';
+                    $json_string = array(
+
+                      'to' => array(
+                        $email
+                      ),
+                      'category' => "claim"
+                    );
+                    $params = array(
+                        'api_user'  => $user,
+                        'api_key'   => $pass,
+                        'x-smtpapi' => json_encode($json_string),
+                        'to'        => $post["email"],
+                        'subject'   => 'Wheres The Grub Claim Verification',
+                        'html'      => $body,
+                        'text'      => 'Wheres The Grub',
+                        'from'      => 'nereply@wheresthegrub.com',
+                      );
+                    $request =  $url.'api/mail.send.json';
+                    // Generate curl request
+                    $session = curl_init($request);
+                    // Tell curl to use HTTP POST
+                    curl_setopt ($session, CURLOPT_POST, true);
+                    // Tell curl that this is the body of the POST
+                    curl_setopt ($session, CURLOPT_POSTFIELDS, $params);
+                    // Tell curl not to return headers, but do return the response
+                    curl_setopt($session, CURLOPT_HEADER, false);
+                    // Tell PHP not to use SSLv3 (instead opting for TLS)
+                    curl_setopt($session, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
+                    curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
+                    // obtain response
+                    $response = curl_exec($session);
+                    curl_close($session);
+                    
+                    return "SUCCESS";
+                } else {
+                    $problem = 5;
+                }
+                
+            }
+            return 3;
+        } else {
+            return 3;
+        }
+    }
 
     public function userFeed() {
         $buildarray = []; 
@@ -350,7 +427,7 @@ class User_model extends CI_Model {
                         'api_user'  => $user,
                         'api_key'   => $pass,
                         'x-smtpapi' => json_encode($json_string),
-                        'to'        => $email,
+                        'to'        => $post["email"],
                         'subject'   => 'Wheres The Grub E-Mail Verification',
                         'html'      => $body,
                         'text'      => 'Wheres The Grub',

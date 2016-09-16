@@ -3,42 +3,41 @@
                         <div class="row">
                             <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3" style="background-color: white;">
                                 <header>
-                                    <h1 class="page-title">Register</h1>
+                                    <h1 class="page-title">Claim Business</h1>
                                 </header>
                                 <hr>
                                 <form role="form" id="form-register" method="post" action="">
                                     <div class="form-group">
-                                        <label for="form-register-full-name">Full Name:</label>
+                                        <label for="form-register-full-name">Contact Full Name:</label>
                                         <input type="text" class="form-control" name="fullname"  id="form-register-full-name" required>
                                     </div><!-- /.form-group -->
                                     <div class="form-group">
+                                        <label for="form-register-full-name">Contact Phone:</label>
+                                        <input type="text" class="form-control" name="phone"  id="form-register-full-name" required>
+                                    </div><!-- /.form-group -->
+                                    <div class="form-group">
                                         <label for="form-register-email">Email:</label>
-                                        <input type="email" class="form-control"  name="email" id="form-register-email"  required>
+                                        <input type="email" class="form-control"  name="email" id="form-register-email" required>
                                     </div><!-- /.form-group -->
                                     <div class="form-group">
                                         <label for="form-register-password">Password:</label>
-                                        <input type="password" class="form-control" name="password"  id="form-register-password"  required>
+                                        <input type="password" class="form-control" name="password"  id="form-register-password" required>
                                     </div><!-- /.form-group -->
                                     <div class="form-group">
                                         <label for="form-register-confirm-password">Confirm Password:</label>
-                                        <input type="password" class="form-control" name="password2"  id="form-register-confirm-password"  required>
+                                        <input type="password" class="form-control" name="password2"  id="form-register-confirm-password" required>
                                     </div><!-- /.form-group -->
-                                    <div class="checkbox pull-left">
-                                        <label>
-                                            <input type="checkbox" name="optin"  checked name="newsletter">Yes! I want to Opt-In for coupons, deals, newsletter
-                                        </label>
-                                    </div>
                                     <div class="form-group clearfix">
                                         <div class="g-recaptcha" data-sitekey="6Lc9jCcTAAAAABHgxi_WTPsP0UkHAdd0MM5QpBgG"></div>
                                     </div><!-- /.form-group -->
                                     <br><br>
                                     <div class="form-group clearfix">
-                                        <button type="submit" class="btn btn-default" id="account-submit">Create an Account</button>
+                                        <button type="submit" class="btn btn-default" id="account-submit">Claim Business</button>
                                     </div><!-- /.form-group -->
                                 </form>
                                 <hr>
                                 <div class="center">
-                                    <figure class="note">By clicking the “Create an Account” button you agree with our <a href="terms-conditions.html" class="link">Terms and conditions</a></figure>
+                                    <figure class="note">By clicking the “Create an Account” button you agree with our Terms and conditions. You will not automatically be authorized to modify your listing until we confirm your identity. You may receive emails, a phone call to you and/or your business, and we may further request items to prove your identity. If you received an email to claim your listing you may automatically be confirmed.</figure>
                                 </div>
                             </div>
                         </div>
