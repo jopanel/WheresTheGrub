@@ -33,7 +33,7 @@ class User_model extends CI_Model {
             }
         }
         $query = $sql = null;
-        $sql = "SELECT l.id, vu.sessiontoken, vu.email FROM leads l
+        $sql = "SELECT l.id, vu.sessiontoken, vu.email, vu.id as 'uid' FROM leads l
         LEFT JOIN vendorusers vu ON l.email = vu.email AND vu.rid = l.id
         WHERE vu.sessiontoken = ".$this->db->escape((int)$code);
         $query = $this->db->query($sql);
@@ -43,10 +43,12 @@ class User_model extends CI_Model {
                 // change claimed to 1 on leads
                 $sessiontoken = $query->row()->sessiontoken;
                 $email = $query->row()->email;
+                $uid = $query->row()->uid;
                 $sql2 = "UPDATE vendoruser SET level = 'active', claimed = '1' WHERE sessiontoken = ".$this->db->escape(strip_tags($code))." AND rid = ".$this->db->escape((int)$rid);
                 $this->db->query($sql2);
                 $sql2 = "UPDATE leads SET claimed = '1' WHERE id = ".$this->db->escape((int)$rid);
                 $this->db->query($sql2);
+                $this->session->set_userdata('uid', $uid);
                 $this->session->set_userdata('vendoremail', $email);
                 $this->session->set_userdata('vendortoken', $sessiontoken);
                 $this->session->set_userdata('vendorloggedin', '1');
@@ -457,6 +459,18 @@ class User_model extends CI_Model {
                     $this->session->set_userdata('loggedin', '1');
                     return "SUCCESS";
                 } else {
+                    // check if its a vendor
+                    $sql = "SELECT * from vendorusers WHERE email = ".$this->db->escape($email)." AND password = ".$this->db->escape(md5($password));
+                    $query = $this->db->query($sql);
+                    if ($query->num_rows() > 0) {
+                    $sql2 = "UPDATE vendorusers SET `sessiontoken` = ".$this->db->escape($sessiontoken).", ip = ".$this->db->escape($ip).", `last login` = NOW() WHERE email = ".$this->db->escape($email);
+                    $this->db->query($sql2);
+                    $this->session->set_userdata('uid', $query->row()->id);
+                    $this->session->set_userdata('vendoremail', $email);
+                    $this->session->set_userdata('vendortoken', $sessiontoken);
+                    $this->session->set_userdata('vendorloggedin', '1');
+                    return "VENDOR";
+                    }
                     $problem = 3;
                 }
             } else {
