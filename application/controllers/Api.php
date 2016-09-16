@@ -188,6 +188,8 @@ class Api extends CI_Controller {
 				if (isset($post["keyword"])) {
 					// needs updating for keyword searching, this part should probably be pretty advanced.
 					// im thinking create another function that builds a large where clause for different keyword specifics
+					$keyword = $this->db->escape("%".strip_tags($post["keywords"])."%");
+					$sql .= " AND (`name` LIKE ".$keyword." OR `category_labels` LIKE ".$keyword." OR `cuisine` LIKE ".$keyword." OR `description` LIKE ".$keyword.")";
 				}
 				if (isset($post["distance"])) {
 					if ($post["distance"] == 1) {
@@ -245,28 +247,11 @@ class Api extends CI_Controller {
                             $categoryarray = null;
 						}
 
-						// url
-						
-						//type
 						$type = "Place";
 						if ($resarr["cuisine"]) {
 							$categoryarray = json_decode($resarr["cuisine"], true);
                             $type = $categoryarray[0][0];
 						} 
-
-						//gallery
-
-						//features
-
-						//featured
-
-						// special offer 1/0
-
-						//item specific
-
-						//last review
-
-						// last review rating
 
 						$buildarray["data"][] = array(
 							"id" => $resarr["id"],
