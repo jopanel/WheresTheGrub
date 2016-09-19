@@ -105,7 +105,7 @@ class Api extends CI_Controller {
 					$output= json_decode($geocode);
 					if ($output->status == "OK") {
 						$this->session->set_userdata("location", $output->results[0]->formatted_address);
-						//var_dump($output);
+						//var_dump($output); 
 						$addressComponents = $output->results[0]->address_components;
 						$haszip = 0;
 			            foreach($addressComponents as $addrComp){
@@ -188,7 +188,7 @@ class Api extends CI_Controller {
 				if (isset($post["keyword"])) {
 					// needs updating for keyword searching, this part should probably be pretty advanced.
 					// im thinking create another function that builds a large where clause for different keyword specifics
-					$keyword = $this->db->escape("%".strip_tags($post["keywords"])."%");
+					$keyword = $this->db->escape("%".strip_tags($post["keyword"])."%");
 					$sql .= " AND (`name` LIKE ".$keyword." OR `category_labels` LIKE ".$keyword." OR `cuisine` LIKE ".$keyword." OR `description` LIKE ".$keyword.")";
 				}
 				if (isset($post["distance"])) {

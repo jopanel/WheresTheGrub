@@ -12,6 +12,8 @@
                                 if ($problem == 6) { echo "<p>Your passwords did not match.</p>"; }
                                 ?>
                                 <form role="form" id="form-register" method="post" action="">
+                                    <input type="hidden" name="action" value="postclaim">
+                                    <input type="hidden" name="rid" value="<?=$rid?>">
                                     <div class="form-group">
                                         <label for="form-register-full-name">Contact Full Name:</label>
                                         <input type="text" class="form-control" name="fullname"  id="form-register-full-name" required>

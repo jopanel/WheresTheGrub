@@ -121,9 +121,18 @@
                     </dl>
                 </section>
                 <section><h3>Last Review</h3>
+                <?php
+                if (count($arraydata["review"]) > 0) { ?>
+
                     <div class="rating" data-rating="<?=$arraydata["review"]["rating"]?>"></div>
                     <p><?=$arraydata["review"]["review"]?></p>
-                </section></div>
+                </section>
+               <?php } else {
+                echo "<p>Currently there are no reviews, you could be the first!</p>";
+               }?>
+               <br>
+               <a href="/place/<?=$arraydata["url"]?>"><button class="btn btn-default">Show All Details</button></a>
+                </div>
         </div>
         <div class="modal-close"><img src="resources/img/close.png"></div>
     </div>

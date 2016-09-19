@@ -167,15 +167,7 @@
                                             <article class="block">
                                                 <header><h2>Description</h2></header>
                                                 <p>
-                                                    Curabitur odio nibh, luctus non pulvinar a, ultricies ac diam.
-                                                    Donec neque massa, viverra interdum eros ut, imperdiet pellentesque mauris.
-                                                    Proin sit amet scelerisque risus. Donec semper semper erat ut mollis.
-                                                    Curabitur suscipit, justo eu dignissim lacinia, ante sapien pharetra duin
-                                                    consectetur eros augue sed ex. Donec a odio rutrum, hendrerit sapien vitae,
-                                                    euismod arcu. Suspendisse potenti. Integer ut diam venenatis, pellentesque
-                                                    felis eget, elementum enim. Suspendisse sit amet massa commodo nulla iaculis
-                                                    fermentum. Integer eget tincidunt est, in imperdiet risus.
-                                                    Morbi sit amet urna purus.
+                                                    <?=$res["description"]?>
                                                 </p>
                                             </article>
                                             <!-- /.block -->
@@ -250,7 +242,7 @@
                                                 <header><h2>Features</h2></header>
                                                 <ul class="bullets">
                                                     <?php
-                                                    foreach ($arraydata as $key=>$value) {
+                                                    foreach ($res as $key=>$value) {
                                                             if ($value == 1) {
                                                                 $key = str_replace('_', ' ', $key);
                                                                 $use = 1;
@@ -278,7 +270,7 @@
                                                 <header><h2>Opening Hours</h2></header>
                                                 <dl class="lines">
                                                     <?php
-                                                    $r = json_decode($arraydata["hours"], true);
+                                                    $r = json_decode($res["hours"], true);
                                                     foreach ($r as $key=>$value) {
                                                         echo "<dt>".ucwords($key)."</dt>";
                                                         $buildtime = "";
@@ -308,8 +300,8 @@
                                                 <a href="#write-review" class="btn framed icon pull-right roll">Write a review <i class="fa fa-pencil"></i></a>
                                             </header>
                                             <article class="clearfix overall-rating">
-                                                <strong class="pull-left">Over Rating</strong>
-                                                <figure class="rating big color pull-right" data-rating="4"></figure>
+                                                <strong class="pull-left">Overall Rating</strong>
+                                                <figure class="rating big color pull-right" data-rating="<?=$res["rating"]?>"></figure>
                                                 <!-- /.rating -->
                                             </article><!-- /.overall-rating-->
                                             <section class="reviews">
@@ -324,7 +316,7 @@
                                                     <!-- /.author-->
                                                     <div class="wrapper">
                                                         <h5><?=$r["user"]?></h5>
-                                                        <figure class="rating big color" data-rating="4"></figure>
+                                                        <figure class="rating big color" data-rating="<?=$r["rating"]?>"></figure>
                                                         <p>
                                                             <?=$r["review"]?>
                                                         </p>
@@ -388,11 +380,12 @@
                             <aside id="sidebar">
                                 <section>
                                     <header><h2>You May Also Like</h2></header>
-                                    <?php
+                                    <?php 
+
                                         foreach ($res["competitors"] as $br) { 
                                             $label = "";
-                                            if (isset($rec["category_labels"]) && !empty($rec["category_labels"])) { 
-                                                $categoryarray = json_decode($rec["category_labels"], true);
+                                            if (isset($br["category_labels"]) && !empty($br["category_labels"])) { 
+                                                $categoryarray = json_decode($br["category_labels"], true);
                                                 foreach ($categoryarray[0] as $labels) {
                                                     $label .= $labels." ";
                                                 }
@@ -408,10 +401,9 @@
                                                 <div class="info">
                                                     <div class="type">
                                                         <div class="rating" data-rating="<?=$br["rating"]?>"></div>
-                                                        <?php
-
-                                            if (isset($rec["hours"]) && !empty($rec["hours"])) {
-                                                $hoursarray = json_decode($rec["hours"], true);
+                                                        <?php 
+                                            if (isset($br["hours"]) && !empty($br["hours"])) {
+                                                $hoursarray = json_decode($br["hours"], true);
                                                 $day = date("l");
                                                 $day = strtolower($day);
                                                 $now = date("H:s");
@@ -427,9 +419,9 @@
                                                         }
                                                     }
                                                 }
-                                                if ($open == 0) { $hours = "<span>Closed</span>"; } else { $hours = "<span>Open until ".$until."</span>"; }
+                                                if ($open == 0) { $hours = "<span>Currently Closed</span>"; } else { $hours = "<span>Open until ".$until."</span>"; }
                                             } else {
-                                                $hours = "<span>Closed</span>";
+                                                $hours = "<span>Currently Closed</span>";
                                             }
                                             echo $hours;
                                             ?>

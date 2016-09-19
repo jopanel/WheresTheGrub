@@ -67,11 +67,11 @@ class Restaurant_model extends CI_Model {
                 $categoryarray = json_decode($buildarray["category_labels"], true);
                 $category = ' AND cuisine LIKE "%'.$categoryarray[0][2].'%"';
             }
-            $competitors = [];
-            $sql4 = "SELECT hours, category_labels, cuisine, id, name, address, latitude, longitude, rating, url ( 3959 * acos( cos( radians(".$buildarray["lat"].") ) 
+            $competitors = []; 
+            $sql4 = "SELECT hours, category_labels, cuisine, id, name, address, latitude, longitude, rating, url, ( 3959 * acos( cos( radians(".$buildarray["latitude"].") ) 
                       * cos( radians( latitude ) ) 
-                      * cos( radians( longitude ) - radians('".$buildarray["lon"]."') ) 
-                      + sin( radians('".$buildarray["lat"]."') ) 
+                      * cos( radians( longitude ) - radians('".$buildarray["longitude"]."') ) 
+                      + sin( radians('".$buildarray["latitude"]."') ) 
                       * sin( radians( latitude ) ) ) ) AS distance FROM leads 
                       WHERE `active` = '1'".$category.$cuisine."  HAVING distance < 10 ORDER BY rating DESC LIMIT 6";
             $query4 = $this->db->query($sql4);

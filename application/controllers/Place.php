@@ -50,19 +50,26 @@ class Place extends CI_Controller {
 	}
 
 	public function claim($confirm=0, $rid=0, $code=0) {
+		$data["problem"] = 0;
 		if (empty($confirm)) {
 			$data["data"] = 4;
 			if ($this->input->post()) {
 				$post = $this->input->post();
-				$data["rid"] = (int)$post["rid"];
-				$this->load->model('User_model');
-				$data["data"] = $this->User_model->claimListing($post);
-			} else {
-				$data["data"] = 4;
-			}
+
+				if ($post["action"] == "postclaim") {
+					$data["rid"] = (int)$post["rid"];
+					$this->load->model('User_model');
+					$data["data"] = $this->User_model->claimListing($post);
+				} elseif ($post["action"] == "claim") {
+					$data["rid"] = $post["rid"];
+				}
 			$this->load->view('landingheader');
 			$this->load->view('claimlisting', $data);
 			$this->load->view('landingfooter');
+			} else {
+				$data["data"] = 4;
+			}
+			
 		} else {
 			$this->load->model('User_model'); 
 			$data["data"] = $this->User_model->claimConfirmListing($rid,$code);

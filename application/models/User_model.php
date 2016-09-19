@@ -222,7 +222,7 @@ class User_model extends CI_Model {
                     $sql = "DELETE FROM followers WHERE uid = ".$this->db->escape((int)$this->session->userdata("uid"))." AND rid = ".$this->db->escape((int)$post["rid"]);
                     $this->db->query($sql);
                 } else {
-                    $sql = "INSERT INTO followers (uid,rid,created) VALUES (".$this->db->escape((int)$this->session->userdata("uid")).",".$this->db->escape((int)$post["rid"])).",NOW())";
+                    $sql = "INSERT INTO followers (uid,rid,created) VALUES (".$this->db->escape((int)$this->session->userdata("uid")).",".$this->db->escape((int)$post["rid"]).",NOW())";
                     $this->db->query($sql);
                 }
             }
