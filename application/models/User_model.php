@@ -466,6 +466,7 @@ class User_model extends CI_Model {
                     $sql2 = "UPDATE vendorusers SET `sessiontoken` = ".$this->db->escape($sessiontoken).", ip = ".$this->db->escape($ip).", `last login` = NOW() WHERE email = ".$this->db->escape($email);
                     $this->db->query($sql2);
                     $this->session->set_userdata('uid', $query->row()->id);
+                    $this->session->set_userdata('fullname', $query->row()->fullname);
                     $this->session->set_userdata('vendoremail', $email);
                     $this->session->set_userdata('vendortoken', $sessiontoken);
                     $this->session->set_userdata('vendorloggedin', '1');

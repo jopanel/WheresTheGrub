@@ -1,4 +1,20 @@
 <?php
+/*
+
+--> Vendors
+->Add/Edit Vendor Users
+->Marketing Tools
+->Add Business Listing
+->Manage Business
+-Edit Business Information
+-Manage Reviews
+-Manage Coupons/Deals
+-Manage PPC/Adwords
+-Stats/Reports
+-Add/Edit Menu Items
+
+*/
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Vendor extends CI_Controller {
@@ -10,7 +26,7 @@ class Vendor extends CI_Controller {
 		date_default_timezone_set('America/Los_Angeles');
 		$this->load->model('General_model');
 		$this->load->model('Restaurant_model');
-		$this->load->model('User_model');
+		$this->load->model('Vendor_model');
 		if ( !$this->session->userdata('zipcode') ) {
 			if ($this->_bot_detected() == TRUE) {
 				$this->session->set_userdata("zipcode", "90713");
@@ -51,96 +67,115 @@ class Vendor extends CI_Controller {
 	}
 
 	public function logout() {
-		if ($this->User_model->verifyUser()) {
-			$this->User_model->logout();
+		if ($this->Vendor_users->verifyUser()) {
+			$this->Vendor_users->logout();
 			redirect("../../signin");
 		} else {
 			redirect("../../signin");
 		}
 	}
 
-	public function feed() {
-		if ($this->User_model->verifyUser()) {
-			$data["feed"] = $this->User_model->userFeed();
+	public function manageusers() {
+		if ($this->Vendor_users->verifyUser()) {
+			$data[""] = $this->Vendor_model->userFeed();
 			$this->load->view('landingheader');
-			$this->load->view('userfeed', $data);
+			$this->load->view('', $data);
 			$this->load->view('landingfooter');
 		}
 	}
 
-	public function following() {
-		if ($this->User_model->verifyUser()) {
-			$data["following"] = $this->User_model->getFollowers();
+	public function marketingtools() {
+		if ($this->Vendor_users->verifyUser()) {
+			$data[""] = $this->Vendor_model->userFeed();
 			$this->load->view('landingheader');
-			$this->load->view('userfollowing', $data);
+			$this->load->view('', $data);
 			$this->load->view('landingfooter');
 		}
 	}
 
-	public function reviews() {
-		if ($this->User_model->verifyUser()) {
-			$data["reviews"] = $this->User_model->getUserReviews();
+	public function addlisting() {
+		if ($this->Vendor_users->verifyUser()) {
+			$data[""] = $this->Vendor_model->userFeed();
 			$this->load->view('landingheader');
-			$this->load->view('userreviews', $data);
+			$this->load->view('', $data);
 			$this->load->view('landingfooter');
 		}
 	}
+
+	public function managebusiness() {
+		if ($this->Vendor_users->verifyUser()) {
+			$data[""] = $this->Vendor_model->userFeed();
+			$this->load->view('landingheader');
+			$this->load->view('', $data);
+			$this->load->view('landingfooter');
+		}
+	}
+
+	public function managereviews() {
+		if ($this->Vendor_users->verifyUser()) {
+			$data[""] = $this->Vendor_model->userFeed();
+			$this->load->view('landingheader');
+			$this->load->view('', $data);
+			$this->load->view('landingfooter');
+		}
+	}
+
+	public function managepromos() {
+		if ($this->Vendor_users->verifyUser()) {
+			$data[""] = $this->Vendor_model->userFeed();
+			$this->load->view('landingheader');
+			$this->load->view('', $data);
+			$this->load->view('landingfooter');
+		}
+	}
+
+	public function ppc() {
+		if ($this->Vendor_users->verifyUser()) {
+			$data[""] = $this->Vendor_model->userFeed();
+			$this->load->view('landingheader');
+			$this->load->view('', $data);
+			$this->load->view('landingfooter');
+		}
+	}
+
+	public function reports() {
+		if ($this->Vendor_users->verifyUser()) {
+			$data[""] = $this->Vendor_model->userFeed();
+			$this->load->view('landingheader');
+			$this->load->view('', $data);
+			$this->load->view('landingfooter');
+		}
+	}
+
+	public function businessinformation() {
+		if ($this->Vendor_users->verifyUser()) {
+			$this->load->view('landingheader');
+			$this->load->view('vendorlist', $data);
+			$this->load->view('landingfooter');
+		} 
+	}
+
+	public function menu() {
+		if ($this->Vendor_users->verifyUser()) {
+			$this->load->view('landingheader');
+			$this->load->view('vendorlist', $data);
+			$this->load->view('landingfooter');
+		} 
+	}
+
 
 	public function index($userid=0){
 		if (!empty($userid)){ 
 			$this->load->view('landingheader');
-			
+			$this->load->view('vendorlist', $data);
 			$this->load->view('landingfooter');
 		} else {
-			if ($this->User_model->verifyUser()) {
+			if ($this->Vendor_users->verifyUser()) {
 				$this->load->view('landingheader');
-			
+				
 				$this->load->view('landingfooter');
 			}
 		}
-	}
-
-	public function profile()
-	{
-		if ($this->User_model->verifyUser()) {
-			$problem = 1;
-			if ($this->input->post()) {
-				$post = $this->input->post();
-				if ($post["type"] == "changepassword") { 
-					$problem = $this->User_model->changePassword($post); 
-					if ($problem == 0) { 
-						$problem = "There was a problem with your request";
-					} elseif ($problem == 2) {
-						$problem = "Password Does Not Match";
-					} elseif ($problem == 3) {
-						$problem = "Invalid Current Password";
-					}
-				}
-				if ($post["type"] == "uploadpic") { 
-					$problem = $this->User_model->uploadAvatar($post); 
-				}
-				if ($post["type"] == "updateprofile") {
-					$problem = $this->User_model->updateProfile($post); 
-					if ($problem == 0) {
-						$problem = "There was a problem with your request";
-					} elseif ($problem == 2) {
-						$problem = "We have sent a verification request email to the email you previously provided.";
-					}
-				}
-			}
-
-			// build page and data
-			$userinfo = $this->User_model->getUserProfileInfo();
-			if ($userinfo == FALSE) {
-				redirect("../404");
-			}
-			$data["problem"] = $problem;
-			$data["userinfo"] = $userinfo;
-			$this->load->view('landingheader');
-			$this->load->view('usersettings', $data);
-			$this->load->view('landingfooter');
-		}
-		
 	}
 
 
