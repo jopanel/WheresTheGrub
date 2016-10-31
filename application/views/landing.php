@@ -92,7 +92,7 @@
                                             <div class="item ">
                                                 <div class="image">
                                                     <div class="quick-view"><i class="fa fa-eye"></i><span>Quick View</span></div>
-                                                    <a href="item-detail.html">
+                                                    <a href="<?php echo "http://".$_SERVER["SERVER_NAME"]."/place/".$rec["url"]; ?>">
                                                         <div class="overlay">
                                                             <div class="inner">
                                                                 <div class="content">
@@ -107,7 +107,7 @@
                                                     </a>
                                                 </div>
                                                 <div class="wrapper">
-                                                    <a href="item-detail.html"><h3><?=$rec["name"]?></h3></a>
+                                                    <a href="<?php echo "http://".$_SERVER["SERVER_NAME"]."/place/".$rec["url"]; ?>"><h3><?=$rec["name"]?></h3></a>
                                                     <figure><?=$rec["address"]?></figure>
                                                     <div class="info">
                                                         <div class="type">
@@ -154,7 +154,7 @@
                                             $label = "Restaurant";
                                             }
                                             ?>
-                                        <a href="item-detail.html" class="item-horizontal small">
+                                        <a href="<?php echo "http://".$_SERVER["SERVER_NAME"]."/place/".$br["url"]; ?>" class="item-horizontal small">
                                             <h3><?=$br["name"];?></h3>
                                             <figure><?=$br["address"]?></figure>
                                             <div class="wrapper">
