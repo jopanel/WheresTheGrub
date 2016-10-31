@@ -43,18 +43,19 @@ class Vendor_model extends CI_Model {
 
     public function verifyUser() {
         $destroy = 0;
-        if ($this->session->userdata("usertoken")) { $sessiontoken = strip_tags($this->session->userdata("usertoken")); } else { $destroy = 1;}
-        if ($this->session->userdata("email")) {$email = strip_tags($this->session->userdata("email"));} else {$destroy = 1;}
-        if ($this->session->userdata("loggedin")) {$islogged = strip_tags($this->session->userdata("loggedin"));} else {$destroy = 1;}
-        $ip = $this->getIP();
+        //var_dump($this->session->userdata());
+        if ($this->session->userdata("vendortoken")) { $sessiontoken = strip_tags($this->session->userdata("vendortoken")); } else { $destroy = 1;}
+        if ($this->session->userdata("vendoremail")) {$email = strip_tags($this->session->userdata("vendoremail"));} else {$destroy = 1;}
+        if ($this->session->userdata("vendorloggedin")) {$islogged = strip_tags($this->session->userdata("vendorloggedin"));} else {$destroy = 1;}
+        $ip = $this->getIP(); 
         if ($destroy == 0) {
             if ($islogged == 1) {
-                $sql = "SELECT * FROM users WHERE email = ".$this->db->escape($email)."";
+                $sql = "SELECT * FROM vendorusers WHERE email = ".$this->db->escape($email)."";
                 $query = $this->db->query($sql);
                 if ($query->num_rows() > 0) {
-                    foreach ($query->result_array() as $res) {
+                    foreach ($query->result_array() as $res) { 
                         if ($res["sessiontoken"] != $sessiontoken) { $destroy = 1; }
-                        if ($res["ip"] != $ip) {$destroy = 1;}
+                        if ($res["ip"] != $ip) {$destroy = 1;} 
                     }
                 } else {
                     $destroy = 1;
@@ -64,9 +65,9 @@ class Vendor_model extends CI_Model {
             }
         }
         if ($destroy == 1) {
-            $this->session->unset_userdata('usertoken');
-            $this->session->unset_userdata('email');
-            $this->session->unset_userdata('loggedin');
+            $this->session->unset_userdata('vendortoken');
+            $this->session->unset_userdata('vendoremail');
+            $this->session->unset_userdata('vendorloggedin');
             return FALSE;
         } else {
             return TRUE;
