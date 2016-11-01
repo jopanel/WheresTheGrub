@@ -9,6 +9,7 @@
                         </ul>
                     </header> 
                     <div class="row">
+                        <!--
                         <div class="col-md-3 col-sm-3">
                             <aside id="sidebar">
                                 <ul class="navigation-sidebar list-unstyled">
@@ -38,7 +39,7 @@
                                     </li>
                                 </ul>
                             </aside>
-                        </div>
+                        </div> -->
                         <div class="col-md-9 col-sm-9">
                             <section id="items">
 
@@ -58,7 +59,7 @@
                                             <div class="item-specific">
                                                 <span>Daily menu: $6</span>
                                             </div>
-                                            <img src="assets/img/items/2.jpg" alt="">
+                                            <img src="../resources/img/items/2.jpg" alt="">
                                         </a>
                                     </div>
                                     <div class="wrapper">
@@ -66,25 +67,16 @@
                                         <figure>63 Birch Street</figure>
                                         <div class="info">
                                             <div class="type">
-                                                <i><img src="assets/icons/restaurants-bars/restaurants/cafetaria.png" alt=""></i>
+                                                <i><img src="../resources/icons/restaurants-bars/restaurants/cafetaria.png" alt=""></i>
                                                 <span>Cafeteria</span>
                                             </div>
                                             <div class="rating" data-rating="5"></div>
                                         </div>
                                     </div>
-                                    <div class="description">
-                                        <ul class="list-unstyled actions">
-                                            <li><a href="#"><i class="fa fa-pencil"></i></a></li>
-                                            <li><a href="#" class="hide-item"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-trash"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="ribbon in-queue">
-                                        <i class="fa fa-clock-o"></i>
+                                    <div class="in-queue">
+                                        <p class="btn framed icon">Manage Business <i class="fa fa-angle-right"></i></p>
                                     </div>
                                 </div>
-                                
-
                             </section>
                         </div>
                     </div>
