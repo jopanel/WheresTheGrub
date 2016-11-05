@@ -37,7 +37,7 @@
                                     </div>
                                     <div class="info">
                                         <div class="type">
-                                            <i><img src="assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
+                                            <i><img src="../resources/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
                                             <span>Restaurant</span>
                                         </div>
                                     </div>
@@ -397,7 +397,7 @@
                                             <h3><?=$br["name"];?></h3>
                                             <figure><?=$br["address"]?></figure>
                                             <div class="wrapper">
-                                                <div class="image"><img src="resources/img/items/<?=$br["rating"]?>.jpg" alt=""></div>
+                                                <div class="image"><img src="../resources/img/items/<?=$br["rating"]?>.jpg" alt=""></div>
                                                 <div class="info">
                                                     <div class="type">
                                                         <div class="rating" data-rating="<?=$br["rating"]?>"></div>
@@ -437,7 +437,7 @@
                                     <!--/.item-horizontal small-->
                                 </section>
                                 <section>
-                                    <a href="#"><img src="assets/img/ad-banner-sidebar.png" alt=""></a>
+                                    <a href="#"><img src="../resources/img/ad-banner-sidebar.png" alt=""></a>
                                 </section>
                             </aside>
                             <!-- /#sidebar-->

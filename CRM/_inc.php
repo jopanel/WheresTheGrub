@@ -4,10 +4,10 @@ ini_set('max_execution_time', 0);
 error_reporting(E_ALL ^ E_DEPRECATED);
 
 //MYSQL data MODIFY TO FIT YOUR DATABASE
-$mysql_host = "wheresthegrub.com";
-$mysql_database = "wheresgrub_system";
-$mysql_user = "wheresgrub_syste";
-$mysql_password = ",cK;sk?+lmzV";
+$mysql_host = "mysql.wheresthegrub.com";
+$mysql_database = "wheresgrub";
+$mysql_user = "wtg_mysql";
+$mysql_password = "Gingerbread1$";
 //Connect to Database
 ini_set('display_errors', '1');
 $con = mysql_connect($mysql_host, $mysql_user, $mysql_password);

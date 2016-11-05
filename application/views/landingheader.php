@@ -57,7 +57,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <li><a href="/user/feed"><strong>Coupons & Deals</strong></a></li>
                             <li><a href="/user/profile">Settings</a></li>
                            <?php } else { ?>
-                            <li><a href="/signin">Sign In</a></li>
+                            <li><a href="/signin">Login</a></li>
                             <li><a href="/register"><strong>Register</strong></a></li>
                                 <?php } ?>
                             
@@ -93,7 +93,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <li><a href="/user/profile">Settings</a></li>
                             <li><a href="/user/logout">Logout</a></li>
                            <?php } else { ?>
-                            <li><a href="/signin">Sign In</a></li>
+                            <li><a href="/signin">Login</a></li>
                             <li><a href="/register"><strong>Register</strong></a></li>
                                 <?php } ?>
                         </ul>
