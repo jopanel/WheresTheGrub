@@ -43,7 +43,7 @@
                         <div class="col-md-9 col-sm-9">
                             <section id="items">
 
-
+                            <?php foreach ($biz as $k => $v) { ?>
                                 <div class="item list admin-view">
                                     <div class="image">
                                         <div class="quick-view" data-toggle="modal" data-target="#modal-bar"><i class="fa fa-eye"></i><span>Quick View</span></div>
@@ -52,31 +52,47 @@
                                                 <div class="inner">
                                                     <div class="content">
                                                         <h4>Description</h4>
-                                                        <p>Curabitur odio nibh, luctus non pulvinar a, ultricies ac diam. Donec neque massa</p>
+                                                        <p><?=$k["description"]?></p>   
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="item-specific">
-                                                <span>Daily menu: $6</span>
+                                                <span><?php if ($k["premium"] == 1) { echo "Premium"; } else { echo "FREE"; } ?></span>
                                             </div>
                                             <img src="../resources/img/items/2.jpg" alt="">
                                         </a>
                                     </div>
                                     <div class="wrapper">
-                                        <a href="item-detail.html"><h3>Benny’s Cafeteria</h3></a>
-                                        <figure>63 Birch Street</figure>
+                                        <a href="item-detail.html"><h3><?=$k["name"]?></h3></a>
+                                        <figure><?=$k["address"]?></figure>
                                         <div class="info">
                                             <div class="type">
                                                 <i><img src="../resources/icons/restaurants-bars/restaurants/cafetaria.png" alt=""></i>
-                                                <span>Cafeteria</span>
+                                                <span><?php 
+                                        foreach ($res["competitors"] as $br) { 
+                                            $label = "";
+                                            if (isset($br["category_labels"]) && !empty($br["category_labels"])) { 
+                                                $categoryarray = json_decode($br["category_labels"], true);
+                                                foreach ($categoryarray[0] as $labels) {
+                                                    $label .= $labels." ";
+                                                }
+                                            } else {
+                                            $label = "Restaurant";
+                                            }
+                                            ?></span>
                                             </div>
                                             <div class="rating" data-rating="5"></div>
                                         </div>
                                     </div>
                                     <div class="in-queue">
-                                        <p class="btn framed icon">Manage Business <i class="fa fa-angle-right"></i></p>
+                                        <a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managebusiness/<?=$k["id"]?>"><p class="btn framed icon">Manage Business <i class="fa fa-angle-right"></i></p></a>
                                     </div>
                                 </div>
+                               <?php } ?>
+                                
+
+
+
                             </section>
                         </div>
                     </div>

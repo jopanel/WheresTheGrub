@@ -24,6 +24,19 @@ class Vendor_model extends CI_Model {
         return $ip;
     }
 
+    public function getMyBusinesses() {
+        $sql = "SELECT l.*, COALESCE(vu.premium, 0) as 'premium' FROM vendorusers v 
+        LEFT JOIN leads l ON v.rid = l.id
+        LEFT JOIN vendors vu ON v.rid = vu.rid
+        WHERE v.active = '1'";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        } else {
+            return [];
+        }
+    }
+
     public function changePassword($post=0) {
         if (!empty($post)) {
             if ($post["newpassword"] != $post["confirmpassword"]) { return 2; }
