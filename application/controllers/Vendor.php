@@ -15,6 +15,67 @@
 
 */
 
+    /*
+    Model Functions Needing Developed:
+    - Manage Users
+    -- getVendorUsers
+    -- deleteVendorUser
+    -- addVendorUser
+    -- editVendorUser
+
+    - Marketing Tools
+    -- getMarketingTools
+
+    - Add Listing 
+    - addListing
+
+    - Manage Business
+    -- getPremiumStatus
+    -- getBizDetails 
+    
+    - Manage Reviews 
+    -- getBizReviews
+    -- respondToReview
+    -- requestReviewDelete
+
+    - Manage Promos
+    -- getAllPromos
+    -- deletePromo
+    -- addPromo
+    -- editPromo
+
+    - PPC (Pay Per Click)
+    -- listAllPPC
+    -- createPPC
+    -- editPPC
+    -- deletePPC
+    -- addPPCkeyword
+    -- disablePPCkeyword
+    -- addCredit
+
+    - Reports
+    - getBizReviewStats
+    - getBizStats
+    - getPPCStats
+    - getBizRatingStats
+    - getBizMobileStats
+    - getBizWebStats
+
+    - Business Information
+    -- getBizInformation
+    -- editBizInformation
+    -- addBizInformation
+    -- removeBizInformation
+    -- addPhotos
+    -- deletePhotos
+
+    - Menu
+    -- addMenuItems
+    -- deleteMenuItems
+    -- editMenuItems
+    -- listMenuItems
+    */
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Vendor extends CI_Controller {

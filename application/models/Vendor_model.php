@@ -8,6 +8,154 @@ class Vendor_model extends CI_Model {
 
     }
 
+    public function listAllPPC() {
+
+    }
+
+    public function createPPC() {
+
+    }
+
+    public function editPPC() {
+
+    }
+
+    public function deletePPC() {
+
+    }
+
+    public function addPPCkeyword() {
+
+    }
+
+    public function addCredit() {
+
+    }
+
+    public function getBizReviewStats() {
+
+    }
+
+    public function getBizStats() {
+
+    }
+
+    public function getPPCStats() {
+
+    }
+
+    public function getBizRatingStats() {
+
+    }
+
+    public function getBizMobileStats() {
+
+    }
+
+    public function getBizWebStats() {
+
+    }
+
+    public function getBizInformation() {
+
+    }
+
+    public function editBizInformation() {
+
+    }
+
+    public function addBizInformation() {
+
+    }
+
+    public function removeBizInformation() {
+
+    }
+
+    public function addPhotos() {
+
+    }
+
+    public function deletePhotos() {
+
+    }
+
+    public function addMenuItems() {
+
+    }
+
+    public function deleteMenuItems() {
+
+    }
+
+    public function editMenuItems() {
+
+    }
+
+    public function listMenuItems() {
+
+    }
+
+    public function getVendorUsers() {
+
+    }
+
+    public function deleteVendorUsers() {
+
+    }
+
+    public function addVendorUser() {
+
+    }
+
+    public function editVendorUser() {
+
+    }
+
+    public function getMarketingTools() {
+
+    }
+
+    public function addListing() {
+
+    }
+
+    public function getPremiumStatus() {
+
+    }
+
+    public function getBizDetails() {
+
+    }
+
+    public function getBizReviews() {
+
+    }
+
+    public function respondToReview() {
+
+    }
+
+    public function requestReviewDelete() {
+
+    }
+
+    public function getAllPromos() {
+
+    }
+
+    public function deletePromo() {
+
+    }
+
+    public function addPromo() {
+
+    }
+
+    public function editPromo() {
+
+    }
+
     public function getIP() {
         if (!empty($_SERVER['HTTP_CLIENT_IP']))   //check ip from share internet
         {
