@@ -114,13 +114,29 @@ class Api extends CI_Controller {
 			                    $theirzip = $addrComp->short_name;
 			                }
 			            }
-						$zipdata = $this->General_model->getZipDetails($theirzip);
-						foreach($zipdata as $key => $value){
-							$this->session->set_userdata("userdata_".$key,$value);
-						}
-						$this->session->set_userdata("zipcode", $theirzip);
-						$this->session->set_userdata("userdata_lat",$output->results[0]->geometry->location->lat);
-						$this->session->set_userdata("userdata_lon",$output->results[0]->geometry->location->lng);
+			            if (!isset($theirzip) || empty($theirzip)) {
+			            	$theirzip = $this->General_model->getZipByCoord($output->results[0]->geometry->location->lat, $output->results[0]->geometry->location->lng);
+			            	if ($theirzip == FALSE) {
+			            		// bad input
+			            	} else {
+			            		$zipdata = $this->General_model->getZipDetails($theirzip);
+								foreach($zipdata as $key => $value){
+									$this->session->set_userdata("userdata_".$key,$value);
+								}
+								$this->session->set_userdata("zipcode", $theirzip);
+								$this->session->set_userdata("userdata_lat",$output->results[0]->geometry->location->lat);
+								$this->session->set_userdata("userdata_lon",$output->results[0]->geometry->location->lng);
+			            	}
+			            } else {
+			            	$zipdata = $this->General_model->getZipDetails($theirzip);
+							foreach($zipdata as $key => $value){
+								$this->session->set_userdata("userdata_".$key,$value);
+							}
+							$this->session->set_userdata("zipcode", $theirzip);
+							$this->session->set_userdata("userdata_lat",$output->results[0]->geometry->location->lat);
+							$this->session->set_userdata("userdata_lon",$output->results[0]->geometry->location->lng);
+			            }
+						
 					} 
 				}
 				// start getting information

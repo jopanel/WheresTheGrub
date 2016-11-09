@@ -55,6 +55,21 @@ class General_model extends CI_Model {
 
 	}
 
+	public function getZipByCoord($lat,$lng) {
+		$sql = "SELECT *, ( 3959 * acos( cos( radians(".$this->db->escape($lat).") ) 
+              * cos( radians( latitude ) ) 
+              * cos( radians( longitude ) - radians(".$this->db->escape($lng).") ) 
+              + sin( radians(".$this->db->escape($lat).") ) 
+              * sin( radians( latitude ) ) ) ) AS distance  FROM leads WHERE active = '1' HAVING distance < 10 ORDER BY distance LIMIT 1";
+		//echo $sql;
+		$result = $this->db->query($sql);
+		if ($result) {
+			return $result->row()->postcode;
+		} else {
+			return FALSE;
+		}
+	}
+
 	public function getRecommended($limit=25) {
 		$latitude = $this->session->userdata("userdata_lat");
 		$longitude = $this->session->userdata("userdata_lon");
