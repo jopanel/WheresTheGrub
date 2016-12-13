@@ -19,7 +19,7 @@
                                 <!-- /.form-group -->
                                 <div class="form-group">
                                     <div class="input-group location">
-                                        <input type="text" class="form-control" name="location" id="location" value="<?=$this->session->userdata("location")?>" placeholder="Enter Location">
+                                        <input type="text" class="form-control" name="location" onBlur="getLoad()" id="location" value="<?=$this->session->userdata("location")?>" placeholder="Enter Location">
                                         <span class="input-group-addon"><i class="fa fa-map-marker geolocation" data-toggle="tooltip" data-placement="bottom" title="Find my position"></i></span>
 
                                     </div>
