@@ -96,30 +96,36 @@
                             <a href="tel:<?=$arraydata["tel"]?>"><?=$arraydata["tel"]?></a>
                     </p>
                 </section>
+                <?php
+                        $r = json_decode($arraydata["hours"], true);
+                        if (isset($r) || !empty($r)) {
+                ?>
                 <section><h3>Hours Of Operation (<?=$hours?>)</h3>
                     <dl>
                         <?php
-                        $r = json_decode($arraydata["hours"], true);
-                        foreach ($r as $key=>$value) {
-                            echo "<dt>".ucwords($key)."</dt>";
-                            $buildtime = "";
-                            $counttimes = 0;
-                            foreach ($value as $values) {
-                                foreach ($values as $v) {
-                                    $counttimes += 1;
-                                    if ($counttimes == 1) {
-                                        $buildtime .= date("g a", strtotime($v));
-                                    } else {
-                                        $buildtime .= " - ".date("g a", strtotime($v))."<br>";
-                                        $counttimes = 0;
+                            foreach ($r as $key=>$value) {
+                                echo "<dt>".ucwords($key)."</dt>";
+                                $buildtime = "";
+                                $counttimes = 0;
+                                foreach ($value as $values) {
+                                    foreach ($values as $v) {
+                                        $counttimes += 1;
+                                        if ($counttimes == 1) {
+                                            $buildtime .= date("g a", strtotime($v));
+                                        } else {
+                                            $buildtime .= " - ".date("g a", strtotime($v))."<br>";
+                                            $counttimes = 0;
+                                        }
                                     }
                                 }
+                                echo "<dd>".$buildtime."</dd>";
                             }
-                            echo "<dd>".$buildtime."</dd>";
-                        }
+                        
+                        
                         ?>
                     </dl>
                 </section>
+                <?php } ?>
                 <section><h3>Last Review</h3>
                 <?php
                 if (count($arraydata["review"]) > 0) { ?>

@@ -268,7 +268,7 @@ class Api extends CI_Controller {
 							$categoryarray = json_decode($resarr["cuisine"], true);
                             $type = $categoryarray[0][0];
 						} 
-
+						$today = date("Y-m-d");
 						$buildarray["data"][] = array(
 							"id" => $resarr["id"],
 							"category" =>$label,
@@ -282,7 +282,7 @@ class Api extends CI_Controller {
 							"rating" =>$resarr["rating"],
 							"gallery" =>array("resources/img/items/4.jpg"),
 							"features" =>array("Free parking?"),
-							"date_created" =>"2014-11-03",
+							"date_created" =>$today,
 							"featured" =>0,
 							"color" =>"",
 							"person_id" =>$resarr["id"],
