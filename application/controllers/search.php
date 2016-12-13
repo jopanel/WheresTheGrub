@@ -83,10 +83,10 @@ class Search extends CI_Controller {
 			}
 		}
 		//var_dump($this->session->userdata());
-		$data["recommended"] = $this->General_model->getRecommended(6);
-		$data["bestrated"] = $this->General_model->getBestRated(5);
+		//$data["recommended"] = $this->General_model->getRecommended(3);
+		//$data["bestrated"] = $this->General_model->getBestRated(2);
 		$this->load->view('landingheader');
-		$this->load->view('home', $data);
+		$this->load->view('home');
 		$this->load->view('landingfooter');
 	}
 

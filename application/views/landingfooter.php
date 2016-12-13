@@ -132,10 +132,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 if ($this->uri->segment(1)) {
     if (strtolower($this->uri->segment(1)) == "search") { ?>
         <script>
+
+    var getLocation = document.getElementById("location").value;
+    var currentLocation = "";
     var filters = 0;
     var filters2 = 0;
     var jsonData;
-    var jsonPath = 'http://<?=$_SERVER['SERVER_NAME']?>/resources/json/items.json.txt';
     var _latitude = <?=$this->session->userdata("userdata_lat")?>;
     var _longitude = <?=$this->session->userdata("userdata_lon")?>; 
     var quickload = ["data"];
@@ -164,7 +166,8 @@ if ($this->uri->segment(1)) {
         }
     }
 
-    function getLoad() {
+    function getLoad() { 
+        getLocation = document.getElementById("location").value;
         var apiData = $("#apiSearch").serialize();
         apiData = JSON.stringify(apiData);
         //ajax("http://local.wheresthegrub.com/api/search", apiData, function(data){
@@ -175,14 +178,20 @@ if ($this->uri->segment(1)) {
             url: 'http://local.wheresthegrub.com/api/search',
             data: apiData,
             cache: false,
-            success: function (data) {
+            success: function (data) { 
                 loadMap(JSON.parse(data));
             }
         });
     }
 
-    function loadMap(jsonData) { 
+    function loadMap(jsonData) {  
+        if (currentLocation == getLocation || currentLocation == "") {
+            currentLocation = getLocation;
             createHomepageGoogleMap(_latitude,_longitude,jsonData);
+        } else { 
+            createHomepageGoogleMap(jsonData.data[0].latitude,jsonData.data[0].longitude,jsonData);
+        }
+            
            
         $(window).load(function(){
             var rtl = false; // Use RTL

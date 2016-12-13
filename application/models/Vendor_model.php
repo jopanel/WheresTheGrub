@@ -33,7 +33,7 @@ class Vendor_model extends CI_Model {
     }
 
     public function getBizReviewStats() {
-
+    
     }
 
     public function getBizStats() {
