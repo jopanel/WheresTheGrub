@@ -67,21 +67,89 @@ class Vendor_model extends CI_Model {
 
     }
 
-    public function getBizReviewStats() {
-        /*
-            Review Stats:
-            - how many reviews total
-            - how many reviews last 30 days
-            - how many reviews 1y
-            - average review rating
-            - average review power 
-        */
+    public function getBizReviewStats($rid) {
+        $data = [];
+        $sql = "SELECT COALESCE(count(re.id),0) as 'total', COALESCE(AVG(r.rating),0) as 'avgrating', COALESCE(AVG(r.power),0) as 'avgreviewpower' 
+                FROM reviews re
+                JOIN ratings r 
+                WHERE re.rid = ".$this->db->escape((int)$rid)." AND r.rid = ".$this->db->escape((int)$rid);
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            $data["reviews_total"] = $query->row()->total;
+            $data["rating_total"] = $query->row()->avgrating;
+            $data["rating_powertotal"] = $query->row()->avgreviewpower;
+        }
+        $sql = null; $query = null;
+        $sql = "SELECT COALESCE(count(re.id),0) as 'total', COALESCE(AVG(r.rating),0) as 'avgrating', COALESCE(AVG(r.power),0) as 'avgreviewpower' 
+                FROM reviews re
+                JOIN ratings r 
+                WHERE re.rid = ".$this->db->escape((int)$rid)." 
+                AND r.rid = ".$this->db->escape((int)$rid)." 
+                AND r.created >= DATE_ADD(CURDATE(), INTERVAL -30 DAY) 
+                AND re.created >= DATE_ADD(CURDATE(), INTERVAL -30 DAY)";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            $data["reviews_30"] = $query->row()->total;
+            $data["rating_30"] = $query->row()->avgrating;
+            $data["rating_power30"] = $query->row()->avgreviewpower;
+        }
+        $sql = null; $query = null;
+        $sql = "SELECT COALESCE(count(re.id),0) as 'total', COALESCE(AVG(r.rating),0) as 'avgrating', COALESCE(AVG(r.power),0) as 'avgreviewpower' 
+                FROM reviews re
+                JOIN ratings r 
+                WHERE re.rid = ".$this->db->escape((int)$rid)." 
+                AND r.rid = ".$this->db->escape((int)$rid)." 
+                AND r.created >= DATE_ADD(CURDATE(), INTERVAL -365 DAY) 
+                AND re.created >= DATE_ADD(CURDATE(), INTERVAL -365 DAY)";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            $data["reviews_1y"] = $query->row()->total;
+            $data["rating_1y"] = $query->row()->avgrating;
+            $data["rating_power1y"] = $query->row()->avgreviewpower;
+        }
+        $sql = null; $query = null;
+
+        return $data;
     }
 
     public function getBizStats($rid) {
         /*
             foreach vendorstats_type get last 30 days, 1 year, and total
         */
+        $data = [];
+        $sql = "SELECT COALESCE(count(vs.id),0) as 'count', vst.name as 'typename', vst.id as 'typeid' 
+            FROM vendorstats vs 
+            LEFT JOIN vendorstats_type vst ON vs.type = vst.id 
+            WHERE vs.rid = ".$this->db->escape((int)$rid)." 
+            GROUP BY vs.type";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            $data["total"] = array("typename" => $query->row()->typename, "typeid" => $query->row()->typeid, "count" => $query->row()->count);
+        }
+        $sql = null; $query = null;
+        $sql = "SELECT COALESCE(count(vs.id),0) as 'count', vst.name as 'typename', vst.id as 'typeid' 
+            FROM vendorstats vs 
+            LEFT JOIN vendorstats_type vst ON vs.type = vst.id 
+            WHERE vs.rid = ".$this->db->escape((int)$rid)."
+            AND vs.date >= DATE_ADD(CURDATE(), INTERVAL -30 DAY) 
+            GROUP BY vs.type";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            $data["30"] = array("typename" => $query->row()->typename, "typeid" => $query->row()->typeid, "count" => $query->row()->count);
+        }
+        $sql = null; $query = null;
+        $sql = "SELECT COALESCE(count(vs.id),0) as 'count', vst.name as 'typename', vst.id as 'typeid' 
+            FROM vendorstats vs 
+            LEFT JOIN vendorstats_type vst ON vs.type = vst.id 
+            WHERE vs.rid = ".$this->db->escape((int)$rid)."
+            AND vs.date >= DATE_ADD(CURDATE(), INTERVAL -365 DAY) 
+            GROUP BY vs.type";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            $data["1y"] = array("typename" => $query->row()->typename, "typeid" => $query->row()->typeid, "count" => $query->row()->count);
+        }
+        $sql = null; $query = null;
+        
     }
 
     public function getPPCStats() {
@@ -97,7 +165,10 @@ class Vendor_model extends CI_Model {
     }
 
     public function getBizInformation() {
-
+        /*
+            - get leads data
+            - 
+        */
     }
 
     public function editBizInformation() {

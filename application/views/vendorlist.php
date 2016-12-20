@@ -88,7 +88,7 @@
                                         <a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managebusiness/<?=$k["id"]?>"><p class="btn framed icon">Manage Business <i class="fa fa-angle-right"></i></p></a>
                                     </div>
                                 </div>
-                               <?php } ?>
+                               <?php } }?>
                                 
 
 
