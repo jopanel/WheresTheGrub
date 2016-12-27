@@ -25,7 +25,7 @@ class Vendor_model extends CI_Model {
 
     public function listAllPPC($rid) {
         if (!isset($rid) || empty($rid)) { return false; }
-        $sql = "SELECT * FROM ppc_campaigns WHERE rid = ".$this->db->escape((int)$rid);
+        $sql = "SELECT * FROM ppc_campaigns WHERE rid = ".$this->db->escape((int)$rid)." AND deleted = '0'";
         $query = $this->db->query($sql);
         if ($query) {
             if ($query->num_rows() > 0) {
@@ -55,19 +55,45 @@ class Vendor_model extends CI_Model {
 
     }
 
-    public function deletePPC() {
+    public function deletePPC($campaignid=0) {
+        if ($campaignid == 0) {return FALSE;}
+        $sql = "UPDATE ppc_campaigns SET active = '0' AND deleted = '0' WHERE id = ".$this->db->escape((int)$campaignid);
+        $this->db->query($sql);
+        return TRUE;
+    }
+
+    public function PPCkeyword($campaignid=0, $keyword, $type="add", $data=null) {
+        if ($campaignid == 0) { return FALSE; }
+
+        if ($type == "add") {
+            $sql = "INSERT INTO ppc_keywords (campaignid, user, keyword, cost, created) VALUES (".$this->db->escape((int)$campaignid).", ".$this->db->escape(strip_tags($keyword)).", ".$this->db->escape((float)$data["cost"]).", NOW())";
+            $this->db->query($sql);
+            return TRUE;
+        }
+
+        if ($type == "delete") {
+            $sql = "DELETE FROM ppc_keywords WHERE campaignid = ".$this->db->escape((int)$campaignid)." AND id = ".$this->db->escape((int)$keyword);
+            $this->db->query($sql);
+            return TRUE;
+        }
+
+        if ($type == "edit") {
+
+        }
 
     }
 
-    public function addPPCkeyword() {
-
+    public function verifyPPC($campaignid=0, $rid=0) { 
+        // verify PPC ownership before PPC queries.
+        if ($campaignid == 0 || $rid == 0) { return FALSE; }
+        $sql = "SELECT id FROM ppc_campaigns WHERE ";
     }
 
     public function addCredit() {
 
     }
 
-    public function getBizReviewStats($rid) {
+    public function getBizReviewStats($rid) { 
         $data = [];
         $sql = "SELECT COALESCE(count(re.id),0) as 'total', COALESCE(AVG(r.rating),0) as 'avgrating', COALESCE(AVG(r.power),0) as 'avgreviewpower' 
                 FROM reviews re
@@ -152,34 +178,17 @@ class Vendor_model extends CI_Model {
         
     }
 
-    public function getPPCStats() {
 
-    }
-
-    public function getBizMobileStats() {
-
-    }
-
-    public function getBizWebStats() {
-
-    }
-
-    public function getBizInformation() {
-        /*
-            - get leads data
-            - 
-        */
+    public function getBizInformation($rid=0) {
+            if ($rid == 0) { return FALSE; }
+            $sql = "SELECT * FROM leads WHERE rid = ".$this->db->escape((int)$rid);
+            $query = $this->db->query($sql);
+            if ($query->num_rows() > 0) {
+                return $query->result_array();
+            }
     }
 
     public function editBizInformation() {
-
-    }
-
-    public function addBizInformation() {
-
-    }
-
-    public function removeBizInformation() {
 
     }
 
@@ -192,7 +201,7 @@ class Vendor_model extends CI_Model {
     }
 
     public function addMenuItems() {
-
+        
     }
 
     public function deleteMenuItems() {
