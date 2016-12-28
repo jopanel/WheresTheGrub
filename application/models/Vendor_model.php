@@ -78,7 +78,7 @@ class Vendor_model extends CI_Model {
         }
 
         if ($type == "edit") {
-
+            // needs work
         }
 
     }
@@ -90,7 +90,7 @@ class Vendor_model extends CI_Model {
     }
 
     public function addCredit() {
-
+        // needs work
     }
 
     public function getBizReviewStats($rid) { 
@@ -189,46 +189,119 @@ class Vendor_model extends CI_Model {
     }
 
     public function editBizInformation() {
-
+        // needs work
     }
 
     public function addPhotos() {
-
+        // needs work
     }
 
     public function deletePhotos() {
-
+        // needs work
     }
 
-    public function addMenuItems() {
-        
+    public function editMenuItems($rid=0, $data, $action=0) {
+        if ($rid == 0) { return FALSE; }
+        if ($action == 0) { return FALSE; }
+        if ($action == "edit") {
+            // needs work
+            if ($data["type"] == "group") {
+
+            } elseif ($data["type"] == "item") {
+
+            }
+        }
+        ///
+        if ($action == "delete") {
+            if ($data["type"] == "group") {
+                $sql = "DELETE FROM vendor_menu_groups WHERE id = "$this->db->escape((int)$data["id"])." AND rid = ".$this->db->escape((int)$rid);
+                $this->db->query($sql);
+            } elseif ($data["type"] == "item") {
+                $sql = "DELETE FROM vendor_menu_items WHERE id = ".$this->db->escape((int)$data["id"])." AND rid = ".$this->db->escape((int)$rid);
+                $this->db->query($sql);
+                return TRUE;
+            }
+        }
+        ///
+        if ($action == "add") {
+            if ($data["type"] == "group") {
+                $sql = "INSERT INTO vendor_menu_groups (rid, name) VALUES (".$this->db->escape((int)$rid).", ".$this->db->escape(strip_tags($data["name"])).")";
+                $this->db->query($sql);
+                return TRUE;
+            } elseif ($data["type"] == "item") {
+                $image = ""; // needs work
+                $sql = "INSERT INTO vendor_menu_items (rid, groupid, name, description, cost, image) VALUES (".$this->db->escape((int)$rid).", ".$this->db->escape((int)$data["groupid"]).", ".$this->db->escape(strip_tags($data["name"])).", ".$this->db->escape(strip_tags($data["description"])).", ".$this->db->escape((float)$data["cost"]).", ".$image.")";
+                $this->db->query($sql);
+                return TRUE;
+            }
+        }
     }
 
-    public function deleteMenuItems() {
-
+    public function listMenuItems($rid=0) {
+        $buildarray = [];
+        $sql = "SELECT * FROM vendor_menu_groups WHERE rid = ".$this->db->escape((int)$rid);
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            $sql2 = "SELECT * FROM vendor_menu_items WHERE rid = ".$this->db->escape((int)$rid)." AND groupid = ".$this->db->escape($query->row()->id);
+            $query2 = $this->db->query($sql2);
+            if ($query2->num_rows() > 0) {
+                $buildarray[] = array("id"=>$query->row()->id, "name"=>$query->row()->name,"items"=>$query2->result_array());
+            } else {
+                $buildarray[] = array("id"=>$query->row()->id, "name"=>$query->row()->name, "items"=>array());
+            }
+        } else {
+            return $buildarray;
+        }
+        return $buildarray;
     }
 
-    public function editMenuItems() {
-
+    public function getVendorUsers($rid=0) {
+        if ($rid == 0) { return array(); }
+        $sql = "SELECT * FROM vendorusers WHERE rid = ".$this->db->escape((int)$rid);
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        } else {
+            return array();
+        }
     }
 
-    public function listMenuItems() {
-
-    }
-
-    public function getVendorUsers() {
-
-    }
-
-    public function deleteVendorUsers() {
-
-    }
-
-    public function addVendorUser() {
-
-    }
-
-    public function editVendorUser() {
+    public function editVendorUser($rid=0,$data, $action=0) {
+        if ($rid == 0) {return FALSE; }
+        if ($action == 0) { return FALSE; }
+        if ($action == "add") {
+            $mobilecode = $this->randomString(8);
+            $verification = $this->randomString();
+            $sessiontoken = $this->randomString();
+            $ip = $this->getIP();
+            $problem = 0;
+            if ($data["password"] != $data["password2"]) { $problem = 1; }
+            if (isset($data["optin"]) && $data["optin"] == "on") { $newsletter = 1; } else { $newsletter = 0; }
+            if (empty($data["password"]) || empty($data["password2"])) { $problem = 2; }
+            if (!isset($data["email"]) || empty($data["email"])) { $problem = 3; }
+            if (!isset($data["fullname"]) || empty($data["fullname"])) { $problem = 4; }
+            if ($problem == 0) {
+                // check if email exists
+                $sql = "SELECT * FROM users WHERE email = ".$this->db->escape(strip_tags($data["email"]));
+                $query = $this->db->query($sql);
+                if ($query->num_rows() == 0) {
+                    $sql2 = "INSERT INTO vendorusers (`sessiontoken`, `verification key`, email, password, level, active, created, ip, fullname) VALUES (".$this->db->escape($sessiontoken).",".$this->db->escape($verification).",".$this->db->escape(strip_tags($data["email"])).",".$this->db->escape(strip_tags(md5($data["password"]))).",".'notactive'.",1,NOW(),".$this->db->escape($ip).",".$this->db->escape(strip_tags($data["fullname"])).")";
+                    $this->db->query($sql2);
+                }
+            }
+            return TRUE;
+        }
+        // 
+        if ($action == "delete") {
+            $uid = $this->session->userdata("uid");
+            if ($data["id"] == $uid) { return FALSE; }
+            $sql = "DELETE FROM vendorusers WHERE id = ".$this->db->escape((int)$data["id"])." AND rid = ".$this->db->escape((int)$rid);
+            $this->db->query($sql);
+        }
+        //
+        if ($action == "edit") {
+            // needs work
+        }
 
     }
 
@@ -240,19 +313,39 @@ class Vendor_model extends CI_Model {
 
     }
 
-    public function getPremiumStatus() {
-
+    public function getPremiumStatus($rid=0) {
+        if ($rid == 0) {return array();}
+        $sql = "SELECT COALESCE(v.premium, 0), COALESCE(vs.sponsoredads,0), COALESCE(vs.reviews,0), COALESCE(vs.ppc,0) FROM vendors v 
+        LEFT JOIN vendorprivileges vs ON v.rid = vs.rid
+        WHERE v.rid = ".$this->db->escape((int)$rid);
+        $query = $this->db->query($sql);
+        return $query->result_array();
     }
 
-    public function getBizDetails() {
-
+    public function getBizReviews($rid=0) {
+        if ($rid == 0) {return array(); }
+        $sql = "SELECT * FROM reviews WHERE rid = ".$this->db->escape((int)$rid)." ORDER BY id DESC";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        } else {
+            return array();
+        }
     }
 
-    public function getBizReviews() {
-
-    }
-
-    public function respondToReview() {
+    public function respondToReview($rid=0,$reviewid=0, $response) {
+        if ($rid == 0 || $reviewid == 0) { return FALSE; }
+        $sql = "SELECT id FROM review_responses WHERE rid = ".$this->db->escape((int)$rid)." AND reviewid = ".$this->db->escape((int)$reviewid);
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            $sql2 = "UPDATE review_responses SET response = ".$this->db->escape(strip_tags($response))." WHERE rid = ".$this->db->escape((int)$rid)." AND reviewid = ".$this->db->escape(int)$reviewid);
+            $this->db->query($sql2);
+            return TRUE;
+        } else {
+            $sql2 = "INSERT INTO review_responses (rid, reviewid, response, created) VALUES (".$this->db->escape((int)$rid).", ".$this->db->escape((int)$reviewid).", ".$this->db->escape(strip_tags($response)).", NOW())";
+            $this->db->query($sql2);
+            return TRUE;
+        }
 
     }
 
@@ -261,14 +354,6 @@ class Vendor_model extends CI_Model {
     }
 
     public function getAllPromos() {
-
-    }
-
-    public function deletePromo() {
-
-    }
-
-    public function addPromo() {
 
     }
 
