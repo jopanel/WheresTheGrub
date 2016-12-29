@@ -35,7 +35,7 @@ class Vendor_model extends CI_Model {
             }
         }
     }
-
+    
     public function createPPC($rid,$data) { 
         if ($this->session->userdata("uid")) { $uid = strip_tags($this->session->userdata("uid")); } else { return FALSE; }
         if (!isset($data["budget"]) || empty($data["budget"])) { return FALSE; } else { $budget = $data["budget"]; }
@@ -349,16 +349,39 @@ class Vendor_model extends CI_Model {
 
     }
 
-    public function requestReviewDelete() {
-
+    public function requestReviewDelete($rid=0, $data) {
+        if ($rid == 0) { return FALSE; }
+        $sql = "INSERT INTO requests (rid, uid, type, data, created) VALUES (".$this->db->escape((int)$rid).", ".$this->db->escape((int)$this->session->userdata("uid")).", '1', ".$this->db->escape(strip_tags($data)).", NOW())";
+        $this->db->query($sql);
+        return TRUE;
     }
 
-    public function getAllPromos() {
-
+    public function getAllPromos($rid=0) {
+        if ($rid == 0) { return array(); }
+        $sql = "SELECT * FROM coupons WHERE rid = ".$this->db->escape((int)$rid);
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        } else {
+            return array();
+        }
     }
 
-    public function editPromo() {
+    public function editPromo($rid=0, $data, $action=0) {
+        if ($rid == 0 || $action == 0) { return FALSE; }
+        if ($action == "add") {
+            $sql = "INSERT INTO coupons (rid, starting, ending, discount, subject, body, created) VALUES (".$this->db->escape((int)$rid).", ".$this->db->escape(strip_tags($data["starting"])).", ".$this->db->escape(strip_tags($data["ending"])).", ".$this->db->escape(strip_tags($data["discount"])).", ".$this->db->escape(strip_tags($data["subject"])).", ".$this->db->escape(strip_tags($data["body"])).", NOW())";
+            $this->db->query($sql);
+            return TRUE;
+        }
+        if ($action == "delete") {
+            $sql = "DELETE FROM coupons WHERE id = ".$this->db->escape((int)$data["id"])." AND rid = ".$this->db->escape((int)$rid);
+            $this->db->query($sql);
+            return TRUE;
+        }
+        if ($action == "edit") {
 
+        }
     }
 
     public function getIP() {
