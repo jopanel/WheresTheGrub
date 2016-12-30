@@ -36,55 +36,66 @@ class Vendor_model extends CI_Model {
         }
     }
     
-    public function createPPC($rid,$data) { 
-        if ($this->session->userdata("uid")) { $uid = strip_tags($this->session->userdata("uid")); } else { return FALSE; }
-        if (!isset($data["budget"]) || empty($data["budget"])) { return FALSE; } else { $budget = $data["budget"]; }
-        if (!isset($data["name"]) || empty($data["name"])) { return FALSE; } else { $name = $data["name"]; }
-        $sql = "INSERT INTO ppc_campaigns (rid,budget,name,created,active) VALUES (".$this->db->escape($rid).",".$this->db->escape($budget).",".$this->db->escape($name).", NOW(), '0')";
-        $this->db->query($sql);
-        $sql2 = "SELECT MAX(id) as 'id' FROM ppc_campaigns WHERE rid = ".$this->db->escape($rid);
-        $query = $this->db->query($sql2);
-        if ($this->addHistoryPPC($rid,$uid,$query->row()->id,"New campaign created") == TRUE) {
-            return TRUE;
-        } else {
-            return FALSE;
+
+    public function editPPC($rid=0, $campaignid=0, $data=null, $action=0) {
+        if ($rid == 0 || $campaignid == 0 || $action == 0) {return FALSE;}
+        if ($action == "add") {
+            if ($this->session->userdata("uid")) { $uid = strip_tags($this->session->userdata("uid")); } else { return FALSE; }
+            if (!isset($data["budget"]) || empty($data["budget"])) { return FALSE; } else { $budget = $data["budget"]; }
+            if (!isset($data["name"]) || empty($data["name"])) { return FALSE; } else { $name = $data["name"]; }
+            $sql = "INSERT INTO ppc_campaigns (rid,budget,name,created,active) VALUES (".$this->db->escape($rid).",".$this->db->escape($budget).",".$this->db->escape($name).", NOW(), '0')";
+            $this->db->query($sql);
+            $sql2 = "SELECT MAX(id) as 'id' FROM ppc_campaigns WHERE rid = ".$this->db->escape($rid);
+            $query = $this->db->query($sql2);
+            if ($this->addHistoryPPC($rid,$uid,$query->row()->id,"Campaign Created") == TRUE) {
+                return TRUE;
+            } else {
+                return FALSE;
+            }
+        }
+        if ($action == "delete") {
+            if ($this->session->userdata("uid")) { $uid = strip_tags($this->session->userdata("uid")); } else { return FALSE; }
+            $sql = "UPDATE ppc_campaigns SET active = '0' AND deleted = '1' WHERE id = ".$this->db->escape((int)$campaignid);
+            $this->db->query($sql);
+            if ($this->addHistoryPPC($rid,$uid,$campaignid,"Campaign Deleted") == TRUE) {
+                return TRUE;
+            } else {
+                return FALSE;
+            }
+        }
+        if ($action == "edit") {
+
         }
     }
 
-    public function editPPC() {
-
-    }
-
-    public function deletePPC($campaignid=0) {
-        if ($campaignid == 0) {return FALSE;}
-        $sql = "UPDATE ppc_campaigns SET active = '0' AND deleted = '0' WHERE id = ".$this->db->escape((int)$campaignid);
-        $this->db->query($sql);
-        return TRUE;
-    }
 
     public function PPCkeyword($campaignid=0, $keyword, $type="add", $data=null) {
         if ($campaignid == 0) { return FALSE; }
 
         if ($type == "add") {
+            if ($data["cost"] == 0 || $data["cost"] <= 0) { return FALSE; }
             $sql = "INSERT INTO ppc_keywords (campaignid, user, keyword, cost, created) VALUES (".$this->db->escape((int)$campaignid).", ".$this->db->escape(strip_tags($keyword)).", ".$this->db->escape((float)$data["cost"]).", NOW())";
             $this->db->query($sql);
             return TRUE;
         }
 
         if ($type == "delete") {
-            $sql = "DELETE FROM ppc_keywords WHERE campaignid = ".$this->db->escape((int)$campaignid)." AND id = ".$this->db->escape((int)$keyword);
+            $sql = "DELETE FROM ppc_keywords WHERE campaignid = ".$this->db->escape((int)$campaignid)." AND id = ".$this->db->escape((int)$data["id"]);
             $this->db->query($sql);
             return TRUE;
         }
 
         if ($type == "edit") {
-            // needs work
+            if ($data["cost"] == 0 || $data["cost"] <= 0) { return FALSE; }
+            $sql = "UPDATE ppc_keywords SET user = ".$this->db->escape((int)$this->session->userdata("uid")).", keyword = ".$this->db->escape(strip_tags($data["keyword"])).", cost = ".$this->db->escape((float)$data["cost"])." WHERE id = ".$this->db->escape((int)$data["id"])." AND campaignid = ".$this->db->escape((int)$campaignid);
+            $this->db->query($sql);
+            return TRUE;
         }
 
     }
 
     public function verifyPPC($campaignid=0, $rid=0) { 
-        // verify PPC ownership before PPC queries.
+        // verify PPC ownership before PPC queries. ??? needed?
         if ($campaignid == 0 || $rid == 0) { return FALSE; }
         $sql = "SELECT id FROM ppc_campaigns WHERE ";
     }
@@ -139,9 +150,6 @@ class Vendor_model extends CI_Model {
     }
 
     public function getBizStats($rid) {
-        /*
-            foreach vendorstats_type get last 30 days, 1 year, and total
-        */
         $data = [];
         $sql = "SELECT COALESCE(count(vs.id),0) as 'count', vst.name as 'typename', vst.id as 'typeid' 
             FROM vendorstats vs 
@@ -203,11 +211,22 @@ class Vendor_model extends CI_Model {
     public function editMenuItems($rid=0, $data, $action=0) {
         if ($rid == 0) { return FALSE; }
         if ($action == 0) { return FALSE; }
-        if ($action == "edit") {
-            // needs work
+        if ($action == "edit") { 
+            if (!isset($data["id"]) || empty($data["id"])) { return FALSE; }
             if ($data["type"] == "group") {
-
+                if (!isset($data["name"]) || empty($data["name"]) || !isset($data["id"]) || empty($data["id"])) { return FALSE; }
+                $sql = "UPDATE vendor_menu_groups SET name = ".$this->db->escape(strip_tags($data["name"]))." WHERE id = ".$this->db->escape((int)$data["id"])." AND ".$this->db->escape((int)$rid);
+                $this->db->query($sql);
+                return TRUE;
             } elseif ($data["type"] == "item") {
+                if (!isset($data["name"]) || empty($data["name"]) || !isset($data["id"]) || empty($data["id"])) { return FALSE; }
+                if (isset($data["description"]) || !empty($data["description"])) { $description = $data["description"]; } else { $description = ""; }
+                if (isset($data["cost"]) || !empty($data["cost"])) { (float)$cost = $data["cost"]; } else { (float)$cost = 0.00; }
+                // needs work for image upload
+                $image = "";
+                $sql = "UPDATE vendor_menu_items SET name = ".$this->db->escape(strip_tags($data["name"])).", description = ".$this->db->escape(strip_tags($description)).", cost = ".$this->db->escape((float)$cost).", image = ".$this->db->escape($image)." WHERE id = ".$this->db->escape((int)$data["id"])." AND rid = ".$this->db->escape((int)$rid);
+                $this->db->query($sql);
+                return TRUE;
 
             }
         }
@@ -276,20 +295,25 @@ class Vendor_model extends CI_Model {
             $ip = $this->getIP();
             $problem = 0;
             if ($data["password"] != $data["password2"]) { $problem = 1; }
-            if (isset($data["optin"]) && $data["optin"] == "on") { $newsletter = 1; } else { $newsletter = 0; }
             if (empty($data["password"]) || empty($data["password2"])) { $problem = 2; }
             if (!isset($data["email"]) || empty($data["email"])) { $problem = 3; }
             if (!isset($data["fullname"]) || empty($data["fullname"])) { $problem = 4; }
             if ($problem == 0) {
                 // check if email exists
-                $sql = "SELECT * FROM users WHERE email = ".$this->db->escape(strip_tags($data["email"]));
+                $sql = "SELECT * FROM vendorusers WHERE email = ".$this->db->escape(strip_tags($data["email"]));
                 $query = $this->db->query($sql);
                 if ($query->num_rows() == 0) {
                     $sql2 = "INSERT INTO vendorusers (`sessiontoken`, `verification key`, email, password, level, active, created, ip, fullname) VALUES (".$this->db->escape($sessiontoken).",".$this->db->escape($verification).",".$this->db->escape(strip_tags($data["email"])).",".$this->db->escape(strip_tags(md5($data["password"]))).",".'notactive'.",1,NOW(),".$this->db->escape($ip).",".$this->db->escape(strip_tags($data["fullname"])).")";
                     $this->db->query($sql2);
+                } else {
+                    $problem = 5;
                 }
             }
-            return TRUE;
+            if ($problem > 0) {
+                return $problem;
+            } else {
+                return TRUE;
+            }
         }
         // 
         if ($action == "delete") {
@@ -300,7 +324,57 @@ class Vendor_model extends CI_Model {
         }
         //
         if ($action == "edit") {
-            // needs work
+            /*
+            Problem Codes:
+            1 - passwords do not match
+            3 - email empty
+            4 - name of user is empty
+            5 - internal error (no user id)
+            6 - email already exists 
+            7 - passwords dont match
+            8 - no phone number
+            9 - active account not specified.
+            */
+            $problem = 0;
+            if (!isset($data["email"]) || empty($data["email"])) { $problem = 3; }
+            if (!isset($data["fullname"]) || empty($data["fullname"])) { $problem = 4; }
+            if (!isset($data["id"]) || empty($data["id"])) { $problem = 5; }
+            if (!isset($data["phone"]) || empty($data["phone"])) { $problem = 8; }
+            if (!isset($data["active"]) || empty($data["active"])) { $problem = 9; }
+            if ($problem == 0) {
+                $sql = "SELECT email FROM vendorusers WHERE id = ".$this->db->escape((int)$data["id"]);
+                $query = $this->db->query($sql);
+                if ($query->num_rows() > 0) {
+                    $email = $query->row()->email;
+                    if ($email == $data["email"]) {
+
+                    } else {
+                        $sql2 = "SELECT id FROM vendorusers WHERE email = ".$this->db->escape(strip_tags($data["email"]));
+                        $query2 = $this->db->query($sql2);
+                        if ($query2->num_rows() > 0) {
+                            return 6;
+                        } else {
+                            $email = $data["email"];
+                        }
+                    }
+                    if (isset($data["password"]) && isset($data["password2"]) && !empty($data["password"]) && !empty($data["password2"])) {
+                        if ($data["password"] == $data["password2"]) {
+                            $sql3 = "UPDATE vendorusers SET password = ".$this->db->escape(strip_tags(md5($data["password"])))." WHERE id = ".$this->db->escape((int)$data["id"]);
+                            $this->db->query($sql3);
+                        } else {
+                            return 7;
+                        }
+                    }
+                    if ($problem == 0) {
+                        $sql4 = "UPDATE vendorusers SET fullname = ".$this->db->escape(strip_tags($data["fullname"])).", email = ".$this->db->escape(strip_tags($email)).", phone = ".$this->db->escape(strip_tags($data["phone"])).", active = ".$this->db->escape((int)$data["active"])." WHERE id = ".$this->db->escape((int)$data["id"]);
+                        $this->db->query($sql4);
+                        return TRUE;
+                    }
+                    
+                } else {
+                    $problem = 5;
+                }
+            }
         }
 
     }
