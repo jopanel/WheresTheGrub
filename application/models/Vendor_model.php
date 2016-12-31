@@ -233,7 +233,7 @@ class Vendor_model extends CI_Model {
         ///
         if ($action == "delete") {
             if ($data["type"] == "group") {
-                $sql = "DELETE FROM vendor_menu_groups WHERE id = "$this->db->escape((int)$data["id"])." AND rid = ".$this->db->escape((int)$rid);
+                $sql = "DELETE FROM vendor_menu_groups WHERE id = ".$this->db->escape((int)$data["id"])." AND rid = ".$this->db->escape((int)$rid);
                 $this->db->query($sql);
             } elseif ($data["type"] == "item") {
                 $sql = "DELETE FROM vendor_menu_items WHERE id = ".$this->db->escape((int)$data["id"])." AND rid = ".$this->db->escape((int)$rid);
@@ -274,9 +274,11 @@ class Vendor_model extends CI_Model {
         return $buildarray;
     }
 
-    public function getVendorUsers($rid=0) {
+    public function getVendorUsers() {
         if ($rid == 0) { return array(); }
-        $sql = "SELECT * FROM vendorusers WHERE rid = ".$this->db->escape((int)$rid);
+        $sql = "SELECT vu.*, vup.rid FROM vendorusers vu
+         LEFT JOIN vendor_userpermissions vup ON vu.id = vup.uid  
+         WHERE vu.id = ".$this->db->escape((int)$this->session->userdata("uid"));
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
             return $query->result_array();
@@ -412,7 +414,7 @@ class Vendor_model extends CI_Model {
         $sql = "SELECT id FROM review_responses WHERE rid = ".$this->db->escape((int)$rid)." AND reviewid = ".$this->db->escape((int)$reviewid);
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
-            $sql2 = "UPDATE review_responses SET response = ".$this->db->escape(strip_tags($response))." WHERE rid = ".$this->db->escape((int)$rid)." AND reviewid = ".$this->db->escape(int)$reviewid);
+            $sql2 = "UPDATE review_responses SET response = ".$this->db->escape(strip_tags($response))." WHERE rid = ".$this->db->escape((int)$rid)." AND reviewid = ".$this->db->escape((int)$reviewid);
             $this->db->query($sql2);
             $sql3 = "INSERT INTO review_history (rid, reviewid, action, details, created, vendoruid) VALUES (".$this->db->escape((int)$rid).", ".$this->db->escape((int)$reviewid).", 'Response Updated', ".$this->db->escape($response).", NOW(), ".$this->db->escape((int)$this->session->userdata("uid"));
             $this->db->query($sql3);
@@ -511,10 +513,10 @@ class Vendor_model extends CI_Model {
     }
 
     public function getMyBusinesses() {
-        $sql = "SELECT l.*, COALESCE(vu.premium, 0) as 'premium' FROM vendorusers v 
-        LEFT JOIN leads l ON v.rid = l.id
-        LEFT JOIN vendors vu ON v.rid = vu.rid
-        WHERE v.active = '1'";
+        $sql = "SELECT l.*, COALESCE(vu.premium, 0) as 'premium' FROM vendor_userpermissions vup  
+        LEFT JOIN vendors vu ON vup.rid = vu.rid 
+        LEFT JOIN leads l ON vu.rid = l.id 
+        WHERE vup.uid = ".$this->db->escape((int)$this->session->userdata("uid"));
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
             return $query->result_array();

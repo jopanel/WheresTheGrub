@@ -126,6 +126,12 @@ class User_model extends CI_Model {
                     $claimed = 0;
                     $sql2 = "INSERT INTO vendorusers (rid, `sessiontoken`, `verification_key`, email, password, claimed, active, created, ip, fullname, phone, level) VALUES (".$this->db->escape($rid).",".$this->db->escape($sessiontoken).",".$this->db->escape($verification).",".$this->db->escape(strip_tags($post["email"])).",".$this->db->escape(strip_tags(md5($post["password"]))).",".$claimed.",1,NOW(),".$this->db->escape($ip).",".$this->db->escape(strip_tags($post["fullname"])).",".$this->db->escape(strip_tags($post["phone"])).", 'notactive')";
                     $this->db->query($sql2);
+                    $sql3 = "SELECT id FROM vendorusers WHERE sessiontoken = ".$this->db->escape($sessiontoken);
+                    $query3 = $this->db->query($sql3);
+                    $uid = $query3->row()->id;
+                    $sql4 = "INSERT INTO vendor_userpermissions (uid,rid,master,created) VALUES (".$this->db->escape($id).",".$this->db->escape((int)$post["rid"]).", '1', NOW())";
+                    $this->db->query($sql4);
+                    $this->session->set_userdata('uid',$uid);
                     $this->session->set_userdata('vendoremail', strip_tags($post["email"]));
                     $this->session->set_userdata('vendortoken', $sessiontoken);
                     $this->session->set_userdata('vendorloggedin', '1');

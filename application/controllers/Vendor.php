@@ -223,7 +223,7 @@ class Vendor extends CI_Controller {
 			if ($this->Vendor_model->verifyUser()) {
 				$data["biz"] = $this->Vendor_model->getMyBusinesses();
 				$this->load->view('landingheader');
-				$this->load->view('vendorlist');
+				$this->load->view('vendorlist', $data);
 				$this->load->view('landingfooter');
 			}
 	}

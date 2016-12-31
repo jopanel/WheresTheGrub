@@ -8,41 +8,32 @@
                             <li><a href="http://<?=$_SERVER['SERVER_NAME']?>/vendor/addlisting/"><h1 class="page-title">Add Business Listing</h1></a></li> 
                         </ul>
                     </header> 
-                    <div class="row">
-                        <!--
+                    <div class="row"> 
                         <div class="col-md-3 col-sm-3">
                             <aside id="sidebar">
                                 <ul class="navigation-sidebar list-unstyled">
-                                    <li class="active">
+                                    <li>
                                         <a href="">
-                                            <i class="fa fa-folder"></i>
-                                            <span></span>
+                                            <i class="fa fa-user-md"></i>
+                                            <span>Welcome, <?=$this->session->userdata("fullname")?></span>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="">
-                                            <i class="fa fa-check"></i>
-                                            <span></span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="">
-                                            <i class="fa fa-clock-o"></i>
-                                            <span></span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="">
-                                            <i class="fa fa-eye-slash"></i>
-                                            <span></span>
+                                            <i class="fa fa-gear"></i>
+                                            <span>Modify My Account</span>
                                         </a>
                                     </li>
                                 </ul>
                             </aside>
-                        </div> -->
+                        </div>
                         <div class="col-md-9 col-sm-9">
                             <section id="items">
-
+                            <?php
+                            //echo "<pre>";
+                            //var_dump($biz);
+                            //echo "</pre>";
+                            ?>
                             <?php foreach ($biz as $k => $v) { ?>
                                 <div class="item list admin-view">
                                     <div class="image">
@@ -52,27 +43,26 @@
                                                 <div class="inner">
                                                     <div class="content">
                                                         <h4>Description</h4>
-                                                        <p><?=$k["description"]?></p>   
+                                                        <p><?=$v["description"]?></p>   
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="item-specific">
-                                                <span><?php if ($k["premium"] == 1) { echo "Premium"; } else { echo "FREE"; } ?></span>
+                                                <span><?php if ($v["premium"] == 1) { echo "Premium"; } else { echo "FREE"; } ?></span>
                                             </div>
                                             <img src="../resources/img/items/2.jpg" alt="">
                                         </a>
                                     </div>
                                     <div class="wrapper">
-                                        <a href="item-detail.html"><h3><?=$k["name"]?></h3></a>
-                                        <figure><?=$k["address"]?></figure>
+                                        <a href="item-detail.html"><h3><?=$v["name"]?></h3></a>
+                                        <figure><?=$v["address"]?></figure>
                                         <div class="info">
                                             <div class="type">
                                                 <i><img src="../resources/icons/restaurants-bars/restaurants/cafetaria.png" alt=""></i>
                                                 <span><?php 
-                                        foreach ($res["competitors"] as $br) { 
                                             $label = "";
-                                            if (isset($br["category_labels"]) && !empty($br["category_labels"])) { 
-                                                $categoryarray = json_decode($br["category_labels"], true);
+                                            if (isset($v["category_labels"]) && !empty($v["category_labels"])) { 
+                                                $categoryarray = json_decode($v["category_labels"], true);
                                                 foreach ($categoryarray[0] as $labels) {
                                                     $label .= $labels." ";
                                                 }
@@ -86,14 +76,20 @@
                                     </div>
                                     <div class="in-queue">
                                         <a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managebusiness/<?=$k["id"]?>"><p class="btn framed icon">Manage Business <i class="fa fa-angle-right"></i></p></a>
+                                        <?php 
+                                        if ($v["premium"] == 1) { ?> <a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managebusiness/<?=$k["id"]?>"><p class="btn framed icon">Premium Access</p></a> <?php } else { ?> <a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managebusiness/<?=$k["id"]?>"><p class="btn framed icon" style="border-color: green;">Sign Up For Premium!</p></a> <?php } ?> 
                                     </div>
                                 </div>
-                               <?php } }?>
+                               <?php }?>
                                 
 
 
 
                             </section>
+                        
+
+
+
                         </div>
                     </div>
                 </section>
