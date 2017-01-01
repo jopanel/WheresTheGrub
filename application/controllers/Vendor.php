@@ -136,10 +136,31 @@ class Vendor extends CI_Controller {
 		}
 	}
 
-	public function manageusers() {
+	public function manageusers($action=0, $uid=0) {
 		if ($this->Vendor_model->verifyUser()) {
 			$this->load->view('landingheader');
-				$this->load->view('vendormanageusers');
+			if ($action == "add") {
+				if ($this->input->post()) {
+
+				} else {
+					$this->load->view('vendormanageusers_edit');
+				}
+			} 
+			if ($action == "delete") {
+
+			} 
+			if ($action == "edit") {
+				if ($this->input->post()) {
+
+				} else {
+					//$data["res"] = $this->Vendor_model->
+				}
+				
+			} 
+			if ($action === 0) {
+				$data["res"] = $this->Vendor_model->getVendorUsers();
+				$this->load->view('vendormanageusers', $data);
+			}
 			$this->load->view('landingfooter');
 		}
 	}

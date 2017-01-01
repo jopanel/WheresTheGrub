@@ -274,11 +274,34 @@ class Vendor_model extends CI_Model {
         return $buildarray;
     }
 
-    public function getVendorUsers() {
-        if ($rid == 0) { return array(); }
-        $sql = "SELECT vu.*, vup.rid FROM vendorusers vu
+    public function getVendorUsers() { 
+        // get all rid that user is master of, then get all the user accounts that have that permission access, sort in array
+        $buildarray = [];
+        $sql = "SELECT GROUP_CONCAT(rid) as 'rid' FROM vendor_userpermissions WHERE uid = ".$this->db->escape((int)$this->session->userdata("uid"))." AND master = '1'";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            $rids = $query->row()->rid;
+            $sql2 = "SELECT vu.* FROM vendor_userpermissions vup 
+            LEFT JOIN vendorusers vu ON vup.uid = vu.id 
+            WHERE vup.rid IN (".$rids.") GROUP BY vup.uid";
+            $query2 = $this->db->query($sql2);
+            if ($query2->num_rows() > 0) {
+                $buildarray = $query2->result_array();
+            } else {
+                return $buildarray;
+            }
+        } else {
+            return $buildarray;
+        }
+        return $buildarray;
+    }
+
+    public function getVendorUser($id=0) {
+        if ($id == 0) { return array(); }
+        $sql = "SELECT vu.*, GROUP_CONCAT(vup.rid) as 'rid' FROM vendorusers vu
          LEFT JOIN vendor_userpermissions vup ON vu.id = vup.uid  
-         WHERE vu.id = ".$this->db->escape((int)$this->session->userdata("uid"));
+         WHERE vu.id = ".$this->db->escape((int)$this->session->userdata("uid"))." 
+         GROUP BY vu.id";
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
             return $query->result_array();
