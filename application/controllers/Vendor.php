@@ -216,8 +216,9 @@ class Vendor extends CI_Controller {
 		}
 	}
 
-	public function managebusiness() {
-		if ($this->Vendor_model->verifyUser()) {
+	public function managebusiness($rid=null) {
+		if ($rid == null) { return; }
+		if ($this->Vendor_model->verifyUser($rid)) {
 			$this->load->view('landingheader'); 
 				$this->load->view('vendorlist');
 			$this->load->view('landingfooter');

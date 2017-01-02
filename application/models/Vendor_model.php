@@ -628,7 +628,7 @@ class Vendor_model extends CI_Model {
         }
     }
 
-    public function verifyUser() {
+    public function verifyUser($rid=false) {
         $destroy = 0;
         //var_dump($this->session->userdata());
         if ($this->session->userdata("vendortoken")) { $sessiontoken = strip_tags($this->session->userdata("vendortoken")); } else { $destroy = 1;}
@@ -651,10 +651,21 @@ class Vendor_model extends CI_Model {
                 $destroy = 1;
             }
         }
+        if ($rid != FALSE) {
+            $userinfo = $this->getVendorUser();
+            $ridcheck = explode(",", $userinfo[0]["rid"]);
+            $advance = 0;
+            foreach ($ridcheck as $v) {
+                if ($v == $rid) { $advance = 1;}
+            }
+            if ($advance == 0) { $destroy = 1; }
+        }
         if ($destroy == 1) {
             $this->session->unset_userdata('vendortoken');
             $this->session->unset_userdata('vendoremail');
             $this->session->unset_userdata('vendorloggedin');
+            $this->session->unset_userdata('uid');
+            $this->session->unset_userdata('fullname');
             return FALSE;
         } else {
             return TRUE;
