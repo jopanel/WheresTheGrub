@@ -30,23 +30,19 @@
                         <div class="col-md-9 col-sm-9">
 
 
-
-
-                            <section class="container" >
-                                <div class="block">
-                                    <div class="row">
-                                        <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3" style="background-color: white;">
                                             <header>
-                                                <h1 class="page-title">Claim Business</h1>
-                                            </header>
-                                            <hr>
+                                                <h1 class="page-title">Create User Account</h1>
+                                            </header> 
                                             <?php 
-                                            if ($problem == 7) { echo "<p>Please fill out all the forms.</p>"; }
-                                            if ($problem == 6) { echo "<p>Your passwords did not match.</p>"; }
+                                            if ($problem == 3) { echo "<p>Please fill out both password fields.";}
+                                            if ($problem == 4) { echo "<p>Please fill out email field.</p>"; }
+                                            if ($problem == 5) { echo "<p>Please fill out the contact persons full name."; }
+                                            if ($problem == 6) { echo "<p>Please assign this user specific access to business."; }
+                                            if ($problem == 7) { echo "<p>This email is already assigned to a user.</p>"; }
+                                            if ($problem == 2) { echo "<p>Your passwords did not match.</p>"; }
                                             ?>
                                             <form role="form" id="form-register" method="post" action="">
-                                                <input type="hidden" name="action" value="postclaim">
-                                                <input type="hidden" name="rid" value="<?=$rid?>">
+                                                <input type="hidden" name="action" value="postclaim"> 
                                                 <div class="form-group">
                                                     <label for="form-register-full-name">Contact Full Name:</label>
                                                     <input type="text" class="form-control" name="fullname"  id="form-register-full-name" required>
@@ -66,29 +62,32 @@
                                                 <div class="form-group">
                                                     <label for="form-register-confirm-password">Confirm Password:</label>
                                                     <input type="password" class="form-control" name="password2"  id="form-register-confirm-password" required>
-                                                </div><!-- /.form-group -->
-                                                <div class="form-group clearfix">
-                                                    <div class="g-recaptcha" data-sitekey="6Lc9jCcTAAAAABHgxi_WTPsP0UkHAdd0MM5QpBgG"></div>
-                                                </div><!-- /.form-group -->
+                                                </div><!-- /.form-group --> 
+                                                <div class="form-group">
+                                                    <label for="form-register-full-name">Business Access:</label>
+                                                    <hr>
+                                                    <?php
+                                                        foreach ($res as $v) {
+                                                            echo $v["name"].'<br><select name="master[]"><option selected>No Access</option><option value="'.$v["rid"].'-0">Access No Master Account</option><option value="'.$v["rid"].'-1">Access With Master Account</option></select><hr>';
+                                                        }
+                                                    ?>
+                                                    
+                                                </div>
                                                 <br><br>
                                                 <div class="form-group clearfix">
-                                                    <button type="submit" class="btn btn-default" id="account-submit">Claim Business</button>
+                                                    <button type="submit" class="btn btn-default" id="account-submit">Create User</button>
                                                 </div><!-- /.form-group -->
                                             </form>
                                             <hr>
                                             <div class="center">
-                                                <figure class="note">By clicking the “Create an Account” button you agree with our Terms and conditions. You will not automatically be authorized to modify your listing until we confirm your identity. You may receive emails, a phone call to you and/or your business, and we may further request items to prove your identity. If you received an email to claim your listing you may automatically be confirmed.</figure>
+                                                <figure class="note">By clicking the “Create an Account” button you agree with our Terms and conditions. All permissions, access, and modifications made by the created account will be tied with this account.</figure>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
 
 
 
 
 
-                        
+
                         </div>
                     </div>
                 </section>

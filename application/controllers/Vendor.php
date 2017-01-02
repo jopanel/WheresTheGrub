@@ -136,18 +136,31 @@ class Vendor extends CI_Controller {
 		}
 	}
 
-	public function manageusers($action=0, $uid=0) {
+	public function manageusers($action=null, $uid=0) {
 		if ($this->Vendor_model->verifyUser()) {
 			$this->load->view('landingheader');
 			if ($action == "add") {
 				if ($this->input->post()) {
-
+					$postData = $this->input->post(); 
+					$return = $this->Vendor_model->editVendorUser(0,$postData, 1); 
+					if ($return == TRUE) {
+						$data["res"] = $this->Vendor_model->getVendorUsers();
+						$this->load->view('vendormanageusers', $data);
+					} else {
+						$data["problem"] = $return;
+						$data["res"] = $this->Vendor_model->getRestaurantsByMaster();
+						$this->load->view('vendormanageusers_add', $data);
+					}
 				} else {
-					$this->load->view('vendormanageusers_edit');
+					$data["problem"] = 0;
+					$data["res"] = $this->Vendor_model->getRestaurantsByMaster();
+					$this->load->view('vendormanageusers_add', $data);
 				}
 			} 
 			if ($action == "delete") {
-
+				$this->Vendor_model->editVendorUser(0, array("id"=>$uid), 2);
+				$data["res"] = $this->Vendor_model->getVendorUsers();
+				$this->load->view('vendormanageusers', $data);
 			} 
 			if ($action == "edit") {
 				if ($this->input->post()) {
@@ -157,7 +170,7 @@ class Vendor extends CI_Controller {
 				}
 				
 			} 
-			if ($action === 0) {
+			if ($action === null) {
 				$data["res"] = $this->Vendor_model->getVendorUsers();
 				$this->load->view('vendormanageusers', $data);
 			}

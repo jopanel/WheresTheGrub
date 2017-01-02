@@ -296,8 +296,20 @@ class Vendor_model extends CI_Model {
         return $buildarray;
     }
 
-    public function getVendorUser($id=0) {
-        if ($id == 0) { return array(); }
+    public function getRestaurantsByMaster($uid=false) {
+        if ($uid == false) { $uid = $this->session->userdata("uid"); }
+        $sql = "SELECT vup.rid as 'rid', l.name as 'name' FROM vendor_userpermissions vup
+         LEFT JOIN leads l ON vup.rid = l.id 
+         WHERE vup.uid = ".$this->db->escape((int)$uid)." AND vup.master = '1'";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        } else {
+            return array();
+        }
+    }
+
+    public function getVendorUser() { 
         $sql = "SELECT vu.*, GROUP_CONCAT(vup.rid) as 'rid' FROM vendorusers vu
          LEFT JOIN vendor_userpermissions vup ON vu.id = vup.uid  
          WHERE vu.id = ".$this->db->escape((int)$this->session->userdata("uid"))." 
@@ -310,28 +322,38 @@ class Vendor_model extends CI_Model {
         }
     }
 
-    public function editVendorUser($rid=0,$data, $action=0) {
-        if ($rid == 0) {return FALSE; }
-        if ($action == 0) { return FALSE; }
-        if ($action == "add") {
+    public function editVendorUser($rid=0,$data, $action=0) {  
+        if ($action == 0) { return FALSE; } 
+        if ($action == 1) {   
             $mobilecode = $this->randomString(8);
             $verification = $this->randomString();
             $sessiontoken = $this->randomString();
             $ip = $this->getIP();
             $problem = 0;
-            if ($data["password"] != $data["password2"]) { $problem = 1; }
-            if (empty($data["password"]) || empty($data["password2"])) { $problem = 2; }
-            if (!isset($data["email"]) || empty($data["email"])) { $problem = 3; }
-            if (!isset($data["fullname"]) || empty($data["fullname"])) { $problem = 4; }
-            if ($problem == 0) {
-                // check if email exists
-                $sql = "SELECT * FROM vendorusers WHERE email = ".$this->db->escape(strip_tags($data["email"]));
+            if ($data["password"] != $data["password2"]) { $problem = 2; }
+            if (empty($data["password"]) || empty($data["password2"])) { $problem = 3; }
+            if (!isset($data["email"]) || empty($data["email"])) { $problem = 4; }
+            if (!isset($data["fullname"]) || empty($data["fullname"])) { $problem = 5; }
+            if (!isset($data["master"]) || empty($data["master"])) { $problem = 6;}
+            if (!isset($data["phone"]) || empty($data["phone"])) { $phone = "";} else { $phone = $data["phone"]; }
+            if ($problem == 0) { 
+                $sql = "SELECT * FROM vendorusers WHERE email = ".$this->db->escape(strip_tags($data["email"]))." AND active = '1'";
                 $query = $this->db->query($sql);
                 if ($query->num_rows() == 0) {
-                    $sql2 = "INSERT INTO vendorusers (`sessiontoken`, `verification key`, email, password, level, active, created, ip, fullname) VALUES (".$this->db->escape($sessiontoken).",".$this->db->escape($verification).",".$this->db->escape(strip_tags($data["email"])).",".$this->db->escape(strip_tags(md5($data["password"]))).",".'notactive'.",1,NOW(),".$this->db->escape($ip).",".$this->db->escape(strip_tags($data["fullname"])).")";
+                    $sql2 = "INSERT INTO vendorusers (`sessiontoken`, `verification_key`, email, password, level, active, created, ip, fullname, phone) VALUES (".$this->db->escape($sessiontoken).",".$this->db->escape($verification).",".$this->db->escape(strip_tags($data["email"])).",".$this->db->escape(strip_tags(md5($data["password"]))).",'notactive','1',NOW(),".$this->db->escape($ip).",".$this->db->escape(strip_tags($data["fullname"])).", ".$this->db->escape((int)$phone).")";
                     $this->db->query($sql2);
+                    $sql3 = "SELECT id FROM vendorusers WHERE sessiontoken = ".$this->db->escape($sessiontoken)." AND email = ".$this->db->escape(strip_tags($data["email"]));
+                    $query2 = $this->db->query($sql3);
+                    $uid = $query2->row()->id;
+                    foreach ($data["master"] as $v) {
+                        $dat = explode("-",$v);
+                        $rid = $dat[0];
+                        $master = $dat[1];
+                        $sql4 = "INSERT INTO vendor_userpermissions (uid,rid,master,created) VALUES (".$this->db->escape((int)$uid).",".$this->db->escape((int)$rid).",".$this->db->escape((int)$master).", NOW())";
+                        $this->db->query($sql4);
+                    }
                 } else {
-                    $problem = 5;
+                    $problem = 7;
                 }
             }
             if ($problem > 0) {
@@ -341,14 +363,35 @@ class Vendor_model extends CI_Model {
             }
         }
         // 
-        if ($action == "delete") {
+        if ($action == 2) { 
+            // check if the users only restaurants assigned are of deletors master assign
+            // if all restaurants are all users access then mark user inactive. if not leave be
             $uid = $this->session->userdata("uid");
-            if ($data["id"] == $uid) { return FALSE; }
-            $sql = "DELETE FROM vendorusers WHERE id = ".$this->db->escape((int)$data["id"])." AND rid = ".$this->db->escape((int)$rid);
-            $this->db->query($sql);
+            if ($data["id"] == $uid) { return FALSE; } 
+            $arr = $this->getRestaurantsByMaster();
+            $userarr = $this->getRestaurantsByMaster($data["id"]); 
+            $totalleft = 0;
+            foreach ($userarr as $v) {
+                $counter = 0;
+                foreach($arr as $vr) {
+                    if ($v["rid"] == $vr["rid"]) {
+                        $counter = 1;
+                    }
+                }
+                if ($counter == 0) { $totalleft += 1; }
+            }
+            foreach ($arr as $v) {
+                $sql = "DELETE FROM vendor_userpermissions WHERE uid = ".$this->db->escape((int)$data["id"])." AND rid = ".$this->db->escape((int)$v["rid"]);
+                $this->db->query($sql);
+            }
+            if ($totalleft == 0) {
+                $sql2 = "UPDATE vendorusers SET active = '0' WHERE id = ".$this->db->escape((int)$data["id"]);
+                $this->db->query($sql2);
+            }
+            return TRUE;
         }
         //
-        if ($action == "edit") {
+        if ($action == 3) {
             /*
             Problem Codes:
             1 - passwords do not match

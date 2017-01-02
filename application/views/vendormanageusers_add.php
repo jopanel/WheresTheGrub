@@ -28,32 +28,65 @@
                             </aside>
                         </div>
                         <div class="col-md-9 col-sm-9">
-                            <div class="container">
-                        <header class="no-border"><a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/manageusers/add"><h3>Add New User</h3></a></header>
-                        <?php
-                        $count = 0;
-                        foreach ($res as $k => $v) {
-                            $count += 1;
-                            if ($count == 1) { echo '<div class="row">'; }
-                            if ($count == 4) { echo '</div><div class="row">'; $count = 1; }
-                            echo '<div class="row">
-                                    <div class="col-md-3 col-sm-3">
-                                        <div class="member">
-                                            <h4>'.$v["fullname"].'</h4> 
-                                            <br>
-                                            <div class="social">
-                                                <a href="http://'.$_SERVER["SERVER_NAME"].'/vendor/manageusers/edit/'.$v["id"].'" >Edit</a> 
-                                                - 
-                                                <a href="http://'.$_SERVER["SERVER_NAME"].'/vendor/manageusers/delete/'.$v["id"].'" >Delete</a>
+
+
+                                            <header>
+                                                <h1 class="page-title">Create User Account</h1>
+                                            </header> 
+                                            <?php 
+                                            if ($problem == 3) { echo "<p>Please fill out both password fields.";}
+                                            if ($problem == 4) { echo "<p>Please fill out email field.</p>"; }
+                                            if ($problem == 5) { echo "<p>Please fill out the contact persons full name."; }
+                                            if ($problem == 6) { echo "<p>Please assign this user specific access to business."; }
+                                            if ($problem == 7) { echo "<p>This email is already assigned to a user.</p>"; }
+                                            if ($problem == 2) { echo "<p>Your passwords did not match.</p>"; }
+                                            ?>
+                                            <form role="form" id="form-register" method="post" action="">
+                                                <input type="hidden" name="action" value="postclaim"> 
+                                                <div class="form-group">
+                                                    <label for="form-register-full-name">Contact Full Name:</label>
+                                                    <input type="text" class="form-control" name="fullname"  id="form-register-full-name" required>
+                                                </div><!-- /.form-group -->
+                                                <div class="form-group">
+                                                    <label for="form-register-full-name">Contact Phone:</label>
+                                                    <input type="text" class="form-control" name="phone"  id="form-register-full-name" required>
+                                                </div><!-- /.form-group -->
+                                                <div class="form-group">
+                                                    <label for="form-register-email">Email:</label>
+                                                    <input type="email" class="form-control"  name="email" id="form-register-email" required>
+                                                </div><!-- /.form-group -->
+                                                <div class="form-group">
+                                                    <label for="form-register-password">Password:</label>
+                                                    <input type="password" class="form-control" name="password"  id="form-register-password" required>
+                                                </div><!-- /.form-group -->
+                                                <div class="form-group">
+                                                    <label for="form-register-confirm-password">Confirm Password:</label>
+                                                    <input type="password" class="form-control" name="password2"  id="form-register-confirm-password" required>
+                                                </div><!-- /.form-group --> 
+                                                <div class="form-group">
+                                                    <label for="form-register-full-name">Business Access:</label>
+                                                    <hr>
+                                                    <?php
+                                                        foreach ($res as $v) {
+                                                            echo $v["name"].'<br><select name="master[]"><option selected>No Access</option><option value="'.$v["rid"].'-0">Access No Master Account</option><option value="'.$v["rid"].'-1">Access With Master Account</option></select><hr>';
+                                                        }
+                                                    ?>
+                                                    
+                                                </div>
+                                                <br><br>
+                                                <div class="form-group clearfix">
+                                                    <button type="submit" class="btn btn-default" id="account-submit">Create User</button>
+                                                </div><!-- /.form-group -->
+                                            </form>
+                                            <hr>
+                                            <div class="center">
+                                                <figure class="note">By clicking the “Create an Account” button you agree with our Terms and conditions. All permissions, access, and modifications made by the created account will be tied with this account.</figure>
                                             </div>
-                                        </div>
-                                        <!--/.member-->
-                                    </div>
-                                </div>';
-                        }
-                        if ($count > 0) { echo '</div>'; }
-                        ?>
-                    </div>
+
+
+
+
+
 
                         </div>
                     </div>
