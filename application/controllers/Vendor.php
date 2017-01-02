@@ -164,9 +164,31 @@ class Vendor extends CI_Controller {
 			} 
 			if ($action == "edit") {
 				if ($this->input->post()) {
+					$postData = $this->input->post();
+					$return = $this->Vendor_model->editVendorUser($uid, $postData, 3);
+					if ($return == TRUE) {
+						$data["userperm"] = $this->Vendor_model->getUserPermissions($uid);
+						$data["problem"] = 0;
+						$data["userinfo"] = $this->Vendor_model->getVendorUser($uid);
+						$data["res"] = $this->Vendor_model->getRestaurantsByMaster();
+						$data["id"] = $uid;
+						$this->load->view('vendormanageusers_edit', $data);
+					} else {
+						$data["userperm"] = $this->Vendor_model->getUserPermissions($uid);
+						$data["problem"] = $return;
+						$data["userinfo"] = $this->Vendor_model->getVendorUser($uid);
+						$data["res"] = $this->Vendor_model->getRestaurantsByMaster();
+						$data["id"] = $uid;
+						$this->load->view('vendormanageusers_edit', $data);
+					}
 
 				} else {
-					//$data["res"] = $this->Vendor_model->
+					$data["userperm"] = $this->Vendor_model->getUserPermissions($uid);
+					$data["problem"] = 0;
+					$data["userinfo"] = $this->Vendor_model->getVendorUser($uid);
+					$data["res"] = $this->Vendor_model->getRestaurantsByMaster();
+					$data["id"] = $uid;
+					$this->load->view('vendormanageusers_edit', $data);
 				}
 				
 			} 

@@ -48,7 +48,7 @@
                                                 </div>
                                             </div>
                                             <div class="item-specific">
-                                                <span><?php if ($v["premium"] == 1) { echo "Premium"; } else { echo "FREE"; } ?></span>
+                                                <span><?php if ($v["premium"] == 1) { echo "PREMIUM ACCESS"; } else { echo "FREE ACCESS"; } ?></span>
                                             </div>
                                             <img src="../resources/img/items/2.jpg" alt="">
                                         </a>
@@ -71,13 +71,13 @@
                                             }
                                             ?></span>
                                             </div>
-                                            <div class="rating" data-rating="5"></div>
+                                            <div class="rating" data-rating="<?=$v["rating"]?>"></div>
                                         </div>
                                     </div>
                                     <div class="in-queue">
-                                        <a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managebusiness/<?=$k["id"]?>"><p class="btn framed icon">Manage Business <i class="fa fa-angle-right"></i></p></a>
+                                        <a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managebusiness/<?=$v["id"]?>"><p class="btn framed icon">Manage Business <i class="fa fa-angle-right"></i></p></a>
                                         <?php 
-                                        if ($v["premium"] == 1) { ?> <a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managebusiness/<?=$k["id"]?>"><p class="btn framed icon">Premium Access</p></a> <?php } else { ?> <a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managebusiness/<?=$k["id"]?>"><p class="btn framed icon" style="border-color: green;">Sign Up For Premium!</p></a> <?php } ?> 
+                                        if ($v["premium"] == 1) { ?> <a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managebusiness/<?=$v["id"]?>"><p class="btn framed icon">Premium Access</p></a> <?php } else { ?> <a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managebusiness/<?=$v["id"]?>"><p class="btn framed icon" style="border-color: green;">Sign Up For Premium!</p></a> <?php } ?> 
                                     </div>
                                 </div>
                                <?php }?>

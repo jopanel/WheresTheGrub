@@ -309,10 +309,11 @@ class Vendor_model extends CI_Model {
         }
     }
 
-    public function getVendorUser() { 
+    public function getVendorUser($uid=false) { 
+        if ($uid == false) { $uid = $this->session->userdata("uid"); }
         $sql = "SELECT vu.*, GROUP_CONCAT(vup.rid) as 'rid' FROM vendorusers vu
          LEFT JOIN vendor_userpermissions vup ON vu.id = vup.uid  
-         WHERE vu.id = ".$this->db->escape((int)$this->session->userdata("uid"))." 
+         WHERE vu.id = ".$this->db->escape((int)$uid)." 
          GROUP BY vu.id";
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
@@ -322,7 +323,18 @@ class Vendor_model extends CI_Model {
         }
     }
 
-    public function editVendorUser($rid=0,$data, $action=0) {  
+    public function getUserPermissions($uid=false) {
+        if ($uid == false) {return array();}
+        $sql = "SELECT rid, master FROM vendor_userpermissions WHERE uid = ".$this->db->escape((int)$uid);
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        } else {
+            return array();
+        }
+    }
+
+    public function editVendorUser($uid=0,$data, $action=0) {  
         if ($action == 0) { return FALSE; } 
         if ($action == 1) {   
             $mobilecode = $this->randomString(8);
@@ -391,26 +403,13 @@ class Vendor_model extends CI_Model {
             return TRUE;
         }
         //
-        if ($action == 3) {
-            /*
-            Problem Codes:
-            1 - passwords do not match
-            3 - email empty
-            4 - name of user is empty
-            5 - internal error (no user id)
-            6 - email already exists 
-            7 - passwords dont match
-            8 - no phone number
-            9 - active account not specified.
-            */
+        if ($action == 3) {  
             $problem = 0;
             if (!isset($data["email"]) || empty($data["email"])) { $problem = 3; }
-            if (!isset($data["fullname"]) || empty($data["fullname"])) { $problem = 4; }
-            if (!isset($data["id"]) || empty($data["id"])) { $problem = 5; }
-            if (!isset($data["phone"]) || empty($data["phone"])) { $problem = 8; }
-            if (!isset($data["active"]) || empty($data["active"])) { $problem = 9; }
+            if (!isset($data["fullname"]) || empty($data["fullname"])) { $problem = 4; } 
+            if (!isset($data["phone"]) || empty($data["phone"])) { $problem = 8; } 
             if ($problem == 0) {
-                $sql = "SELECT email FROM vendorusers WHERE id = ".$this->db->escape((int)$data["id"]);
+                $sql = "SELECT email FROM vendorusers WHERE id = ".$this->db->escape((int)$uid);
                 $query = $this->db->query($sql);
                 if ($query->num_rows() > 0) {
                     $email = $query->row()->email;
@@ -427,15 +426,36 @@ class Vendor_model extends CI_Model {
                     }
                     if (isset($data["password"]) && isset($data["password2"]) && !empty($data["password"]) && !empty($data["password2"])) {
                         if ($data["password"] == $data["password2"]) {
-                            $sql3 = "UPDATE vendorusers SET password = ".$this->db->escape(strip_tags(md5($data["password"])))." WHERE id = ".$this->db->escape((int)$data["id"]);
+                            $sql3 = "UPDATE vendorusers SET password = ".$this->db->escape(strip_tags(md5($data["password"])))." WHERE id = ".$this->db->escape((int)$uid);
                             $this->db->query($sql3);
                         } else {
                             return 7;
                         }
                     }
                     if ($problem == 0) {
-                        $sql4 = "UPDATE vendorusers SET fullname = ".$this->db->escape(strip_tags($data["fullname"])).", email = ".$this->db->escape(strip_tags($email)).", phone = ".$this->db->escape(strip_tags($data["phone"])).", active = ".$this->db->escape((int)$data["active"])." WHERE id = ".$this->db->escape((int)$data["id"]);
+                        $sql4 = "UPDATE vendorusers SET fullname = ".$this->db->escape(strip_tags($data["fullname"])).", email = ".$this->db->escape(strip_tags($email)).", phone = ".$this->db->escape(strip_tags($data["phone"]))." WHERE id = ".$this->db->escape((int)$uid);
                         $this->db->query($sql4);
+                        foreach ($data["master"] as $v) {
+                            $dat = explode("-",$v);
+                            $rid = $dat[0];
+                            $master = $dat[1];
+                            $check = $this->getUserPermissions($this->session->userdata("uid")); 
+                            $go = 0;
+                            foreach ($check as $validate) { 
+                                if ($validate["rid"] == $rid && $validate["master"] == 1) {
+                                    $go = 1;
+                                }
+                            }
+                            if ($go == 1) {
+                                if ($master == 00) {
+                                    $sql5 = "DELETE FROM vendor_userpermissions WHERE uid = ".$this->db->escape((int)$uid)." AND rid = ".$this->db->escape((int)$rid);
+                                    $this->db->query($sql5);
+                                } else {
+                                    $sql5 = "UPDATE vendor_userpermissions SET master = ".$this->db->escape((int)$master)." WHERE uid = ".$this->db->escape((int)$uid)." AND rid = ".$this->db->escape((int)$rid);
+                                    $this->db->query($sql5);
+                                } 
+                            }
+                        }
                         return TRUE;
                     }
                     
@@ -581,7 +601,7 @@ class Vendor_model extends CI_Model {
     public function getMyBusinesses() {
         $sql = "SELECT l.*, COALESCE(vu.premium, 0) as 'premium' FROM vendor_userpermissions vup  
         LEFT JOIN vendors vu ON vup.rid = vu.rid 
-        LEFT JOIN leads l ON vu.rid = l.id 
+        LEFT JOIN leads l ON vup.rid = l.id 
         WHERE vup.uid = ".$this->db->escape((int)$this->session->userdata("uid"));
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
