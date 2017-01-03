@@ -226,52 +226,63 @@ class Vendor extends CI_Controller {
 		}
 	}
 
-	public function managereviews() {
-		if ($this->Vendor_model->verifyUser()) { 
+	public function managereviews($rid=null) {
+		if ($rid == null) { return; }
+		if ($this->Vendor_model->verifyUser($rid)) {
+			$data["rid"] = $rid;
 			$this->load->view('landingheader');
-				$this->load->view('vendormanagereviews');
+				$this->load->view('vendormanagereviews', $data);
 			$this->load->view('landingfooter');
 		}
 	}
 
-	public function managepromos() {
-		if ($this->Vendor_model->verifyUser()) { 
+	public function managepromos($rid=null) {
+		if ($rid == null) { return; }
+		if ($this->Vendor_model->verifyUser($rid)) {
+			$data["rid"] = $rid;
 			$this->load->view('landingheader');
-				$this->load->view('vendormanagepromos');
+			$this->load->view('vendormanagepromos', $data);
 			$this->load->view('landingfooter');
 		}
 	}
 
-	public function ppc() {
-		if ($this->Vendor_model->verifyUser()) {
-			$data[""] = $this->Vendor_model->userFeed();
+	public function ppc($rid=null) {
+		if ($rid == null) { return; }
+		if ($this->Vendor_model->verifyUser($rid)) {
+			$data["rid"] = $rid;
+			//$data[""] = $this->Vendor_model->userFeed();
 			$this->load->view('landingheader');
-				$this->load->view('vendorppc');
+			$this->load->view('vendorppc', $data);
 			$this->load->view('landingfooter');
 		}
 	}
 
-	public function reports() {
-		if ($this->Vendor_model->verifyUser()) {
+	public function reports($rid=null) {
+		if ($rid == null) { return; }
+		if ($this->Vendor_model->verifyUser($rid)) {
+			$data["rid"] = $rid;
 			$this->load->view('landingheader');
-				$this->load->view('vendorreports');
+				$this->load->view('vendorreports', $data);
 			$this->load->view('landingfooter');
 		}
 	}
 
-	public function businessinformation() {
-		if ($this->Vendor_model->verifyUser()) {
+	public function businessinformation($rid=null) {
+		if ($rid == null) { return; }
+		if ($this->Vendor_model->verifyUser($rid)) {
+			$data["rid"] = $rid;
 			$this->load->view('landingheader');
-				$this->load->view('vendorbusinessinformation');
+				$this->load->view('vendorbusinessinformation', $data);
 			$this->load->view('landingfooter');
 		} 
 	}
 
-	public function menu() {
-
-		if ($this->Vendor_model->verifyUser()) {
+	public function managemenu($rid=null) {
+		if ($rid == null) { return; }
+		if ($this->Vendor_model->verifyUser($rid)) {
+			$data["rid"] = $rid;
 			$this->load->view('landingheader');
-			$this->load->view('vendormenu');
+			$this->load->view('vendormenu', $data);
 			$this->load->view('landingfooter');
 		} 
 	}
