@@ -654,11 +654,13 @@ class Vendor_model extends CI_Model {
         if ($rid != FALSE) {
             $userinfo = $this->getVendorUser();
             $ridcheck = explode(",", $userinfo[0]["rid"]);
-            $advance = 0;
-            foreach ($ridcheck as $v) {
-                if ($v == $rid) { $advance = 1;}
+            if (!isset($userinfo[0])) { $destroy = 1; } else {
+                $advance = 0;
+                foreach ($ridcheck as $v) {
+                    if ($v == $rid) { $advance = 1;}
+                }
+                if ($advance == 0) { $destroy = 1; }
             }
-            if ($advance == 0) { $destroy = 1; }
         }
         if ($destroy == 1) {
             $this->session->unset_userdata('vendortoken');
