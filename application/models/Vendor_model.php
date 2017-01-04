@@ -189,7 +189,7 @@ class Vendor_model extends CI_Model {
 
     public function getBizInformation($rid=0) {
             if ($rid == 0) { return FALSE; }
-            $sql = "SELECT * FROM leads WHERE rid = ".$this->db->escape((int)$rid);
+            $sql = "SELECT * FROM leads WHERE id = ".$this->db->escape((int)$rid);
             $query = $this->db->query($sql);
             if ($query->num_rows() > 0) {
                 return $query->result_array();
@@ -653,8 +653,8 @@ class Vendor_model extends CI_Model {
         }
         if ($rid != FALSE) {
             $userinfo = $this->getVendorUser();
-            $ridcheck = explode(",", $userinfo[0]["rid"]);
             if (!isset($userinfo[0])) { $destroy = 1; } else {
+                $ridcheck = explode(",", $userinfo[0]["rid"]);
                 $advance = 0;
                 foreach ($ridcheck as $v) {
                     if ($v == $rid) { $advance = 1;}

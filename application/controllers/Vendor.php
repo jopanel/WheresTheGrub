@@ -271,8 +271,15 @@ class Vendor extends CI_Controller {
 		if ($rid == null) { return; }
 		if ($this->Vendor_model->verifyUser($rid)) {
 			$data["rid"] = $rid;
+			$l = $this->Vendor_model->getBizInformation($rid);
+			$data["l"] = $l[0];
 			$this->load->view('landingheader');
+			if ($this->input->post()) {
 				$this->load->view('vendorbusinessinformation', $data);
+			} else {
+				$this->load->view('vendorbusinessinformation', $data);
+			}
+			
 			$this->load->view('landingfooter');
 		} 
 	}
