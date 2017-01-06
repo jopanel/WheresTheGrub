@@ -62,7 +62,7 @@
 
 
                             <div class="container">
-                                <header class="no-border"><a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managepromos/add"><h3>Add New Promotion/Coupon</h3></a></header>
+                                <header class="no-border"><a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managepromos/<?=$rid?>/add"><h3>Add New Promotion/Coupon</h3></a></header>
                                 <?php
                                 $count = 0;
                                 foreach ($promos as $k => $v) {
@@ -76,9 +76,9 @@
                                                     <p>Starting: '.$v["starting"].' - Ending: '.$v["ending"].' 
                                                     <br>
                                                     <div class="social">
-                                                        <a href="http://'.$_SERVER["SERVER_NAME"].'/vendor/managepromos/edit/'.$v["id"].'" >Edit</a> 
+                                                        <a href="http://'.$_SERVER["SERVER_NAME"].'/vendor/managepromos/'.$rid.'/edit/'.$v["id"].'" >Edit</a> 
                                                         - 
-                                                        <a href="http://'.$_SERVER["SERVER_NAME"].'/vendor/managepromos/delete/'.$v["id"].'" >Delete</a>
+                                                        <a href="http://'.$_SERVER["SERVER_NAME"].'/vendor/managepromos/'.$rid.'/delete/'.$v["id"].'" >Delete</a>
                                                     </div>
                                                 </div>
                                                 <!--/.member-->

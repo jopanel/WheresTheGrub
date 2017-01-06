@@ -2,8 +2,8 @@
                 <section class="container">
                     <header>
                         <ul class="nav nav-pills">
-                            <li><a href="http://<?=$_SERVER['SERVER_NAME']?>/vendor/"><h1 class="page-title">Manage Businesses</h1></a></li>
-                            <li class="active"><a href="http://<?=$_SERVER['SERVER_NAME']?>/vendor/manageusers/"><h1 class="page-title">Add/Edit Vendor Users</h1></a></li>
+                            <li class="active"><a href="http://<?=$_SERVER['SERVER_NAME']?>/vendor/"><h1 class="page-title">Manage Businesses</h1></a></li>
+                            <li><a href="http://<?=$_SERVER['SERVER_NAME']?>/vendor/manageusers/"><h1 class="page-title">Add/Edit Vendor Users</h1></a></li>
                             <li><a href="http://<?=$_SERVER['SERVER_NAME']?>/vendor/marketingtools/"><h1 class="page-title">Marketing Tools</h1></a></li>
                             <li><a href="http://<?=$_SERVER['SERVER_NAME']?>/vendor/addlisting/"><h1 class="page-title">Add Business Listing</h1></a></li> 
                         </ul>
@@ -31,7 +31,7 @@
 
 
                                             <header>
-                                                <h1 class="page-title">Create User Account</h1>
+                                                <h1 class="page-title">Create New Promotion/Coupon</h1>
                                             </header> 
                                             <?php 
                                             if ($problem == 3) { echo "<p>Please fill out both password fields.";}
