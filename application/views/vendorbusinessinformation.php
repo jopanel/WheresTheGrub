@@ -111,7 +111,84 @@
                                                     ?>
                                                     Monday:<br>
                                                     <?php
-                                                        if (isset($hoursarray["monday"])) { echo "hi"; }
+                                                        if (isset($hoursarray["monday"])) { ?>
+                                                        <span id="hours-monday-boxes">
+                                                        <?php
+                                                            $count = 0;
+                                                            foreach ($hoursarray["monday"] $v) {  $count += 1; ?>
+                                                            <span id="hours-mon-boxes-<?=$count?>">
+                                                            Open: 
+                                                            <select id="hour-mon-open-<?=$count?>" onBlur="updateTime(this,1,'mon','<?=$count?>')">
+                                                            <option>1</option>
+                                                            <option>2</option>
+                                                            <option>3</option>
+                                                            <option>4</option>
+                                                            <option>5</option>
+                                                            <option>6</option>
+                                                            <option>7</option>
+                                                            <option>8</option>
+                                                            <option>9</option>
+                                                            <option>10</option>
+                                                            <option>11</option>
+                                                            <option>12</option>
+                                                            </select> : 
+                                                            <select id="minute-mon-open-<?=$count?>" onBlur="updateTime(this,1,'mon','<?=$count?>')">
+                                                            <option>00</option>
+                                                            <option>15</option>
+                                                            <option>30</option>
+                                                            <option>45</option>
+                                                            </select>
+                                                            <select id="ampm-mon-open-<?=$count?>" onBlur="updateTime(this,1,'mon','<?=$count?>')">
+                                                            <option>AM</option>
+                                                            <option>PM</option>
+                                                            </select>
+                                                            <input type="text" id="mon-open-<?=$count?>" name="mondayopen[]" disabled>
+                                                            <br>
+                                                            Close 
+                                                            <select id="hour-mon-close-<?=$count?>" onBlur="updateTime(this,2,'mon','<?=$count?>')">
+                                                            <option>1</option>
+                                                            <option>2</option>
+                                                            <option>3</option>
+                                                            <option>4</option>
+                                                            <option>5</option>
+                                                            <option>6</option>
+                                                            <option>7</option>
+                                                            <option>8</option>
+                                                            <option>9</option>
+                                                            <option>10</option>
+                                                            <option>11</option>
+                                                            <option>12</option>
+                                                            </select> : 
+                                                            <select id="minute-mon-close-<?=$count?>" onBlur="updateTime(this,2,'mon','<?=$count?>')">
+                                                            <option>00</option>
+                                                            <option>15</option>
+                                                            <option>30</option>
+                                                            <option>45</option>
+                                                            </select>
+                                                            <select id="ampm-mon-close-<?=$count?>" onBlur="updateTime(this,2,'mon','<?=$count?>')">
+                                                            <option>AM</option>
+                                                            <option>PM</option>
+                                                            </select>
+                                                            <input type="text" id="mon-close-<?=$count?>" name="mondayclose[]" disabled>
+                                                            <?php 
+                                                                if (count($hoursarray["monday"]) > 1 && $count > 1) { ?>
+                                                                    <br><a href="#" onClick="removeGroup('hours-mon-boxes-<?=$count?>')">Remove Time Set</a>
+                                                                  <?php
+                                                                } ?>
+                                                                </span>
+                                                                <?php
+                                                            } ?>
+                                                                </span><br>
+                                                                Closed <input type="checkbox" id="hours-mon-disabled" onClick="updateNoHours(this)" name="hours-monday[]" value="0">
+
+                                                                <?php
+                                                            
+                                                         } else {
+                                                            ?>
+                                                            <span id="hours-monday-boxes"></span><br>
+                                                            Closed <input type="checkbox" id="hours-mon-disabled" onClick="updateNoHours(this)" name="hours-monday[]" value="0" checked>
+                                                            <?php
+                                                        }
                                                     ?>
                                                     <br>
                                                     Tuesday:<br>

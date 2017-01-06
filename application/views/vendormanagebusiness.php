@@ -61,7 +61,32 @@
 
 
 
+                        <?php 
 
+                        /*
+                            Premium Functions:
+                                
+                            - PPC clicks today, Website Clicks Today, Mobile Clicks Today [ possible line graph of month ]
+                            - PPC balance left
+                            - Premium Member Since [date]
+                            - Clicks today [all types] 
+
+                            Non Premium Functions:
+                            
+                            - Premium status 
+                            - sign up for premium shit
+
+
+                            Both Premium/Non Premium Functions:
+
+                            - % completion of profile (added menu?, filled out all restaurant information?, Added promotions/coupons?)
+                            - If promotions are expired and to update
+                            - show how many reviews this week
+                            - impressions (how many times been listed in a search result or competitor)
+
+                        */
+
+                        ?>
 
 
 
