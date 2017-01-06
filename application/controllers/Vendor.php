@@ -239,6 +239,7 @@ class Vendor extends CI_Controller {
 	public function managepromos($rid=null) {
 		if ($rid == null) { return; }
 		if ($this->Vendor_model->verifyUser($rid)) {
+			$data["promos"] = $this->Vendor_model->getAllPromos($rid);
 			$data["rid"] = $rid;
 			$this->load->view('landingheader');
 			$this->load->view('vendormanagepromos', $data);

@@ -29,31 +29,31 @@
                         </div>
                         <div class="col-md-9 col-sm-9">
                             <div class="container">
-                        <header class="no-border"><a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/manageusers/add"><h3>Add New User</h3></a></header>
-                        <?php
-                        $count = 0;
-                        foreach ($res as $k => $v) {
-                            $count += 1;
-                            if ($count == 1) { echo '<div class="row">'; }
-                            if ($count == 4) { echo '</div><div class="row">'; $count = 1; }
-                            echo '<div class="row">
-                                    <div class="col-md-3 col-sm-3">
-                                        <div class="member">
-                                            <h4>'.$v["fullname"].'</h4> 
-                                            <br>
-                                            <div class="social">
-                                                <a href="http://'.$_SERVER["SERVER_NAME"].'/vendor/manageusers/edit/'.$v["id"].'" >Edit</a> 
-                                                - 
-                                                <a href="http://'.$_SERVER["SERVER_NAME"].'/vendor/manageusers/delete/'.$v["id"].'" >Delete</a>
+                                <header class="no-border"><a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/manageusers/add"><h3>Add New User</h3></a></header>
+                                <?php
+                                $count = 0;
+                                foreach ($res as $k => $v) {
+                                    $count += 1;
+                                    if ($count == 1) { echo '<div class="row">'; }
+                                    if ($count == 4) { echo '</div><div class="row">'; $count = 1; }
+                                    echo '<div class="row">
+                                            <div class="col-md-3 col-sm-3">
+                                                <div class="member">
+                                                    <h4>'.$v["fullname"].'</h4> 
+                                                    <br>
+                                                    <div class="social">
+                                                        <a href="http://'.$_SERVER["SERVER_NAME"].'/vendor/manageusers/edit/'.$v["id"].'" >Edit</a> 
+                                                        - 
+                                                        <a href="http://'.$_SERVER["SERVER_NAME"].'/vendor/manageusers/delete/'.$v["id"].'" >Delete</a>
+                                                    </div>
+                                                </div>
+                                                <!--/.member-->
                                             </div>
-                                        </div>
-                                        <!--/.member-->
-                                    </div>
-                                </div>';
-                        }
-                        if ($count > 0) { echo '</div>'; }
-                        ?>
-                    </div>
+                                        </div>';
+                                }
+                                if ($count > 0) { echo '</div>'; }
+                                ?>
+                            </div>
 
                         </div>
                     </div>

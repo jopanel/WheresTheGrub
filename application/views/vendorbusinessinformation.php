@@ -101,114 +101,109 @@
                                                     $$$ ($41+) <input type="radio" name="price" value="3" <?php if (isset($l["price"]) && $l["price"] == "3") { echo 'checked="checked"'; } ?>> 
                                                 </div><!-- /.form-group -->  
                                                 <hr>
-                                                <div class="form-group">
-                                                    <label>Set Hours:</label>
-                                                    <?php
-                                                    if (isset($l["hours"])) { $hoursarray = json_decode($l["hours"], true); } else { $hoursarray = []; }
-                                                    /*
-                                                    {"monday":[["5:30","17:30"]],"tuesday":[["5:30","17:30"]],"wednesday":[["5:30","17:30"]],"thursday":[["5:30","17:30"]],"friday":[["5:30","17:30"]],"saturday":[["6:30","17:30"]]}
-                                                    */
-                                                    ?>
-                                                    Monday:<br>
-                                                    <?php
-                                                        if (isset($hoursarray["monday"])) { ?>
-                                                        <span id="hours-monday-boxes">
-                                                        <?php
-                                                            $count = 0;
-                                                            foreach ($hoursarray["monday"] $v) {  $count += 1; ?>
-                                                            <span id="hours-mon-boxes-<?=$count?>">
-                                                            Open: 
-                                                            <select id="hour-mon-open-<?=$count?>" onBlur="updateTime(this,1,'mon','<?=$count?>')">
-                                                            <option>1</option>
-                                                            <option>2</option>
-                                                            <option>3</option>
-                                                            <option>4</option>
-                                                            <option>5</option>
-                                                            <option>6</option>
-                                                            <option>7</option>
-                                                            <option>8</option>
-                                                            <option>9</option>
-                                                            <option>10</option>
-                                                            <option>11</option>
-                                                            <option>12</option>
-                                                            </select> : 
-                                                            <select id="minute-mon-open-<?=$count?>" onBlur="updateTime(this,1,'mon','<?=$count?>')">
-                                                            <option>00</option>
-                                                            <option>15</option>
-                                                            <option>30</option>
-                                                            <option>45</option>
-                                                            </select>
-                                                            <select id="ampm-mon-open-<?=$count?>" onBlur="updateTime(this,1,'mon','<?=$count?>')">
-                                                            <option>AM</option>
-                                                            <option>PM</option>
-                                                            </select>
-                                                            <input type="text" id="mon-open-<?=$count?>" name="mondayopen[]" disabled>
-                                                            <br>
-                                                            Close 
-                                                            <select id="hour-mon-close-<?=$count?>" onBlur="updateTime(this,2,'mon','<?=$count?>')">
-                                                            <option>1</option>
-                                                            <option>2</option>
-                                                            <option>3</option>
-                                                            <option>4</option>
-                                                            <option>5</option>
-                                                            <option>6</option>
-                                                            <option>7</option>
-                                                            <option>8</option>
-                                                            <option>9</option>
-                                                            <option>10</option>
-                                                            <option>11</option>
-                                                            <option>12</option>
-                                                            </select> : 
-                                                            <select id="minute-mon-close-<?=$count?>" onBlur="updateTime(this,2,'mon','<?=$count?>')">
-                                                            <option>00</option>
-                                                            <option>15</option>
-                                                            <option>30</option>
-                                                            <option>45</option>
-                                                            </select>
-                                                            <select id="ampm-mon-close-<?=$count?>" onBlur="updateTime(this,2,'mon','<?=$count?>')">
-                                                            <option>AM</option>
-                                                            <option>PM</option>
-                                                            </select>
-                                                            <input type="text" id="mon-close-<?=$count?>" name="mondayclose[]" disabled>
-                                                            <?php 
-                                                                if (count($hoursarray["monday"]) > 1 && $count > 1) { ?>
-                                                                    <br><a href="#" onClick="removeGroup('hours-mon-boxes-<?=$count?>')">Remove Time Set</a>
-                                                                  <?php
-                                                                } ?>
-                                                                </span>
-                                                                <?php
-                                                            } ?>
-                                                                </span><br>
-                                                                Closed <input type="checkbox" id="hours-mon-disabled" onClick="updateNoHours(this)" name="hours-monday[]" value="0">
-
-                                                                <?php
-                                                            
-                                                         } else {
-                                                            ?>
-                                                            <span id="hours-monday-boxes"></span><br>
-                                                            Closed <input type="checkbox" id="hours-mon-disabled" onClick="updateNoHours(this)" name="hours-monday[]" value="0" checked>
-                                                            <?php
-                                                        }
-                                                    ?>
-                                                    <br>
-                                                    Tuesday:<br>
-
-                                                    <br>
-                                                    Wednesday:<br>
-
-                                                    <br>
-                                                    Thursday:<br>
-
-                                                    <br>
-                                                    Friday:<br>
-
-                                                    <br>
-                                                    Saturday:<br>
-
-                                                    <br>
-                                                    Sunday:<br>
-
-                                                </div>
+                                                <section>
+                                                    <h3>Opening Hours</h3>
+                                                    <div class="opening-hours">
+                                                        <div class="table-responsive">
+                                                            <table class="table">
+                                                                <tbody>
+                                                                <tr class="day">
+                                                                    <td class="day-name">Monday</td>
+                                                                    <td class="from"><input class="oh-timepicker" type="text" placeholder="From" name="open-hour-from[]"></td>
+                                                                    <td class="to"><input class="oh-timepicker" type="text" placeholder="To" name="open-hour-to[]"></td>
+                                                                    <td class="non-stop"><div class="checkbox">
+                                                                        <label>
+                                                                            <input type="checkbox">Non-stop
+                                                                        </label>
+                                                                    </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <!--/.day-->
+                                                                <tr class="day">
+                                                                    <td class="day-name">Tuesday</td>
+                                                                    <td class="from"><input class="oh-timepicker" type="text" placeholder="From" name="open-hour-from[]"></td>
+                                                                    <td class="to"><input class="oh-timepicker" type="text" placeholder="To" name="open-hour-to[]"></td>
+                                                                    <td class="non-stop"><div class="checkbox">
+                                                                        <label>
+                                                                            <input type="checkbox">Non-stop
+                                                                        </label>
+                                                                    </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <!--/.day-->
+                                                                <tr class="day">
+                                                                    <td class="day-name">Wednesday</td>
+                                                                    <td class="from"><input class="oh-timepicker" type="text" placeholder="From" name="open-hour-from[]"></td>
+                                                                    <td class="to"><input class="oh-timepicker" type="text" placeholder="To" name="open-hour-to[]"></td>
+                                                                    <td class="non-stop"><div class="checkbox">
+                                                                        <label>
+                                                                            <input type="checkbox">Non-stop
+                                                                        </label>
+                                                                    </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <!--/.day-->
+                                                                <tr class="day">
+                                                                    <td class="day-name">Thursday</td>
+                                                                    <td class="from"><input class="oh-timepicker" type="text" placeholder="From" name="open-hour-from[]"></td>
+                                                                    <td class="to"><input class="oh-timepicker" type="text" placeholder="To" name="open-hour-to[]"></td>
+                                                                    <td class="non-stop"><div class="checkbox">
+                                                                        <label>
+                                                                            <input type="checkbox">Non-stop
+                                                                        </label>
+                                                                    </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <!--/.day-->
+                                                                <tr class="day">
+                                                                    <td class="day-name">Friday</td>
+                                                                    <td class="from"><input class="oh-timepicker" type="text" placeholder="From" name="open-hour-from[]"></td>
+                                                                    <td class="to"><input class="oh-timepicker" type="text" placeholder="To" name="open-hour-to[]"></td>
+                                                                    <td class="non-stop"><div class="checkbox">
+                                                                        <label>
+                                                                            <input type="checkbox">Non-stop
+                                                                        </label>
+                                                                    </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <!--/.day-->
+                                                                <tr class="day weekend">
+                                                                    <td class="day-name">Saturday</td>
+                                                                    <td class="from"><input class="oh-timepicker" type="text" placeholder="From" name="open-hour-from[]"></td>
+                                                                    <td class="to"><input class="oh-timepicker" type="text" placeholder="To" name="open-hour-to[]"></td>
+                                                                    <td class="non-stop"><div class="checkbox">
+                                                                        <label>
+                                                                            <input type="checkbox">Non-stop
+                                                                        </label>
+                                                                    </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <!--/.day-->
+                                                                <tr class="day weekend">
+                                                                    <td class="day-name">Sunday</td>
+                                                                    <td class="from"><input class="oh-timepicker" type="text" placeholder="From" name="open-hour-from[]"></td>
+                                                                    <td class="to"><input class="oh-timepicker" type="text" placeholder="To" name="open-hour-to[]"></td>
+                                                                    <td class="non-stop"><div class="checkbox">
+                                                                        <label>
+                                                                            <input type="checkbox">Non-stop
+                                                                        </label>
+                                                                    </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <!--/.day-->
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </section>
+                                                <hr>
+                                                <section>
+                                                    <h3>Gallery</h3>
+                                                    <div id="file-submit" class="dropzone">
+                                                        <input name="file" type="file" multiple>
+                                                        <div class="dz-default dz-message"><span>Click or Drop Images Here</span></div>
+                                                    </div>
+                                                </section>
                                                 <hr>
                                                 <div class="form-group">
                                                 <label>Search Options and Attributes</label>
@@ -246,3 +241,20 @@
                     </div>
                 </section>
             </div>
+
+
+
+
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/before.load.js"></script>
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/jquery-ui.min.js"></script> 
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/richmarker-compiled.js"></script>
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/smoothscroll.js"></script>
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/bootstrap-select.min.js"></script>
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/icheck.min.js"></script>
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/jquery.hotkeys.js"></script>
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/dropzone.min.js"></script>
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/jquery.ui.timepicker.js"></script>
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/custom.js"></script> 

@@ -61,8 +61,33 @@
 
 
 
-
-
+                            <div class="container">
+                                <header class="no-border"><a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managepromos/add"><h3>Add New Promotion/Coupon</h3></a></header>
+                                <?php
+                                $count = 0;
+                                foreach ($promos as $k => $v) {
+                                    $count += 1;
+                                    if ($count == 1) { echo '<div class="row">'; }
+                                    if ($count == 4) { echo '</div><div class="row">'; $count = 1; }
+                                    echo '<div class="row">
+                                            <div class="col-md-3 col-sm-3">
+                                                <div class="member">
+                                                    <h4>'.$v["subject"].'</h4>
+                                                    <p>Starting: '.$v["starting"].' - Ending: '.$v["ending"].' 
+                                                    <br>
+                                                    <div class="social">
+                                                        <a href="http://'.$_SERVER["SERVER_NAME"].'/vendor/managepromos/edit/'.$v["id"].'" >Edit</a> 
+                                                        - 
+                                                        <a href="http://'.$_SERVER["SERVER_NAME"].'/vendor/managepromos/delete/'.$v["id"].'" >Delete</a>
+                                                    </div>
+                                                </div>
+                                                <!--/.member-->
+                                            </div>
+                                        </div>';
+                                }
+                                if ($count > 0) { echo '</div>'; }
+                                ?>
+                            </div>
 
 
 
