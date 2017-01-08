@@ -106,7 +106,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- end Inner Wrapper -->
 </div>
 <!-- end Outer Wrapper-->
-
+ 
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/dropzone.min.js"></script>
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/jquery.ui.timepicker.js"></script> 
 <script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/jquery-2.1.0.min.js"></script>
 <script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/before.load.js"></script>
 <script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/jquery-migrate-1.2.1.min.js"></script>
@@ -116,8 +119,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/jquery.hotkeys.js"></script>
 <script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/icheck.min.js"></script>
 <script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/custom.js"></script>
-
-
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyCDTwL2hG2qQ2lXuGw-voeiY6KuVZtFCio&amp;libraries=places"></script>
 <script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/infobox.js"></script>
 <script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/richmarker-compiled.js"></script>
