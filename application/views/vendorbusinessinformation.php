@@ -96,9 +96,12 @@
                                                 </div><!-- /.form-group -->  
                                                 <div class="form-group">
                                                     <label>Price (Per-Person Average Price):</label>
-                                                    $ ($1-$13) <input type="radio" name="price" value="1" <?php if (isset($l["price"]) && $l["price"] == "1") { echo 'checked="checked"'; } ?>> 
-                                                    $$ ($14-$40) <input type="radio" name="price" value="2" <?php if (isset($l["price"]) && $l["price"] == "2") { echo 'checked="checked"'; } ?>> 
-                                                    $$$ ($41+) <input type="radio" name="price" value="3" <?php if (isset($l["price"]) && $l["price"] == "3") { echo 'checked="checked"'; } ?>> 
+                                                    <div class="checkbox">
+                                                <label>$ ($1-$13) <input type="radio" name="price" value="1" <?php if (isset($l["price"]) && $l["price"] == "1") { echo 'checked="checked"'; } ?>></label></div> 
+                                                    <div class="checkbox">
+                                                <label>$$ ($14-$40) <input type="radio" name="price" value="2" <?php if (isset($l["price"]) && $l["price"] == "2") { echo 'checked="checked"'; } ?>></label></div> 
+                                                    <div class="checkbox">
+                                                <label>$$$ ($41+) <input type="radio" name="price" value="3" <?php if (isset($l["price"]) && $l["price"] == "3") { echo 'checked="checked"'; } ?>></label></div> 
                                                 </div><!-- /.form-group -->  
                                                 <hr>
                                                 <section>
@@ -207,28 +210,117 @@
                                                 <hr>
                                                 <div class="form-group">
                                                 <label>Search Options and Attributes</label>
-                                               <strong>Delivery</strong> <input type="checkbox" name="meal_deliver" value="1" <?php if (isset($l["meal_deliver"]) && $l["meal_deliver"] == 1) { echo "checked"; } ?>><br>
-                                               <strong>Takeout</strong> <input type="checkbox" name="meal_takeout" value="1" <?php if (isset($l["meal_takeout"]) && $l["meal_takeout"] == 1) { echo "checked"; } ?> ><br>
-                                               <strong>Cash Only</strong> <input type="checkbox" name="payment_cashonly" value="1" <?php if (isset($l["payment_cashonly"]) && $l["payment_cashonly"] == 1) { echo "checked"; } ?> ><br>
-                                               Wheelchair Accessible <input type="checkbox" name="accessible_wheelchair" value="1" <?php if (isset($l["accessible_wheelchair"]) && $l["accessible_wheelchair"] == 1) { echo "checked"; } ?> ><br>
-                                               Serve Beer <input type="checkbox" name="alcohol_beer" value="1" <?php if (isset($l["alcohol_beer"]) && $l["alcohol_beer"] == 1) { echo "checked"; } ?> ><br>
-                                               Serve Alcohol & Beer <input type="checkbox" name="alcohol" value="1" <?php if (isset($l["alcohol"]) && $l["alcohol"] == 1) { echo "checked"; } ?> ><br>
-                                               Serve Alcohol/Wine <input type="checkbox" name="alcohol_beer_wine" value="1" <?php if (isset($l["alcohol_beer_wine"]) && $l["alcohol_beer_wine"] == 1) { echo "checked"; } ?> ><br> 
-                                               Good For Kids <input type="checkbox" name="kids_goodfor" value="1" <?php if (isset($l["kids_goodfor"]) && $l["kids_goodfor"] == 1) { echo "checked"; } ?> ><br> 
-                                               Serve Breakfast <input type="checkbox" name="meal_breakfast" value="1" <?php if (isset($l["meal_breakfast"]) && $l["meal_breakfast"] == 1) { echo "checked"; } ?> ><br>
-                                               Serve Dinner <input type="checkbox" name="meal_dinner" value="1" <?php if (isset($l["meal_dinner"]) && $l["meal_dinner"] == 1) { echo "checked"; } ?> ><br>
-                                               Serve Lunch <input type="checkbox" name="meal_lunch" value="1" <?php if (isset($l["meal_lunch"]) && $l["meal_lunch"] == 1) { echo "checked"; } ?> ><br>
-                                               Catering <input type="checkbox" name="meal_cater" value="1" <?php if (isset($l["meal_cater"]) && $l["meal_cater"] == 1) { echo "checked"; } ?> ><br>  
-                                               Open 24-Hours <input type="checkbox" name="open_24hrs" value="1" <?php if (isset($l["open_24hrs"]) && $l["open_24hrs"] == 1) { echo "checked"; } ?> ><br>
-                                               Healthy Options <input type="checkbox" name="options_healthy" value="1" <?php if (isset($l["options_healthy"]) && $l["options_healthy"] == 1) { echo "checked"; } ?> ><br>
-                                               Vegetarian Options <input type="checkbox" name="options_vegetarian" value="1" <?php if (isset($l["options_vegetarian"]) && $l["options_vegetarian"] == 1) { echo "checked"; } ?> ><br>
-                                               Available Parking <input type="checkbox" name="parking" value="1" <?php if (isset($l["parking"]) && $l["parking"] == 1) { echo "checked"; } ?> ><br>
-                                               Parking Lot <input type="checkbox" name="parking_lot" value="1" <?php if (isset($l["parking_lot"]) && $l["parking_lot"] == 1) { echo "checked"; } ?> ><br>
-                                               Street Parking <input type="checkbox" name="parking_street" value="1" <?php if (isset($l["parking_street"]) && $l["parking_street"] == 1) { echo "checked"; } ?> ><br>
-                                               Reservations <input type="checkbox" name="reservations" value="1" <?php if (isset($l["reservations"]) && $l["reservations"] == 1) { echo "checked"; } ?> ><br>
-                                               Outdoor Seating <input type="checkbox" name="seating_outdoor" value="1" <?php if (isset($l["seating_outdoor"]) && $l["seating_outdoor"] == 1) { echo "checked"; } ?> ><br>
-                                               Smoking Seating <input type="checkbox" name="smoking" value="1" <?php if (isset($l["smoking"]) && $l["smoking"] == 1) { echo "checked"; } ?> ><br>
-                                               Wifi Available <input type="checkbox" name="wifi" value="1" <?php if (isset($l["wifi"]) && $l["wifi"] == 1) { echo "checked"; } ?> ><br>
+                                                <div class="checkbox">
+                                                <label>
+                                               <strong>Delivery</strong> <input type="checkbox" name="meal_deliver" value="1" <?php if (isset($l["meal_deliver"]) && $l["meal_deliver"] == 1) { echo "checked"; } ?>>
+                                               </label>
+                                               </div>
+                                               <br>
+                                                <div class="checkbox">
+                                                <label>
+                                               <strong>Takeout</strong> <input type="checkbox" name="meal_takeout" value="1" <?php if (isset($l["meal_takeout"]) && $l["meal_takeout"] == 1) { echo "checked"; } ?> >
+                                               </label>
+                                               </div><br>
+                                                <div class="checkbox">
+                                                <label>
+                                               <strong>Cash Only</strong> <input type="checkbox" name="payment_cashonly" value="1" <?php if (isset($l["payment_cashonly"]) && $l["payment_cashonly"] == 1) { echo "checked"; } ?> >
+                                               </label>
+                                               </div><br>
+                                                <div class="checkbox">
+                                                <label>
+                                               Wheelchair Accessible <input type="checkbox" name="accessible_wheelchair" value="1" <?php if (isset($l["accessible_wheelchair"]) && $l["accessible_wheelchair"] == 1) { echo "checked"; } ?> >
+                                               </label>
+                                               </div><br>
+                                                <div class="checkbox">
+                                                <label>
+                                               Serve Beer <input type="checkbox" name="alcohol_beer" value="1" <?php if (isset($l["alcohol_beer"]) && $l["alcohol_beer"] == 1) { echo "checked"; } ?> >
+                                               </label>
+                                               </div><br>
+                                                <div class="checkbox">
+                                                <label>
+                                               Serve Alcohol & Beer <input type="checkbox" name="alcohol" value="1" <?php if (isset($l["alcohol"]) && $l["alcohol"] == 1) { echo "checked"; } ?> >
+                                               </label>
+                                               </div><br>
+                                               Serve Alcohol/Wine <input type="checkbox" name="alcohol_beer_wine" value="1" <?php if (isset($l["alcohol_beer_wine"]) && $l["alcohol_beer_wine"] == 1) { echo "checked"; } ?> >
+                                               </label>
+                                               </div><br> 
+                                                <div class="checkbox">
+                                                <label>
+                                               Good For Kids <input type="checkbox" name="kids_goodfor" value="1" <?php if (isset($l["kids_goodfor"]) && $l["kids_goodfor"] == 1) { echo "checked"; } ?> >
+                                               </label>
+                                               </div><br> 
+                                                <div class="checkbox">
+                                                <label>
+                                               Serve Breakfast <input type="checkbox" name="meal_breakfast" value="1" <?php if (isset($l["meal_breakfast"]) && $l["meal_breakfast"] == 1) { echo "checked"; } ?> >
+                                               </label>
+                                               </div><br>
+                                                <div class="checkbox">
+                                                <label>
+                                               Serve Dinner <input type="checkbox" name="meal_dinner" value="1" <?php if (isset($l["meal_dinner"]) && $l["meal_dinner"] == 1) { echo "checked"; } ?> >
+                                               </label>
+                                               </div><br>
+                                                <div class="checkbox">
+                                                <label>
+                                               Serve Lunch <input type="checkbox" name="meal_lunch" value="1" <?php if (isset($l["meal_lunch"]) && $l["meal_lunch"] == 1) { echo "checked"; } ?> >
+                                               </label>
+                                               </div><br>
+                                                <div class="checkbox">
+                                                <label>
+                                               Catering <input type="checkbox" name="meal_cater" value="1" <?php if (isset($l["meal_cater"]) && $l["meal_cater"] == 1) { echo "checked"; } ?> >
+                                               </label>
+                                               </div><br> 
+                                                <div class="checkbox">
+                                                <label> 
+                                               Open 24-Hours <input type="checkbox" name="open_24hrs" value="1" <?php if (isset($l["open_24hrs"]) && $l["open_24hrs"] == 1) { echo "checked"; } ?> >
+                                               </label>
+                                               </div><br>
+                                                <div class="checkbox">
+                                                <label>
+                                               Healthy Options <input type="checkbox" name="options_healthy" value="1" <?php if (isset($l["options_healthy"]) && $l["options_healthy"] == 1) { echo "checked"; } ?> >
+                                               </label>
+                                               </div><br>
+                                                <div class="checkbox">
+                                                <label>
+                                               Vegetarian Options <input type="checkbox" name="options_vegetarian" value="1" <?php if (isset($l["options_vegetarian"]) && $l["options_vegetarian"] == 1) { echo "checked"; } ?> >
+                                               </label>
+                                               </div><br>
+                                                <div class="checkbox">
+                                                <label>
+                                               Available Parking <input type="checkbox" name="parking" value="1" <?php if (isset($l["parking"]) && $l["parking"] == 1) { echo "checked"; } ?> >
+                                               </label>
+                                               </div><br>
+                                                <div class="checkbox">
+                                                <label>
+                                               Parking Lot <input type="checkbox" name="parking_lot" value="1" <?php if (isset($l["parking_lot"]) && $l["parking_lot"] == 1) { echo "checked"; } ?> >
+                                               </label>
+                                               </div><br>
+                                                <div class="checkbox">
+                                                <label>
+                                               Street Parking <input type="checkbox" name="parking_street" value="1" <?php if (isset($l["parking_street"]) && $l["parking_street"] == 1) { echo "checked"; } ?> >
+                                               </label>
+                                               </div><br>
+                                                <div class="checkbox">
+                                                <label>
+                                               Reservations <input type="checkbox" name="reservations" value="1" <?php if (isset($l["reservations"]) && $l["reservations"] == 1) { echo "checked"; } ?> >
+                                               </label>
+                                               </div><br>
+                                                <div class="checkbox">
+                                                <label>
+                                               Outdoor Seating <input type="checkbox" name="seating_outdoor" value="1" <?php if (isset($l["seating_outdoor"]) && $l["seating_outdoor"] == 1) { echo "checked"; } ?> >
+                                               </label>
+                                               </div><br>
+                                                <div class="checkbox">
+                                                <label>
+                                               Smoking Seating <input type="checkbox" name="smoking" value="1" <?php if (isset($l["smoking"]) && $l["smoking"] == 1) { echo "checked"; } ?> >
+                                               </label>
+                                               </div><br>
+                                                <div class="checkbox">
+                                                <label>
+                                               Wifi Available <input type="checkbox" name="wifi" value="1" <?php if (isset($l["wifi"]) && $l["wifi"] == 1) { echo "checked"; } ?> >
+                                               </label>
+                                               </div><br>
+                                                <div class="checkbox">
+                                                <label>
                                                 </div>
                                                 <div class="form-group clearfix">
                                                     <button type="submit" class="btn btn-default" id="account-submit">Save Changes</button>

@@ -106,7 +106,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- end Inner Wrapper -->
 </div>
 <!-- end Outer Wrapper-->
- 
+ <?php
+
+ if ($this->uri->segment(2) != "businessinformation") {
+?>
 <script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/dropzone.min.js"></script>
 <script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/jquery.ui.timepicker.js"></script> 
@@ -128,6 +131,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!--[if lte IE 9]>
 <script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/ie-scripts.js"></script>
 <![endif]-->
+<?php
+ }
+
+ ?>
+
+
 
 <?php
 if ($this->uri->segment(1)) {
