@@ -342,13 +342,32 @@ class Vendor extends CI_Controller {
 		} 
 	}
 
-	public function managemenu($rid=null) {
+	public function managemenu($rid=null,$page=null) {
 		if ($rid == null) { return; }
 		if ($this->Vendor_model->verifyUser($rid)) {
 			$data["rid"] = $rid;
-			$this->load->view('landingheader');
-			$this->load->view('vendormenu', $data);
-			$this->load->view('landingfooter');
+			$data["page"] = null;
+			if ($page == null) {
+				$this->load->view('landingheader');
+				$this->load->view('vendormenu', $data);
+				$this->load->view('landingfooter');
+			}
+			if ($page == "edit") {
+			  	$this->load->view('landingheader');
+				$this->load->view('vendormenu_edit', $data);
+				$this->load->view('landingfooter');
+			}
+			if ($page == "add") {
+				$this->load->view('landingheader');
+				$this->load->view('vendormenu_add', $data);
+				$this->load->view('landingfooter');
+			}
+			if ($page == "delete") {
+				$this->load->view('landingheader');
+				$this->load->view('vendormenu', $data);
+				$this->load->view('landingfooter');
+			}
+			
 		} 
 	}
 

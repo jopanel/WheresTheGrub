@@ -146,7 +146,7 @@ class Api extends CI_Controller {
 		              * cos( radians( latitude ) ) 
 		              * cos( radians( longitude ) - radians(".$this->db->escape($longitude).") ) 
 		              + sin( radians(".$this->db->escape($latitude).") ) 
-		              * sin( radians( latitude ) ) ) ) AS distance FROM leads WHERE `active` = '1'";
+		              * sin( radians( latitude ) ) ) ) AS distance FROM restaurantlist WHERE `active` = '1'";
 				$yes = 1;
 				if (isset($post["accessible_wheelchair"])) {
 					$sql .= " AND `accessible_wheelchair` = '".$yes."'";
@@ -223,7 +223,7 @@ class Api extends CI_Controller {
 				}
 
 				//$sql .= " LIMIT 300";
-				
+
 				$result = $this->db->query($sql);
 				if ($result) {
 					$resultset = $result->result_array();

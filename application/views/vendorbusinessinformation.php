@@ -241,6 +241,8 @@
                                                Serve Alcohol & Beer <input type="checkbox" name="alcohol" value="1" <?php if (isset($l["alcohol"]) && $l["alcohol"] == 1) { echo "checked"; } ?> >
                                                </label>
                                                </div><br>
+                                               <div class="checkbox">
+                                                <label>
                                                Serve Alcohol/Wine <input type="checkbox" name="alcohol_beer_wine" value="1" <?php if (isset($l["alcohol_beer_wine"]) && $l["alcohol_beer_wine"] == 1) { echo "checked"; } ?> >
                                                </label>
                                                </div><br> 

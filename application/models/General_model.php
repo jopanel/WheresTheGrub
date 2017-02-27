@@ -60,7 +60,7 @@ class General_model extends CI_Model {
               * cos( radians( latitude ) ) 
               * cos( radians( longitude ) - radians(".$this->db->escape($lng).") ) 
               + sin( radians(".$this->db->escape($lat).") ) 
-              * sin( radians( latitude ) ) ) ) AS distance  FROM leads WHERE active = '1' HAVING distance < 10 ORDER BY distance LIMIT 1";
+              * sin( radians( latitude ) ) ) ) AS distance  FROM restaurantlist WHERE active = '1' HAVING distance < 10 ORDER BY distance LIMIT 1";
 		//echo $sql;
 		$result = $this->db->query($sql);
 		if ($result) {
@@ -78,7 +78,7 @@ class General_model extends CI_Model {
               * cos( radians( latitude ) ) 
               * cos( radians( longitude ) - radians(".$this->db->escape($longitude).") ) 
               + sin( radians(".$this->db->escape($latitude).") ) 
-              * sin( radians( latitude ) ) ) ) AS distance  FROM leads WHERE category_labels NOT LIKE '%fast food%' AND category_labels NOT LIKE '%COFFEE AND TEA HOUSES%' HAVING distance < 10 ORDER BY distance LIMIT ".(int)$limit;
+              * sin( radians( latitude ) ) ) ) AS distance  FROM restaurantlist WHERE category_labels NOT LIKE '%fast food%' AND category_labels NOT LIKE '%COFFEE AND TEA HOUSES%' HAVING distance < 10 ORDER BY distance LIMIT ".(int)$limit;
 		//echo $sql;
 		$result = $this->db->query($sql);
 		if ($result) {
@@ -96,7 +96,7 @@ class General_model extends CI_Model {
               * cos( radians( latitude ) ) 
               * cos( radians( longitude ) - radians(".$this->db->escape($longitude).") ) 
               + sin( radians(".$this->db->escape($latitude).") ) 
-              * sin( radians( latitude ) ) ) ) AS distance FROM leads HAVING distance < 10 ORDER BY rating DESC LIMIT ".(int)$limit;
+              * sin( radians( latitude ) ) ) ) AS distance FROM restaurantlist HAVING distance < 10 ORDER BY rating DESC LIMIT ".(int)$limit;
 		$result = $this->db->query($sql);
 		if ($result) {
 			return $result->result_array();

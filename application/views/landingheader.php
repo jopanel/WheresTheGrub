@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="header">
             <div class="wrapper">
                 <div class="brand">
-                    <a href="index-directory.html"><img src="http://<?=$_SERVER['SERVER_NAME']?>/resources/img/logo.png" alt="logo"></a>
+                    <a href="http://<?=$_SERVER['SERVER_NAME']?>"><img src="http://<?=$_SERVER['SERVER_NAME']?>/resources/img/logo.png" alt="logo"></a>
                 </div>
                 <?php 
                 if (isset($problem) && $problem == TRUE) {} else { ?>
