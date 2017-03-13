@@ -127,7 +127,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/richmarker-compiled.js"></script>
 <script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/markerclusterer.js"></script> 
 <script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/maps.js"></script>
-<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js\jquery.mCustomScrollbar.concat.min.js"></script>
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/jquery.mCustomScrollbar.concat.min.js"></script>
 <!--[if lte IE 9]>
 <script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/ie-scripts.js"></script>
 <![endif]-->

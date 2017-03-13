@@ -164,79 +164,94 @@
                                                 </div>
                                             </article>
                                             <!-- /.item-gallery -->
+                                            <?php
+
+                                            if (isset($res["description"]) && !empty($res["description"])) {
+                                                ?>
+                                                <article class="block">
+                                                    <header><h2>Description</h2></header>
+                                                    <p>
+                                                        <?=$res["description"]?>
+                                                    </p>
+                                                </article>
+                                                <?php
+                                            }
+                                            ?>
+                                            <?php
+
+                                            if (isset($res["menu"]) && !empty($res["menu"])) {
+                                                ?>
+                                                 <!-- /.block -->
                                             <article class="block">
-                                                <header><h2>Description</h2></header>
-                                                <p>
-                                                    <?=$res["description"]?>
-                                                </p>
-                                            </article>
-                                            <!-- /.block -->
-                                            <article class="block">
-                                                <header><h2>Daily Menu</h2></header>
-                                                <div class="list-slider owl-carousel">
-                                                    <div class="slide">
-                                                        <header>
-                                                            <h3><i class="fa fa-calendar"></i>Monday (today)</h3>
-                                                        </header>
-                                                        <div class="list-item">
-                                                            <div class="left">
-                                                                <h4>Chicken wings</h4>
-                                                                <figure>Curabitur odio nibh, luctus non pulvinar</figure>
+                                                    <header><h2>Daily Menu</h2></header>
+                                                    <div class="list-slider owl-carousel">
+                                                        <div class="slide">
+                                                            <header>
+                                                                <h3><i class="fa fa-calendar"></i>Monday (today)</h3>
+                                                            </header>
+                                                            <div class="list-item">
+                                                                <div class="left">
+                                                                    <h4>Chicken wings</h4>
+                                                                    <figure>Curabitur odio nibh, luctus non pulvinar</figure>
+                                                                </div>
+                                                                <div class="right">$4.50</div>
                                                             </div>
-                                                            <div class="right">$4.50</div>
-                                                        </div>
-                                                        <!-- /.list-item -->
-                                                        <div class="list-item">
-                                                            <div class="left">
-                                                                <h4>Mushroom ragout</h4>
-                                                                <figure>Donec a odio rutrum, hendrerit sapien</figure>
+                                                            <!-- /.list-item -->
+                                                            <div class="list-item">
+                                                                <div class="left">
+                                                                    <h4>Mushroom ragout</h4>
+                                                                    <figure>Donec a odio rutrum, hendrerit sapien</figure>
+                                                                </div>
+                                                                <div class="right">$3.60</div>
                                                             </div>
-                                                            <div class="right">$3.60</div>
-                                                        </div>
-                                                        <!-- /.list-item -->
-                                                        <div class="list-item">
-                                                            <div class="left">
-                                                                <h4>Nice salad with tuna, beans and hard-boiled egg</h4>
-                                                                <figure>Urabitur suscipit, justo eu dignissim lacinia </figure>
+                                                            <!-- /.list-item -->
+                                                            <div class="list-item">
+                                                                <div class="left">
+                                                                    <h4>Nice salad with tuna, beans and hard-boiled egg</h4>
+                                                                    <figure>Urabitur suscipit, justo eu dignissim lacinia </figure>
+                                                                </div>
+                                                                <div class="right">$1.20</div>
                                                             </div>
-                                                            <div class="right">$1.20</div>
+                                                            <!-- /.list-item -->
                                                         </div>
-                                                        <!-- /.list-item -->
+                                                        <!-- /.slide -->
+                                                        <div class="slide">
+                                                            <header>
+                                                                <h3><i class="fa fa-calendar"></i>Tuesday</h3>
+                                                            </header>
+                                                            <div class="list-item">
+                                                                <div class="left">
+                                                                    <h4>Chicken wings</h4>
+                                                                    <figure>Curabitur odio nibh, luctus non pulvinar</figure>
+                                                                </div>
+                                                                <div class="right">$4.50</div>
+                                                            </div>
+                                                            <!-- /.list-item -->
+                                                            <div class="list-item">
+                                                                <div class="left">
+                                                                    <h4>Mushroom ragout</h4>
+                                                                    <figure>Donec a odio rutrum, hendrerit sapien</figure>
+                                                                </div>
+                                                                <div class="right">$3.60</div>
+                                                            </div>
+                                                            <!-- /.list-item -->
+                                                            <div class="list-item">
+                                                                <div class="left">
+                                                                    <h4>Nice salad with tuna, beans and hard-boiled egg</h4>
+                                                                    <figure>Urabitur suscipit, justo eu dignissim lacinia </figure>
+                                                                </div>
+                                                                <div class="right">$1.20</div>
+                                                            </div>
+                                                            <!-- /.list-item -->
+                                                        </div>
+                                                        <!-- /.slide -->
                                                     </div>
-                                                    <!-- /.slide -->
-                                                    <div class="slide">
-                                                        <header>
-                                                            <h3><i class="fa fa-calendar"></i>Tuesday</h3>
-                                                        </header>
-                                                        <div class="list-item">
-                                                            <div class="left">
-                                                                <h4>Chicken wings</h4>
-                                                                <figure>Curabitur odio nibh, luctus non pulvinar</figure>
-                                                            </div>
-                                                            <div class="right">$4.50</div>
-                                                        </div>
-                                                        <!-- /.list-item -->
-                                                        <div class="list-item">
-                                                            <div class="left">
-                                                                <h4>Mushroom ragout</h4>
-                                                                <figure>Donec a odio rutrum, hendrerit sapien</figure>
-                                                            </div>
-                                                            <div class="right">$3.60</div>
-                                                        </div>
-                                                        <!-- /.list-item -->
-                                                        <div class="list-item">
-                                                            <div class="left">
-                                                                <h4>Nice salad with tuna, beans and hard-boiled egg</h4>
-                                                                <figure>Urabitur suscipit, justo eu dignissim lacinia </figure>
-                                                            </div>
-                                                            <div class="right">$1.20</div>
-                                                        </div>
-                                                        <!-- /.list-item -->
-                                                    </div>
-                                                    <!-- /.slide -->
-                                                </div>
-                                                <!-- /.list-slider -->
-                                            </article>
+                                                    <!-- /.list-slider -->
+                                                </article>
+                                                <?php
+                                            } 
+                                            ?>
+                                           
                                             <!-- /.block -->
                                             <article class="block">
                                                 <header><h2>Features</h2></header>

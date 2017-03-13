@@ -23,13 +23,13 @@ function drawInfobox(category, infoboxContent, json, i){
         '<div class="inner">' +
             '<div class="image">' +
                 '<div class="item-specific">' + drawItemSpecific(category, json, i) + '</div>' +
-                '<div class="overlay">' +
+                '<a href="' + url +  '"><div class="overlay">' +
                     '<div class="wrapper">' +
-                        '<a href="#" class="quick-view" data-toggle="modal" data-target="#modal" id="' + id + '">Quick View</a>' +
+                        '<a href="#" class="quick-view" data-toggle="modal" data-target="#modal" id="' + id + '">Overview</a>' +
                         '<hr>' +
-                        '<a href="' + url +  '" class="detail">Go to Detail</a>' +
+                        '<a href="' + url +  '" class="detail">Open Restaurant</a>' +
                     '</div>' +
-                '</div>' +
+                '</div></a>' +
                 '<a href="' + url +  '" class="description">' +
                     '<div class="meta">' +
                         price +

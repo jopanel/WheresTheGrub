@@ -39,7 +39,7 @@ function createHomepageGoogleMap(_latitude,_longitude,json){
             zoomControl: true,
             zoomControlOptions: {
                 style: google.maps.ZoomControlStyle.LARGE,
-                position: google.maps.ControlPosition.RIGHT_TOP
+                position: google.maps.ControlPosition.LEFT_TOP
             }
         };
         var mapElement = document.getElementById('map');
@@ -48,9 +48,9 @@ function createHomepageGoogleMap(_latitude,_longitude,json){
         var markerClicked = 0;
         var activeMarker = false;
         var lastClicked = false;
-
+        var firstrun = 0;
         for (var i = 0; i < json.data.length; i++) {
-
+            firstrun += 1;
             // Google map marker content -----------------------------------------------------------------------------------
 
             if( json.data[i].color ) var color = json.data[i].color;
@@ -83,7 +83,23 @@ function createHomepageGoogleMap(_latitude,_longitude,json){
                 content: markerContent,
                 flat: true
             });
-
+            if (firstrun == 1) {
+                var markerContent = document.createElement('DIV');
+                markerContent.innerHTML =
+                    '<div class="map-marker featured' + color + '">' +
+                        '<div class="icon">' +
+                        '<img src="' + json.data[i].type_icon +  '">' +
+                        '</div>' +
+                    '</div>';
+                var hereiam = new RichMarker({
+                    position: new google.maps.LatLng( _latitude, _longitude ),
+                    map: map,
+                    content: markerContent,
+                    draggable: false 
+                });
+                newMarkers.push(hereiam);
+            }
+            
             newMarkers.push(marker);
 
             // Create infobox for marker -----------------------------------------------------------------------------------
@@ -142,6 +158,7 @@ function createHomepageGoogleMap(_latitude,_longitude,json){
                 }
             })(marker, i));
         }
+        
 
         // Close infobox after click on map --------------------------------------------------------------------------------
 
@@ -273,6 +290,7 @@ function createHomepageGoogleMap(_latitude,_longitude,json){
         function success(position) {
             var locationCenter = new google.maps.LatLng( position.coords.latitude, position.coords.longitude);
             map.setCenter( locationCenter );
+
             map.setZoom(14);
 			
 			var markerContent = document.createElement('DIV');
@@ -291,7 +309,7 @@ function createHomepageGoogleMap(_latitude,_longitude,json){
 				content: markerContent,
 				flat: true
 			});
-
+            map.setCenter(marker.getPosition());
 			marker.content.className = 'marker-loaded';
 
             var geocoder = new google.maps.Geocoder();
@@ -344,150 +362,6 @@ function createHomepageGoogleMap(_latitude,_longitude,json){
         });
 
 
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// OpenStreetMap - Homepage
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-function createHomepageOSM(_latitude,_longitude,json,mapProvider){
-
-    $.get("resources/external/_infobox.js", function() {
-        osmMap();
-    });
-
-    function osmMap(){
-        var map = L.map('map', {
-                center: [_latitude,_longitude],
-                zoom: 14,
-                scrollWheelZoom: false
-        });
-
-        L.tileLayer.provider(mapProvider).addTo(map);
-
-        var markers = L.markerClusterGroup({
-            showCoverageOnHover: false,
-            zoomToBoundsOnClick: false
-        });
-
-        var loadedMarkers = [];
-
-        // Create markers on the map -----------------------------------------------------------------------------------
-
-        for (var i = 0; i < json.data.length; i++) {
-
-            // Set icon for marker -------------------------------------------------------------------------------------
-
-            if( json.data[i].type_icon ) var icon = '<img src="' + json.data[i].type_icon +  '">';
-            else icon = '';
-
-            if( json.data[i].color ) var color = json.data[i].color;
-            else color = '';
-
-            var markerContent =
-                '<div class="map-marker ' + color + '">' +
-                    '<div class="icon">' +
-                    icon +
-                    '</div>' +
-                '</div>';
-
-            var _icon = L.divIcon({
-                html: markerContent,
-                iconSize:     [36, 46],
-                iconAnchor:   [18, 32],
-                popupAnchor:  [130, -28],
-                className: ''
-            });
-
-            var title = json.data[i].title;
-            var marker = L.marker(new L.LatLng( json.data[i].latitude, json.data[i].longitude ), {
-                title: title,
-                icon: _icon
-            });
-
-            loadedMarkers.push(marker);
-
-            // Infobox HTML element ------------------------------------------------------------------------------------
-
-            var category = json.data[i].category;
-            var infoboxContent = document.createElement("div");
-            marker.bindPopup(
-                drawInfobox(category, infoboxContent, json, i)
-            );
-            markers.addLayer(marker);
-
-            // Set hover states for marker -----------------------------------------------------------------------------
-
-            marker.on('popupopen', function () {
-                this._icon.className += ' marker-active';
-            });
-            marker.on('popupclose', function () {
-                this._icon.className = 'leaflet-marker-icon leaflet-zoom-animated leaflet-clickable marker-loaded';
-            });
-
-        }
-
-        map.addLayer(markers);
-
-        // Animate already created markers -----------------------------------------------------------------------------
-
-        animateOSMMarkers(map, loadedMarkers, json);
-        map.on('moveend', function() {
-            animateOSMMarkers(map, loadedMarkers, json);
-        });
-
-        markers.on('clusterclick', function (a) {
-
-            var markersInCLuster = a.layer.getAllChildMarkers();
-            var latitudeArray = [];
-            var longitudeArray = [];
-
-            for (var b=0; b < markersInCLuster.length; b++)
-            {
-                var formattedLatitude = parseFloat( markersInCLuster[b]._latlng.lat ).toFixed(6);
-                var formattedLongitude = parseFloat( markersInCLuster[b]._latlng.lng ).toFixed(6);
-                latitudeArray.push( formattedLatitude );
-                longitudeArray.push( formattedLongitude );
-            }
-
-            Array.prototype.allValuesSame = function() {
-                for(var i = 1; i < this.length; i++)
-                {
-                    if(this[i] !== this[0])
-                        return false;
-                }
-                return true;
-            };
-
-            if( latitudeArray.allValuesSame() && longitudeArray.allValuesSame() ){
-                multiChoice(latitudeArray[0], longitudeArray[0], json);
-            }
-            else {
-                a.layer.zoomToBounds();
-            }
-        });
-
-        $('.results .item').hover(
-            function(){
-                loadedMarkers[ $(this).attr('id') - 1 ]._icon.className = 'leaflet-marker-icon leaflet-zoom-animated leaflet-clickable marker-loaded marker-active';
-            },
-            function() {
-                loadedMarkers[ $(this).attr('id') - 1 ]._icon.className = 'leaflet-marker-icon leaflet-zoom-animated leaflet-clickable marker-loaded';
-            }
-        );
-
-        $('.geolocation').on("click", function() {
-            map.locate({setView : true})
-        });
-
-        $('body').addClass('loaded');
-        setTimeout(function() {
-            $('body').removeClass('has-fullscreen-map');
-        }, 1000);
-        $('#map').removeClass('fade-map');
-
-        redrawMap('osm', map);
     }
 }
 

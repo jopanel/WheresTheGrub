@@ -142,7 +142,7 @@ class Api extends CI_Controller {
 				// start getting information
 				$latitude = $this->session->userdata("userdata_lat");
 				$longitude = $this->session->userdata("userdata_lon");
-				$sql = "SELECT hours, category_labels, cuisine, id, name, address, latitude, longitude, rating,( 3959 * acos( cos( radians(".$this->db->escape($latitude).") ) 
+				$sql = "SELECT hours, category_labels, cuisine, id, name, address, latitude, longitude, rating,url,( 3959 * acos( cos( radians(".$this->db->escape($latitude).") ) 
 		              * cos( radians( latitude ) ) 
 		              * cos( radians( longitude ) - radians(".$this->db->escape($longitude).") ) 
 		              + sin( radians(".$this->db->escape($latitude).") ) 
@@ -223,7 +223,13 @@ class Api extends CI_Controller {
 				}
 
 				//$sql .= " LIMIT 300";
-
+				/*
+				SELECT hours, category_labels, cuisine, id, name, address, latitude, longitude, rating,url,( 3959 * acos( cos( radians(33.8477257) ) 
+		              * cos( radians( latitude ) ) 
+		              * cos( radians( longitude ) - radians(-118.1181199) ) 
+		              + sin( radians(33.8477257) ) 
+		              * sin( radians( latitude ) ) ) ) AS distance FROM restaurantlist WHERE `active` = '1' AND (`name` LIKE '%%' OR `category_labels` LIKE '%%' OR `cuisine` LIKE '%%' OR `description` LIKE '%%') HAVING distance < 2
+		        */
 				$result = $this->db->query($sql);
 				if ($result) {
 					$resultset = $result->result_array();
@@ -276,7 +282,7 @@ class Api extends CI_Controller {
 							"location" =>$resarr["address"],
 							"latitude" =>$resarr["latitude"],
 							"longitude" =>$resarr["longitude"],
-							"url" =>0,
+							"url" =>$resarr["url"],
 							"type" =>$type,
 							"type_icon" =>"resources/icons/restaurants-bars/restaurants/restaurant.png",
 							"rating" =>$resarr["rating"],
