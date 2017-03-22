@@ -261,6 +261,7 @@ class Vendor_model extends CI_Model {
                 return TRUE;
             } elseif ($data["type"] == "item") {
                 $image = ""; // needs work
+                if (!isset($data["description"]) || empty($data["description"])) { $data["description"] = ""; }
                 $sql = "INSERT INTO vendor_menu_items (rid, groupid, name, description, cost, image) VALUES (".$this->db->escape((int)$rid).", ".$this->db->escape((int)$data["groupid"]).", ".$this->db->escape(strip_tags($data["name"])).", ".$this->db->escape(strip_tags($data["description"])).", ".$this->db->escape((float)$data["cost"]).", ".$image.")";
                 $this->db->query($sql);
                 return TRUE;

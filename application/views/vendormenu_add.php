@@ -62,43 +62,53 @@
                                             <header>
                                                 <h1 class="page-title">Create Menu Items</h1>
                                             </header> 
-                                            <form role="form" method="post" action="">
+                                            <form role="form" method="post" action="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managemenu/<?=$rid?>">
                                                 <input type="hidden" name="action" value="add"> 
                                                 <input type="hidden" name="group" value="group">
                                                 <div class="form-group">
-                                                    <label for="form-register-full-name">Add Category:</label>
+                                                    <label>Add Category:</label>
                                                     <input type="text" class="form-control" name="name" required>
                                                 </div><!-- /.form-group -->
                                                 <div class="form-group clearfix">
-                                                    <button type="submit" class="btn btn-default" id="account-submit">Create Category</button>
+                                                    <button type="submit" class="btn btn-default">Create Category</button>
                                                 </div><!-- /.form-group -->
                                             </form>
-                                            <form role="form" method="post" action="">
+                                            <?php 
+
+                                            if (count($groups) > 0) { ?>
+                                            <form role="form" method="post" action="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managemenu/<?=$rid?>">
                                                 <input type="hidden" name="action" value="add"> 
                                                 <input type="hidden" name="group" value="item">
                                                 <div class="form-group">
-                                                    <label for="form-register-full-name">Item Name:</label>
-                                                    <input type="text" class="form-control" name="phone"  id="form-register-full-name" required>
+                                                    <label>Item Name:</label>
+                                                    <input type="text" class="form-control" name="name" required>
+                                                </div><!-- /.form-group -->
+                                                <div class="form-group">    
+                                                    <label>Cost <i>(-1 to hide cost)</i></label>
+                                                    <input type="text" class="form-control" name="cost" value="-1" required>
                                                 </div><!-- /.form-group -->
                                                 <div class="form-group">
-                                                    <label for="form-register-full-name">In Category</label>
+                                                    <label>Description:</label>
+                                                    <textarea class="form-control" name="description"></textarea>
+                                                </div><!-- /.form-group -->
+                                                <div class="form-group">
+                                                    <label>In Category</label>
                                                     <hr>
+                                                    <select class="form-control" name="groupid" required>
                                                     <?php
-                                                        foreach ($res as $v) {
-                                                            echo $v["name"].'<br><select name="master[]"><option selected>No Access</option><option value="'.$v["rid"].'-0">Access No Master Account</option><option value="'.$v["rid"].'-1">Access With Master Account</option></select><hr>';
+                                                        foreach ($groups as $v) {
+                                                            echo "<option value='".$v["id"]."'>".$v["name"]."</option>";
                                                         }
                                                     ?>
-                                                    
+                                                    </select>
                                                 </div>
                                                 <br><br>
                                                 <div class="form-group clearfix">
-                                                    <button type="submit" class="btn btn-default" id="account-submit">Create User</button>
+                                                    <button type="submit" class="btn btn-default">Create Item</button>
                                                 </div><!-- /.form-group -->
                                             </form>
-                                            <hr>
-                                            <div class="center">
-                                                <figure class="note">By clicking the “Create an Account” button you agree with our Terms and conditions. All permissions, access, and modifications made by the created account will be tied with this account.</figure>
-                                            </div>
+                                            <?php }
+                                            ?>
 
                         </div>
                     </div>
