@@ -58,7 +58,7 @@
                             </aside>
                         </div>
                         <div class="col-md-9 col-sm-9">
-
+                            <header class="no-border"><a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managemenu/<?=$rid?>/add"><h3>Add Menu Item</h3></a></header>
 
 
 

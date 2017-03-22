@@ -347,6 +347,10 @@ class Vendor extends CI_Controller {
 		if ($this->Vendor_model->verifyUser($rid)) {
 			$data["rid"] = $rid;
 			$data["page"] = null;
+			if ($this->input->post()) {
+				$data = $this->input->post();
+				$this->Vendor_model->editMenuItems($rid, $data, $post["action"]);
+			}
 			if ($page == null) {
 				$this->load->view('landingheader');
 				$this->load->view('vendormenu', $data);
@@ -360,11 +364,6 @@ class Vendor extends CI_Controller {
 			if ($page == "add") {
 				$this->load->view('landingheader');
 				$this->load->view('vendormenu_add', $data);
-				$this->load->view('landingfooter');
-			}
-			if ($page == "delete") {
-				$this->load->view('landingheader');
-				$this->load->view('vendormenu', $data);
 				$this->load->view('landingfooter');
 			}
 			
