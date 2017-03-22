@@ -208,6 +208,18 @@ class Vendor_model extends CI_Model {
         // needs work
     }
 
+    public function getMenuGroups($rid=0) {
+        if ($rid == 0) { return FALSE; }
+        $rid = (int)$rid;
+        $sql = "SELECT * FROM vendor_menu_groups WHERE rid = ".$this->db->escape(strip_tags($rid));
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        } else {
+            return array();
+        }
+    }
+
     public function editMenuItems($rid=0, $data, $action=0) {
         if ($rid == 0) { return FALSE; }
         if ($action == 0) { return FALSE; }
