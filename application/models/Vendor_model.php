@@ -220,9 +220,8 @@ class Vendor_model extends CI_Model {
         }
     }
 
-    public function editMenuItems($rid=0, $data, $action=0) {
-        if ($rid == 0) { return FALSE; }
-        if ($action == 0) { return FALSE; }
+    public function editMenuItems($rid=0, $data, $action=0) { 
+        
         if ($action == "edit") { 
             if (!isset($data["id"]) || empty($data["id"])) { return FALSE; }
             if ($data["type"] == "group") {
@@ -254,8 +253,10 @@ class Vendor_model extends CI_Model {
             }
         }
         ///
-        if ($action == "add") {
+        echo 1;
+        if ($action == "add") { echo 2;
             if ($data["type"] == "group") {
+                echo 3;
                 $sql = "INSERT INTO vendor_menu_groups (rid, name) VALUES (".$this->db->escape((int)$rid).", ".$this->db->escape(strip_tags($data["name"])).")";
                 $this->db->query($sql);
                 return TRUE;

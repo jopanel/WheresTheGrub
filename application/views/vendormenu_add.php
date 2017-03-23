@@ -62,9 +62,9 @@
                                             <header>
                                                 <h1 class="page-title">Create Menu Items</h1>
                                             </header> 
-                                            <form role="form" method="post" action="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managemenu/<?=$rid?>">
+                                            <form role="form" method="post" action="">
                                                 <input type="hidden" name="action" value="add"> 
-                                                <input type="hidden" name="group" value="group">
+                                                <input type="hidden" name="type" value="group">
                                                 <div class="form-group">
                                                     <label>Add Category:</label>
                                                     <input type="text" class="form-control" name="name" required>
@@ -76,9 +76,9 @@
                                             <?php 
 
                                             if (count($groups) > 0) { ?>
-                                            <form role="form" method="post" action="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managemenu/<?=$rid?>">
+                                            <form role="form" method="post" action="">
                                                 <input type="hidden" name="action" value="add"> 
-                                                <input type="hidden" name="group" value="item">
+                                                <input type="hidden" name="type" value="item">
                                                 <div class="form-group">
                                                     <label>Item Name:</label>
                                                     <input type="text" class="form-control" name="name" required>
