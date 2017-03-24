@@ -60,11 +60,65 @@
                         <div class="col-md-9 col-sm-9">
                             <header class="no-border"><a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managemenu/<?=$rid?>/add"><h3>Add Menu Item</h3></a></header>
 
+                            <?php
+                            
+                            //echo "<pre>";
+                            //var_dump($getmenu);
+                            //echo "</pre>";
+                            
+                            //echo (count($getmenu));
+                            foreach ($getmenu as $v) {
 
+                                if (count($v["items"]) > 0) {
+                                    ?>
+                                            <article class="block">
+                                                    <header><h2><?=$v["name"]?></h2></header>
+                                                        <div class="slide">
+                                    <?php
 
+                                    foreach ($v["items"] as $vv) {
+                                        if ((float)$vv["cost"] < 0) { $vv["cost"] = ""; } else { $vv["cost"] = "$".$vv["cost"];}
+                                        ?>
+                                                <div class="list-item">
+                                                    <div class="left">
+                                                        <h4><?=$vv["name"]?> <?=$vv["cost"]?></h4>
+                                                        <figure><?=$vv["description"]?></figure>
+                                                    </div>
+                                                    <div class="right">
 
+                                                        <a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managemenu/<?=$rid?>/edit/<?=$vv["id"]?>"><button class="btn btn-default">Modify</button></a> 
 
+                                                        <form role="form" method="post" action="">
+                                                            <input type="hidden" name="action" value="delete"> 
+                                                            <input type="hidden" name="type" value="item">
+                                                            <input type="hidden" name="id" value="<?=$vv["id"]?>">
+                                                            <button class="btn btn-default">X</button></a></div>
+                                                        </form>
+                                                </div>
+                                                        
+                                        <?php
+                                    }
 
+                                    echo "</div></article>";
+
+                                } else {
+                                    // insert ability to delete item group
+                                    ?>
+                                            <article class="block">
+                                                    <header><h2>
+                                                        <form role="form" method="post" action="">
+                                                            <input type="hidden" name="action" value="delete"> 
+                                                            <input type="hidden" name="type" value="group">
+                                                            <input type="hidden" name="id" value="<?=$v["id"]?>">
+                                                            <?=$v["name"]?>
+                                                            <button class="btn btn-default">X</button></a>
+                                                        </form>
+                                                    </h2> </header>
+                                            </article>
+                                    <?php
+                                }
+                            }
+                            ?>
 
                         </div>
                     </div>

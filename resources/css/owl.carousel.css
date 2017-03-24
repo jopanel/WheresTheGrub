@@ -52,7 +52,6 @@
  *  Core Owl Carousel CSS File
  */
 .owl-carousel {
-  display: none;
   width: 100%;
   -webkit-tap-highlight-color: transparent;
   /* position relative and z-index fix webkit rendering fonts issue */
@@ -99,7 +98,7 @@
   opacity: 0;
 }
 .owl-carousel .owl-refresh .owl-item {
-  display: none;
+ 
 }
 .owl-carousel .owl-item {
   position: relative;
@@ -193,7 +192,7 @@
 }
 .owl-carousel .owl-video-playing .owl-video-tn,
 .owl-carousel .owl-video-playing .owl-video-play-icon {
-  display: none;
+ 
 }
 .owl-carousel .owl-video-tn {
   opacity: 0;

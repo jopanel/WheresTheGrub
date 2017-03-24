@@ -261,7 +261,7 @@ class Vendor_model extends CI_Model {
                 $this->db->query($sql);
                 return TRUE;
             } elseif ($data["type"] == "item") {
-                $image = ""; // needs work
+                $image = "''"; // needs work
                 if (!isset($data["description"]) || empty($data["description"])) { $data["description"] = ""; }
                 $sql = "INSERT INTO vendor_menu_items (rid, groupid, name, description, cost, image) VALUES (".$this->db->escape((int)$rid).", ".$this->db->escape((int)$data["groupid"]).", ".$this->db->escape(strip_tags($data["name"])).", ".$this->db->escape(strip_tags($data["description"])).", ".$this->db->escape((float)$data["cost"]).", ".$image.")";
                 $this->db->query($sql);
@@ -275,12 +275,15 @@ class Vendor_model extends CI_Model {
         $sql = "SELECT * FROM vendor_menu_groups WHERE rid = ".$this->db->escape((int)$rid);
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
-            $sql2 = "SELECT * FROM vendor_menu_items WHERE rid = ".$this->db->escape((int)$rid)." AND groupid = ".$this->db->escape($query->row()->id);
-            $query2 = $this->db->query($sql2);
-            if ($query2->num_rows() > 0) {
-                $buildarray[] = array("id"=>$query->row()->id, "name"=>$query->row()->name,"items"=>$query2->result_array());
-            } else {
-                $buildarray[] = array("id"=>$query->row()->id, "name"=>$query->row()->name, "items"=>array());
+            $q = $query->result_array();
+            foreach ($q as $v) {
+               $sql2 = "SELECT * FROM vendor_menu_items WHERE rid = ".$this->db->escape((int)$rid)." AND groupid = ".$this->db->escape($v["id"]);
+                $query2 = $this->db->query($sql2);
+                if ($query2->num_rows() > 0) {
+                    $buildarray[] = array("id"=>$v["id"], "name"=>$v[">name"],"items"=>$query2->result_array());
+                } else {
+                    $buildarray[] = array("id"=>$v["id"], "name"=>$v["name"], "items"=>array());
+                } 
             }
         } else {
             return $buildarray;

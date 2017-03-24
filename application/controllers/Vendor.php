@@ -342,14 +342,14 @@ class Vendor extends CI_Controller {
 		} 
 	}
 
-	public function managemenu($rid=null,$page=null) {
+	public function managemenu($rid=null,$page=null, $dat=null) {
 		if ($rid == null) { return; }
 		if ($this->Vendor_model->verifyUser($rid)) {
 			$data["rid"] = $rid;
 			$data["page"] = null;
 			if ($this->input->post()) {
 				$datapost = $this->input->post();
-				$this->Vendor_model->editMenuItems($rid, $datapost, $post["action"]);
+				$this->Vendor_model->editMenuItems($rid, $datapost, $datapost["action"]);
 			}
 			if ($page == null) {
 				$data["getmenu"] = $this->Vendor_model->listMenuItems($rid);
