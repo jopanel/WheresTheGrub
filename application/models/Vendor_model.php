@@ -280,7 +280,7 @@ class Vendor_model extends CI_Model {
                $sql2 = "SELECT * FROM vendor_menu_items WHERE rid = ".$this->db->escape((int)$rid)." AND groupid = ".$this->db->escape($v["id"]);
                 $query2 = $this->db->query($sql2);
                 if ($query2->num_rows() > 0) {
-                    $buildarray[] = array("id"=>$v["id"], "name"=>$v[">name"],"items"=>$query2->result_array());
+                    $buildarray[] = array("id"=>$v["id"], "name"=>$v["name"],"items"=>$query2->result_array());
                 } else {
                     $buildarray[] = array("id"=>$v["id"], "name"=>$v["name"], "items"=>array());
                 } 
