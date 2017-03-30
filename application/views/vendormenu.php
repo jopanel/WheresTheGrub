@@ -88,7 +88,7 @@
 
                                                         <a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managemenu/<?=$rid?>/edit/<?=$vv["id"]?>"><button class="btn btn-default">Modify</button></a> 
 
-                                                        <form role="form" method="post" action="">
+                                                        <form role="form" method="post" action="" style="display: inline;">
                                                             <input type="hidden" name="action" value="delete"> 
                                                             <input type="hidden" name="type" value="item">
                                                             <input type="hidden" name="id" value="<?=$vv["id"]?>">

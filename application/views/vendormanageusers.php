@@ -27,6 +27,7 @@
                                 </ul>
                             </aside>
                         </div>
+                        <?php var_dump($this->session->userdata()); ?>
                         <div class="col-md-9 col-sm-9">
                             <div class="container">
                                 <header class="no-border"><a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/manageusers/add"><h3>Add New User</h3></a></header>

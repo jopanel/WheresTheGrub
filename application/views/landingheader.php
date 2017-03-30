@@ -58,11 +58,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <?php if ($this->session->userdata("email")) { ?>
                             <li><a href="/user/feed"><strong>Coupons & Deals</strong></a></li>
                             <li><a href="/user/profile">Settings</a></li>
-                           <?php } else { ?>
+                           <?php } if ($this->session->userdata("vendorloggedin")) { ?>
+                           <li><a href="/vendor"><strong>Welcome Back, <?=$this->session->userdata("fullname")?></strong></a></li>
+                           <li><a href="/user/logout">Logout</a></li>
+                           <?php } 
+
+                           if (!$this->session->userdata("vendorloggedin") && !$this->session->userdata("email")) { ?>
                             <li><a href="/signin">Login</a></li>
                             <li><a href="/register"><strong>Register</strong></a></li>
                                 <?php } ?>
-                            
                         </ul>
                         <div class="toggle-navigation">
                             <div class="icon">
@@ -94,7 +98,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <li><a href="/user/">My Profile</a></li>
                             <li><a href="/user/profile">Settings</a></li>
                             <li><a href="/user/logout">Logout</a></li>
-                           <?php } else { ?>
+                           <?php } 
+
+                           if ($this->session->userdata("vendorloggedin")) { ?>
+                           <li><a href="/vendor"><strong>Welcome Back, <?=$this->session->userdata("fullname")?></strong></a></li>
+                           <li><a href="/user/logout">Logout</a></li>
+                           <?php } 
+
+                           if (!$this->session->userdata("vendorloggedin") && !$this->session->userdata("email")) { ?>
                             <li><a href="/signin">Login</a></li>
                             <li><a href="/register"><strong>Register</strong></a></li>
                                 <?php } ?>
