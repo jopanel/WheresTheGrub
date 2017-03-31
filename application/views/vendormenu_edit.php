@@ -58,58 +58,46 @@
                             </aside>
                         </div>
                         <div class="col-md-9 col-sm-9">
-
                                             <header>
-                                                <h1 class="page-title">Create Menu Items</h1>
+                                                <h1 class="page-title">Edit Menu Item</h1>
                                             </header> 
                                             <form role="form" method="post" action="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managemenu/<?=$rid?>">
-                                                <input type="hidden" name="action" value="add"> 
-                                                <input type="hidden" name="group" value="group">
-                                                <div class="form-group">
-                                                    <label>Add Category:</label>
-                                                    <input type="text" class="form-control" name="name" required>
-                                                </div><!-- /.form-group -->
-                                                <div class="form-group clearfix">
-                                                    <button type="submit" class="btn btn-default">Create Category</button>
-                                                </div><!-- /.form-group -->
-                                            </form>
-                                            <?php 
-
-                                            if (count($groups) > 0) { ?>
-                                            <form role="form" method="post" action="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managemenu/<?=$rid?>">
-                                                <input type="hidden" name="action" value="add"> 
-                                                <input type="hidden" name="group" value="item">
+                                                <input type="hidden" name="action" value="edit"> 
+                                                <input type="hidden" name="type" value="item">
+                                                <input type="hidden" name="id" value="<?=$iteminfo[0]["items"][0]["id"]?>">
                                                 <div class="form-group">
                                                     <label>Item Name:</label>
-                                                    <input type="text" class="form-control" name="name" required>
+                                                    <input type="text" class="form-control" name="name" value="<?=$iteminfo[0]["items"][0]["name"]?>" required>
                                                 </div><!-- /.form-group -->
                                                 <div class="form-group">    
                                                     <label>Cost <i>(-1 to hide cost)</i></label>
-                                                    <input type="text" class="form-control" name="cost" value="-1" required>
+                                                    <input type="text" class="form-control" name="cost" value="<?=$iteminfo[0]["items"][0]["cost"]?>" required>
                                                 </div><!-- /.form-group -->
                                                 <div class="form-group">
                                                     <label>Description:</label>
-                                                    <textarea class="form-control" name="description"></textarea>
+                                                    <textarea class="form-control" name="description"><?=$iteminfo[0]["items"][0]["description"]?></textarea>
                                                 </div><!-- /.form-group -->
+                                                <?php 
+                                                /*
                                                 <div class="form-group">
                                                     <label>In Category</label>
                                                     <hr>
                                                     <select class="form-control" name="groupid" required>
                                                     <?php
                                                         foreach ($groups as $v) {
-                                                            echo "<option value='".$v["id"]."'>".$v["name"]."</option>";
+                                                            $selected = "";
+                                                            if ($v["id"] == $itemeinfo[0]["items"][0]["id"]) { $selected = "selected"; }
+                                                            echo "<option value='".$v["id"]."' ".$selected.">".$v["name"]."</option>";
                                                         }
                                                     ?>
                                                     </select>
                                                 </div>
+                                                */ ?>
                                                 <br><br>
                                                 <div class="form-group clearfix">
-                                                    <button type="submit" class="btn btn-default">Create Item</button>
+                                                    <button type="submit" class="btn btn-default">Save Changes</button>
                                                 </div><!-- /.form-group -->
                                             </form>
-                                            <?php }
-                                            ?>
-
 
                         </div>
                     </div>

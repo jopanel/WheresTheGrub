@@ -223,6 +223,7 @@ class Vendor_model extends CI_Model {
     public function editMenuItems($rid=0, $data, $action=0) { 
         
         if ($action == "edit") { 
+            echo 1;
             if (!isset($data["id"]) || empty($data["id"])) { return FALSE; }
             if ($data["type"] == "group") {
                 if (!isset($data["name"]) || empty($data["name"]) || !isset($data["id"]) || empty($data["id"])) { return FALSE; }
@@ -253,8 +254,7 @@ class Vendor_model extends CI_Model {
             }
         }
         ///
-        echo 1;
-        if ($action == "add") { echo 2;
+        if ($action == "add") { 
             if ($data["type"] == "group") {
                 echo 3;
                 $sql = "INSERT INTO vendor_menu_groups (rid, name) VALUES (".$this->db->escape((int)$rid).", ".$this->db->escape(strip_tags($data["name"])).")";
@@ -268,6 +268,28 @@ class Vendor_model extends CI_Model {
                 return TRUE;
             }
         }
+    }
+
+    public function listMenuItem($rid=0, $menuitemid=0) {
+        $buildarray = [];
+
+        $sql = "SELECT * FROM vendor_menu_groups WHERE rid = ".$this->db->escape((int)$rid);
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            $q = $query->result_array();
+            foreach ($q as $v) {
+               $sql2 = "SELECT * FROM vendor_menu_items WHERE id = ".$this->db->escape(strip_tags((int)$menuitemid))." AND rid = ".$this->db->escape((int)$rid)." AND groupid = ".$this->db->escape($v["id"]);
+                $query2 = $this->db->query($sql2);
+                if ($query2->num_rows() > 0) {
+                    $buildarray[] = array("id"=>$v["id"], "name"=>$v["name"],"items"=>$query2->result_array());
+                } else {
+                    $buildarray[] = array("id"=>$v["id"], "name"=>$v["name"], "items"=>array());
+                } 
+            }
+        } else {
+            return $buildarray;
+        }
+        return $buildarray;
     }
 
     public function listMenuItems($rid=0) {

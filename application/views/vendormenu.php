@@ -94,6 +94,8 @@
                                                             <input type="hidden" name="id" value="<?=$vv["id"]?>">
                                                             <button class="btn btn-default">X</button></a></div>
                                                         </form>
+                                                    </div>
+                                                    <hr>
                                                 </div>
                                                         
                                         <?php

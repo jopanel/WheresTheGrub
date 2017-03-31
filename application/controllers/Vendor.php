@@ -358,6 +358,8 @@ class Vendor extends CI_Controller {
 				$this->load->view('landingfooter');
 			}
 			if ($page == "edit") {
+				$data["groups"] = $this->Vendor_model->getMenuGroups($rid);
+				$data["iteminfo"] = $this->Vendor_model->listMenuItem($rid, strip_tags((int)$dat));
 			  	$this->load->view('landingheader');
 				$this->load->view('vendormenu_edit', $data);
 				$this->load->view('landingfooter');
