@@ -226,12 +226,18 @@ class Vendor extends CI_Controller {
 		}
 	}
 
-	public function managereviews($rid=null) {
+	public function managereviews($rid=null, $action=null) {
 		if ($rid == null) { return; }
 		if ($this->Vendor_model->verifyUser($rid)) {
 			$data["rid"] = $rid;
+			$data["reviews"] = $this->Vendor_model->getBizReviews($rid);
+			if ($this->input->post()) {
+				$postData = $this->input->post();
+				if (isset($postData["reviewid"]) && !empty($postData["reviewid"])) { $reviewid = $postData["reviewid"]; } else {$reviewid=0;}
+				$this->Vendor_model->reviewAction($rid, $reviewid, $postData, $postData["action"]);
+			} 
 			$this->load->view('landingheader');
-				$this->load->view('vendormanagereviews', $data);
+			$this->load->view('vendormanagereviews', $data);
 			$this->load->view('landingfooter');
 		}
 	}

@@ -59,9 +59,46 @@
                         </div>
                         <div class="col-md-9 col-sm-9">
 
-
-
-
+                            <section id="items">
+                            <?php foreach ($reviews as $k => $v) { ?>
+                                <div class="item list admin-view">
+                                    <div class="image">
+                                        <a href="item-detail.html">
+                                            <div class="overlay">
+                                                <div class="inner">
+                                                    <div class="content">
+                                                        <h4>Description</h4>
+                                                        <p>Curabitur odio nibh, luctus non pulvinar a, ultricies ac diam. Donec neque massa</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <img src="assets/img/items/restaurant/10.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="wrapper">
+                                        <a href="item-detail.html"><h3>Sushi Wooshi Bar</h3></a>
+                                        <figure>357 Trainer Avenue</figure>
+                                        <div class="info">
+                                            <div class="type">
+                                                <i><img src="assets/icons/restaurants-bars/restaurants/fishchips.png" alt=""></i>
+                                                <span>Sushi Bar</span>
+                                            </div>
+                                            <div class="rating" data-rating="3"></div>
+                                        </div>
+                                    </div>
+                                    <div class="description">
+                                        <ul class="list-unstyled actions">
+                                            <li><a href="#"><i class="fa fa-pencil"></i></a></li>
+                                            <li><a href="#" class="hide-item"><i class="fa fa-eye"></i></a></li>
+                                            <li><a href="#"><i class="fa fa-trash"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="ribbon approved">
+                                        <i class="fa fa-check"></i>
+                                    </div>
+                                </div>
+                            <?php }  ?>
+                            </section>
 
 
 

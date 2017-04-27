@@ -50,7 +50,7 @@ class Signin extends CI_Controller {
 	}
 	public function index()
 	{
-		$data["bgstyle"] = 'style="background-image: url(resources/img/signinbg.jpg); background-position: center top; background-size: 100% auto; background-repeat: no-repeat;"';
+		$data["bgstyle"] = 'style="background-image: url(resources/img/signinbg.jpg); background-position-y: -370px; background-size: 100% auto; background-repeat: no-repeat;"';
 		$this->load->view('landingheader', $data);
 		$data["problem"] = 0;
 		if ($this->input->post()) {
