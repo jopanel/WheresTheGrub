@@ -69,7 +69,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <ul class="main-navigation navigation-top-header"></ul>
                         <ul class="user-area">
                             <li><a href="/search">Find Food</a></li>
-                            <li><a href="/business">Services</a></li>
+                            <?php if (!$this->session->userdata("loggedin")) { ?> <li><a href="/business">Business</a></li> <?php } ?>
                             <li><a href="/start/support">Support</a></li>
                             <?php if ($this->session->userdata("email")) { ?>
                             <li><a href="/user/feed"><strong>Coupons & Deals</strong></a></li>
@@ -104,7 +104,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="main-navigation navigation-off-canvas"></div>
                 <ul class="user-area">
                             <li><a href="/search">Find Food</a></li>
-                            <li><a href="/business">Services</a></li>
+                            <?php if (!$this->session->userdata("loggedin")) { ?> <li><a href="/business">Business</a></li> <?php } ?>
                             <li><a href="/start/support">Support</a></li>
                             <li><a href="/start/about">About Us</a></li> 
                             <?php if ($this->session->userdata("email")) { ?>
