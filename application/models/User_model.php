@@ -430,6 +430,12 @@ class User_model extends CI_Model {
             $this->session->unset_userdata('usertoken');
             $this->session->unset_userdata('email');
             $this->session->unset_userdata('loggedin');
+            $this->session->unset_userdata('uid');
+            $this->session->unset_userdata('fullname');
+            $this->session->unset_userdata('vendoremail');
+            $this->session->unset_userdata('vendortoken');
+            $this->session->unset_userdata('vendorloggedin'); 
+            
             return TRUE;
     }
 

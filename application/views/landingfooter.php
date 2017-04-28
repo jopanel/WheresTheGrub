@@ -80,7 +80,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <a href="https://www.facebook.com/wheresthegrub" class="social-button"><i class="fa fa-facebook"></i></a>
                                     </div>
 
-                                    <a href="/contactus" class="btn framed icon">Contact Us<i class="fa fa-angle-right"></i></a>
+                                    <a href="/start/support" class="btn framed icon">Contact Us<i class="fa fa-angle-right"></i></a>
                                 </section>
                             </div>
                             <!--/.col-md-4-->

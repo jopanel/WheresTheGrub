@@ -53,9 +53,9 @@ class User extends CI_Controller {
 	public function logout() {
 		if ($this->User_model->verifyUser()) {
 			$this->User_model->logout();
-			redirect("../../signin");
+			redirect("http://".$_SERVER["SERVER_NAME"]);
 		} else {
-			redirect("../../signin");
+			redirect("http://".$_SERVER["SERVER_NAME"]);
 		}
 	}
 

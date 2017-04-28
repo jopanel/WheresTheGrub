@@ -945,6 +945,7 @@ ul.bullets li a:hover {
   padding-bottom: 60px;
   z-index: 0;
   position: relative;
+  background-color: #e3e3e3;
 }
 
 .read-more {
