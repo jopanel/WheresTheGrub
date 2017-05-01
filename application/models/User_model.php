@@ -189,7 +189,7 @@ class User_model extends CI_Model {
         $sql2 = "SELECT c.*, l.name, l.address, l.url FROM followers f
         LEFT JOIN coupons c ON f.rid = c.rid 
         LEFT JOIN restaurantlist l ON l.id = c.rid
-        WHERE f.uid = ".$this->db->escape((int)$this->session->userdata("uid"))." AND f.rid = ".$this->db->escape((int)$post["rid"]);
+        WHERE f.uid = ".$this->db->escape((int)$this->session->userdata("uid"));
         $query = $this->db->query($sql2);
         if ($query) {
             if ($query->num_rows() > 0) {
@@ -207,6 +207,22 @@ class User_model extends CI_Model {
         $sql = "SELECT l.name, l.url, l.id FROM followers f
         LEFT JOIN restaurantlist l ON f.rid = l.id
         WHERE f.uid = ".$this->db->escape((int)$this->session->userdata("uid"));
+        $query = $this->db->query($sql);
+        if ($query) {
+            if ($query->num_rows() > 0) {
+                return $query->result_array();
+            } else {
+                return $buildarray;
+            }
+        }
+        return $buildarray;
+    }
+
+    public function isFollowing($uid=null) {
+        $buildarray = [];
+        $sql = "SELECT l.name, l.url, l.id FROM followers f
+        LEFT JOIN restaurantlist l ON f.rid = l.id
+        WHERE f.uid = ".$this->db->escape((int)$this->session->userdata("uid"))." AND rid = ".$this->db->escape((int)$this->session->userdata("rid"));
         $query = $this->db->query($sql);
         if ($query) {
             if ($query->num_rows() > 0) {

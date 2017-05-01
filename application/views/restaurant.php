@@ -9,7 +9,7 @@
                             <section class="block" id="main-content">
                                 <header class="page-title">
                                     <div class="title">
-                                        <h1><?=$res["name"]?></h1>
+                                        <h1><?=$res["name"]?> <button class="followbtn" onClick="follow(<?php echo $res["id"]; ?>)">Follow</button></h1>
                                         <figure><?php
                                             if (isset($res["hours"]) && !empty($res["hours"])) {
                                                 $hoursarray = json_decode($res["hours"], true);

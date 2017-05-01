@@ -50,13 +50,10 @@ class User extends CI_Controller {
 	  }
 	}
 
-	public function logout() {
-		if ($this->User_model->verifyUser()) {
-			$this->User_model->logout();
+	public function logout() { 
+            foreach (array_keys($this->session->userdata) as $key) {   $this->session->unset_userdata($key); }
+         	$this->session->sess_destroy();
 			redirect("http://".$_SERVER["SERVER_NAME"]);
-		} else {
-			redirect("http://".$_SERVER["SERVER_NAME"]);
-		}
 	}
 
 	public function feed() {
@@ -98,6 +95,23 @@ class User extends CI_Controller {
 				$this->load->view('landingfooter');
 			}
 		}
+	}
+
+	public function calls() {
+		if ($this->input->is_ajax_request()) {
+			if ($this->input->post()) {
+				$post = $this->input->post();
+				// logged in functions below
+				if ($this->User_model->verifyUser()) {
+					if ($post["action"] == "follow") {
+						$this->User_model->updateFollow($post);
+					}
+				}
+				
+			} // end ajax scripts
+		} else {
+			redirect("http://".$_SERVER["SERVER_NAME"]);
+		}//end ajax scripts
 	}
 
 	public function profile()

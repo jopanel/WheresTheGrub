@@ -103,7 +103,10 @@ class Place extends CI_Controller {
 		} else {
 			$data["problem"] = 1;
 		}
-		
+		if ($this->session->userdata("email")) {
+			$this->load->model('User_model');
+			$data["userdata"] = $this->User_model->
+		}
 		$this->load->view('landingheader');
 		$this->load->view('restaurant', $data);
 		$this->load->view('landingfooter');
