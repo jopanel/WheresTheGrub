@@ -303,7 +303,7 @@ require.register("dropzone/lib/dropzone.js", function (exports, module) {
       params: {},
       clickable: true,
       ignoreHiddenFiles: true,
-      acceptedFiles: null,
+      acceptedFiles: 'image/*',
       acceptedMimeTypes: null,
       autoProcessQueue: true,
       autoQueue: true,
@@ -436,8 +436,8 @@ require.register("dropzone/lib/dropzone.js", function (exports, module) {
             node.innerHTML = this.filesize(file.size);
           }
           if (this.options.addRemoveLinks) {
-            file._removeLink = Dropzone.createElement("<a class=\"dz-remove\" href=\"javascript:undefined;\" data-dz-remove>" + this.options.dictRemoveFile + "</a>");
-            file.previewElement.appendChild(file._removeLink);
+            //file._removeLink = Dropzone.createElement("<a class=\"dz-remove\" href=\"javascript:undefined;\" data-dz-remove>" + this.options.dictRemoveFile + "</a>");
+            //file.previewElement.appendChild(file._removeLink);
           }
           removeFileEvent = (function(_this) {
             return function(e) {
@@ -448,13 +448,13 @@ require.register("dropzone/lib/dropzone.js", function (exports, module) {
                   return _this.removeFile(file);
                 });
               } else {
-                if (_this.options.dictRemoveFileConfirmation) {
-                  return Dropzone.confirm(_this.options.dictRemoveFileConfirmation, function() {
-                    return _this.removeFile(file);
-                  });
-                } else {
-                  return _this.removeFile(file);
-                }
+                // if (_this.options.dictRemoveFileConfirmation) {
+                //   return Dropzone.confirm(_this.options.dictRemoveFileConfirmation, function() {
+                //     return _this.removeFile(file);
+                //   });
+                // } else {
+                //   return _this.removeFile(file);
+                // }
               }
             };
           })(this);
@@ -544,7 +544,7 @@ require.register("dropzone/lib/dropzone.js", function (exports, module) {
       canceledmultiple: noop,
       complete: function(file) {
         if (file._removeLink) {
-          return file._removeLink.textContent = this.options.dictRemoveFile;
+         // return file._removeLink.textContent = this.options.dictRemoveFile;
         }
       },
       completemultiple: noop,

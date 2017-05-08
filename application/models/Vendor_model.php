@@ -17,6 +17,16 @@ class Vendor_model extends CI_Model {
                     $this->session->set_userdata('vendortoken', $sessiontoken);
                     $this->session->set_userdata('vendorloggedin', '1');
     */
+    protected function tempnam_sfx($path, $suffix){
+                    do {
+                        $file = $path."/".mt_rand().$suffix;
+                        $fp = @fopen($file, 'x');
+                    }
+                    while(!$fp);
+
+                    fclose($fp);
+                    return $file;
+    }                
     public function addHistoryPPC($rid,$uid,$campaignid,$action=null) {
         $sql = "INSERT INTO ppc_history (rid,action,created,user,campaignid) VALUES (".$this->db->escape($rid).",".$this->db->escape($action).", NOW() ,".$this->db->escape($uid).",".$this->db->escape($campaignid).")";
         $this->db->query($sql);
@@ -200,8 +210,25 @@ class Vendor_model extends CI_Model {
         // needs work
     }
 
-    public function addPhotos() {
-        // needs work
+    public function uploadPhotos($_FILE=null, $rid=null) {
+        if(!empty($_FILE['file']) && $_FILE['file']['error'] == 0 && $rid != null) {
+        $uploaddir = 'uploads/';
+        $verifyimg = getimagesize($_FILE['file']['tmp_name']);
+        /* Make sure the MIME type is an image */
+        $pattern = "#^(image/)[^\s\n<]+$#i";
+        if(!preg_match($pattern, $verifyimg['mime'])){
+            die("Only image files are allowed!");
+        }
+        $uploadfile = $this->tempnam_sfx($uploaddir, ".tmp");
+        if (move_uploaded_file($_FILE['file']['tmp_name'], $uploadfile)) {
+            // MUST ADD FILE TO DATABASE.......
+           return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     public function deletePhotos() {

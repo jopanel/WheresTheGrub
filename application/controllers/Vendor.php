@@ -248,6 +248,8 @@ class Vendor extends CI_Controller {
 			$this->load->view('landingheader');
 			
 			if ($action == "add") {
+				$data["promos"] = $this->Vendor_model->getAllPromos($rid);
+				$data["rid"] = $rid;
 				if ($this->input->post()) {
 					$postData = $this->input->post(); 
 					$return = $this->Vendor_model->editVendorUser(0,$postData, 1); 
@@ -330,21 +332,41 @@ class Vendor extends CI_Controller {
 			$this->load->view('landingfooter');
 		}
 	}
+	
 
-	public function businessinformation($rid=null) {
+	public function businessinformation($rid=null, $page=null, $dat=null) {
 		if ($rid == null) { return; }
 		if ($this->Vendor_model->verifyUser($rid)) {
 			$data["rid"] = $rid;
 			$l = $this->Vendor_model->getBizInformation($rid);
 			$data["l"] = $l[0];
-			$this->load->view('landingheader');
-			if ($this->input->post()) {
-				$this->load->view('vendorbusinessinformation', $data);
+
+			if ($page == "upload") {
+				//var_dump($_FILES);
+				$return = $this->Vendor_model->uploadPhotos($_FILES,$rid);
+				if ($return == true) {	
+					return $return;
+				} else {
+					header('HTTP/1.1 500 Internal Server Error');
+					return $return;
+				}
 			} else {
-				$this->load->view('vendorbusinessinformation', $data);
+				$this->load->view('landingheader');
+				if ($this->input->post()) {
+					$this->load->view('vendorbusinessinformation', $data);
+				} else {
+					if ($page == null) {
+						$this->load->view('vendorbusinessinformation', $data);
+					} elseif ($page == "photos") {
+						$this->load->view('vendorbusinessinformationphotos', $data);
+					} elseif ($page == "seo") {
+						$this->load->view('vendorbusinessinformationseo', $data);
+					}
+					
+				}
+				$this->load->view('landingfooter');
 			}
 			
-			$this->load->view('landingfooter');
 		} 
 	}
 
