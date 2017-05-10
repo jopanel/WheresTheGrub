@@ -213,6 +213,7 @@ class Vendor_model extends CI_Model {
     public function uploadPhotos($_FILE=null, $rid=null) {
         if(!empty($_FILE['file']) && $_FILE['file']['error'] == 0 && $rid != null) {
         $uploaddir = 'uploads/';
+        $url_path = "http://".$_SERVER["SERVER_NAME"]."/";
         $verifyimg = getimagesize($_FILE['file']['tmp_name']);
         /* Make sure the MIME type is an image */
         $pattern = "#^(image/)[^\s\n<]+$#i";
@@ -220,8 +221,11 @@ class Vendor_model extends CI_Model {
             die("Only image files are allowed!");
         }
         $uploadfile = $this->tempnam_sfx($uploaddir, ".tmp");
+        $url_path .= $uploadfile;
         if (move_uploaded_file($_FILE['file']['tmp_name'], $uploadfile)) {
             // MUST ADD FILE TO DATABASE.......
+            $sql = "INSERT INTO photos (rid,url,added,active) VALUES (".$this->db->escape(strip_tags((int)$rid)).",".$this->db->escape(strip_tags($url_path)).",NOW(), '1')";
+            $this->db->query($sql);
            return true;
             } else {
                 return false;
@@ -231,14 +235,32 @@ class Vendor_model extends CI_Model {
         }
     }
 
-    public function deletePhotos() {
-        // needs work
+    public function deletePhotos($rid=null, $pid=null) {
+        if ($rid != null) {
+            $sql = "DELETE FROM photos WHERE rid = ".$this->db->escape(strip_tags((int)$rid))." AND id = ".$this->db->escape(strip_tags((int)$pid));
+            $this->db->query($sql);
+            return true;
+        }
+    }
+
+    public function getBizPhotos($rid=null) {
+        if ($rid != null) {
+            $sql = "SELECT * FROM photos WHERE rid = ".$this->db->escape(strip_tags((int)$rid))." AND active = '1' AND reviewid IS NULL AND uid IS NULL ORDER BY sortorder ASC";
+            $query = $this->db->query($sql);
+            if ($query->num_rows() > 0) {
+                return $query->result_array();
+            } else {
+                return array();
+            }
+        } else {
+            return false;
+        }
     }
 
     public function getMenuGroups($rid=0) {
         if ($rid == 0) { return FALSE; }
         $rid = (int)$rid;
-        $sql = "SELECT * FROM vendor_menu_groups WHERE rid = ".$this->db->escape(strip_tags($rid));
+        $sql = "SELECT * FROM vendor_menu_groups WHERE rid = ".$this->db->escape(strip_tags((int)$rid));
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
             return $query->result_array();

@@ -337,6 +337,7 @@ class Vendor extends CI_Controller {
 	public function businessinformation($rid=null, $page=null, $dat=null) {
 		if ($rid == null) { return; }
 		if ($this->Vendor_model->verifyUser($rid)) {
+			if ($this->input->post()) { $post = $this->input->post(); }
 			$data["rid"] = $rid;
 			$l = $this->Vendor_model->getBizInformation($rid);
 			$data["l"] = $l[0];
@@ -347,23 +348,24 @@ class Vendor extends CI_Controller {
 				if ($return == true) {	
 					return $return;
 				} else {
+					echo "There was a problem with your photo. Please only use .jpg and .png (case sensitive)";
 					header('HTTP/1.1 500 Internal Server Error');
 					return $return;
 				}
 			} else {
+				if ($this->input->post() && $page == "photos") {
+							return $this->Vendor_model->deletePhotos($rid, $post["id"]);
+				}
 				$this->load->view('landingheader');
-				if ($this->input->post()) {
-					$this->load->view('vendorbusinessinformation', $data);
-				} else {
 					if ($page == null) {
 						$this->load->view('vendorbusinessinformation', $data);
 					} elseif ($page == "photos") {
+						$data["vendorphotos"] = $this->Vendor_model->getBizPhotos($rid);
 						$this->load->view('vendorbusinessinformationphotos', $data);
 					} elseif ($page == "seo") {
 						$this->load->view('vendorbusinessinformationseo', $data);
 					}
 					
-				}
 				$this->load->view('landingfooter');
 			}
 			

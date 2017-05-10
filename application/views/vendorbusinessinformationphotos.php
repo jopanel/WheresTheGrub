@@ -69,9 +69,9 @@
                                             <header>
                                                 <h1 class="page-title">Manages Photos</h1>
                                             </header>  
-                                               
+                                                
                                                 <section>
-                                                    <h3>Gallery</h3>
+                                                    <h3>Gallery (.jpg, .png only)</h3>
                                                     <form action="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/businessinformation/<?=$rid?>/photos/upload" method="post" class="dropzone">
                                                     <div id="file-submit" class="dropzone">
                                                         <input name="file" type="file" multiple>
@@ -83,6 +83,33 @@
                                                 <input type="hidden" name="infopage" value="photos">
                                                 </form>
                                                 </section>
+                                                <section class="block" id="the-team">
+                                                    <div class="container">
+                                                        <header class="no-border"><h3>Your Photos</h3></header>
+                                                        <div class="row">
+                                                            <?php
+                                                            $counter = 0;
+                                                            foreach ($vendorphotos as $v) {
+                                                                $counter += 1;
+                                                                if ($counter == 5) {
+                                                                    echo "</div><div class='row'>";
+                                                                }
+                                                                ?>
+                                                                <div id="pic-<?=$v["id"]?>" class="col-md-3 col-sm-3">
+                                                                    <div class="member">
+                                                                        <img src="<?=$v["url"]?>" alt="">
+                                                                        <figure><a href="#"  onClick="deletePhoto(<?=$v["id"]?>)">Delete</a></figure>
+                                                                    </div>
+                                                                    <!--/.member-->
+                                                                </div>
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                        </div>
+                                                        <!--/.row-->
+                                                    </div>
+                                                    <!--/.container-->
+                                                </section>  
 
 
 
@@ -90,6 +117,23 @@
                     </div>
                 </section>
             </div>
+
+            <script type="text/javascript">
+            function deletePhoto(id) {
+                var http = new XMLHttpRequest();
+                var url = "http://"+"<?=$_SERVER['SERVER_NAME']?>/vendor/businessinformation/<?=$rid?>/photos";
+                var params = "action=deletephoto&id="+id;
+                http.open("POST", url, true);
+                http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                http.onreadystatechange = function() {
+                    if(http.readyState == 4 && http.status == 200) {
+                        $("#pic-"+id).hide();
+                    }
+                }
+                http.send(params);  
+            }
+            
+            </script>
 
 
 
