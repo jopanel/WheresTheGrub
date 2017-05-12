@@ -574,7 +574,11 @@ class Vendor_model extends CI_Model {
 
     public function getBizReviews($rid=0) {
         if ($rid == 0) {return array(); }
-        $sql = "SELECT * FROM reviews WHERE rid = ".$this->db->escape((int)$rid)." AND active = '1' ORDER BY id DESC";
+        $sql = "SELECT r.*, u.created as 'joindate', u.ip as 'userip', u.fullname, u.level, u.avatar  FROM reviews r 
+        LEFT JOIN users u ON r.uid = u.id  
+        WHERE rid = ".$this->db->escape((int)$rid)." 
+        AND u.active = '1'
+        AND r.active = '1'  ORDER BY id DESC";
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
             return $query->result_array();
