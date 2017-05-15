@@ -70,8 +70,8 @@
                                             <img src="<?=$v["avatar"]?>" alt=""> 
                                     </div>
                                     <div class="wrapper">
-                                        <a href="item-detail.html"><h3><?=$v["fullname"]?> </h3></a>
-                                        <figure>357 Trainer Avenue</figure>
+                                        <a href="item-detail.html"><h3><?=$v["fullname"]?></h3></a>
+                                        <figure><?=$v["review"]?></figure>
                                         <div class="info"> 
                                             <div class="rating" data-rating="<?=$v["rating"]?>"></div>
                                         </div>
