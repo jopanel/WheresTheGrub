@@ -58,11 +58,15 @@
                             </aside>
                         </div>
                         <div class="col-md-9 col-sm-9">
-
+                            <header>
+                                <h1 class="page-title">Manage Reviews</h1>
+                            </header>
                             <section id="items">
                             <?php foreach ($reviews as $k => $v) {
-
+                                $q="in-queue";
+                                $qi="question-circle";
                                 if (!isset($v["avatar"]) || empty($v["avatar"])) { $v["avatar"] = "../../resources/img/default-avatar.png";}
+                                if (isset($v["level"]) && $v["level"] == "notactivated") { $q="in-queue"; $qi="check"; }
 
                              ?>
                                 <div class="item list admin-view">
@@ -77,13 +81,13 @@
                                         </div>
                                     </div>
                                     <div class="description">
-                                        <ul class="list-unstyled actions"> 
-                                            <li><a href="#" class="hide-item"><i class="fa fa-eye"></i></a></li>
+                                        <ul class="list-unstyled actions">
+                                            <li><a href="#"><i class="fa fa-comment"></i></a></li>
                                             <li><a href="#"><i class="fa fa-trash"></i></a></li>
                                         </ul>
                                     </div>
-                                    <div class="ribbon in-queue">
-                                        <i class="fa fa-check"></i>
+                                    <div class="ribbon <?=$q?>">
+                                        <i class="fa fa-<?=$qi?>"></i>
                                     </div>
                                 </div>
                             <?php }  ?>
