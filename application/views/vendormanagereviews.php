@@ -61,29 +61,35 @@
                             <header>
                                 <h1 class="page-title">Manage Reviews</h1>
                             </header>
+                            <p>
+                            You can delete or respond to reviews. Reviews with a <i class="fa fa-user"></i> you may delete anytime. Reviews with a <i class="fa fa-check"></i> that does not have a green ribbon you can only delete <strong>once a month</strong>. After 30 days they become a request to delete. Reviews with a green ribbon you may request to delete.
+                            </p>
                             <section id="items">
                             <?php foreach ($reviews as $k => $v) {
-                                $q="in-queue";
-                                $qi="question-circle";
+                                
+                                if (!isset($v["level"]) || empty($v["level"])) { $q="in-queue";  $qi="user"; $v["level"] = "anon"; $lvl = 0; }
+                                if (!isset($v["fullname"]) || empty($v["fullname"])) { $fullname = "Anonymous"; } else { $fullname = $v["fullname"]; }
                                 if (!isset($v["avatar"]) || empty($v["avatar"])) { $v["avatar"] = "../../resources/img/default-avatar.png";}
-                                if (isset($v["level"]) && $v["level"] == "notactivated") { $q="in-queue"; $qi="check"; }
-
+                                if (isset($v["level"]) && $v["level"] == "notactive") { $q="in-queue"; $qi="check"; $lvl = 1;}
+                                if (isset($v["level"]) && $v["level"] == "active") { $q="approved"; $qi="check"; $lvl = 2;}
+                                $createdate = date("M j y\' \@ g:i a", strtotime($v["created"]));
                              ?>
-                                <div class="item list admin-view">
+                                <div class="item list admin-view" id="r-<?=$v["id"]?>">
                                     <div class="image"> 
                                             <img src="<?=$v["avatar"]?>" alt=""> 
                                     </div>
                                     <div class="wrapper">
-                                        <a href="item-detail.html"><h3><?=$v["fullname"]?></h3></a>
+                                        <a href="item-detail.html"><h3><?=$fullname?></h3></a>
                                         <figure><?=$v["review"]?></figure>
+                                        <figure><?=$createdate?></figure>
                                         <div class="info"> 
                                             <div class="rating" data-rating="<?=$v["rating"]?>"></div>
                                         </div>
                                     </div>
                                     <div class="description">
                                         <ul class="list-unstyled actions">
-                                            <li><a href="#"><i class="fa fa-comment"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-trash"></i></a></li>
+                                            <li><a href="#" onClick="comment(<?=$v["id"]?>)"><i class="fa fa-comment"></i></a></li>
+                                            <li><a href="#" onClick="request(<?=$v["id"]?>, <?=$lvl?>);"><i class="fa fa-trash"></i></a></li>
                                         </ul>
                                     </div>
                                     <div class="ribbon <?=$q?>">
@@ -100,3 +106,74 @@
                     </div>
                 </section>
             </div>
+            <script>
+            function remove(id) {
+                var elem = document.getElementById(id);
+                return elem.parentNode.removeChild(elem);
+            }
+            function comment(reviewid) {
+
+            }
+            function request(reviewid, action) { 
+               if (action == 0) { action = "deleteReview"; }
+               if (action == 1) { action = "deleteReview"; }
+               if (action == 2) { action = "requestReviewDelete"; }
+               var postData = { "reviewid": reviewid, "action": action };
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managereviews/<?=$rid?>/'+action,
+                    data: postData,
+                    cache: false,
+                    success: function (data) { 
+                       if (data == true) { remove("r-"+reviewid); }
+                    }
+                });
+            }
+            
+            function getXmlHttpObject() {
+                var xmlHttp;
+                try {
+                    // Firefox, Opera 8.0+, Safari
+                    xmlHttp = new XMLHttpRequest();
+                } catch (e) {
+                    // Internet Explorer
+                    try {
+                        xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+                    } catch (e) {
+                        xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+                    }
+                }
+                if (!xmlHttp) {
+                    showprompt("Your browser does not support AJAX!", "Hold Up");
+                }
+                return xmlHttp;
+            }
+
+
+            function ajax(url, postdata, onSuccess, onError) {
+            
+                var xmlHttp = getXmlHttpObject();
+                
+                xmlHttp.onreadystatechange = function() {
+                    if (this.readyState === 4) {
+                        
+                        // onSuccess
+                        if (this.status === 200 && typeof onSuccess == 'function') {
+                            onSuccess(this.responseText);
+                            
+                        }
+                        
+                        // onError
+                        else if(typeof onError == 'function') {
+                            onError();
+                        }
+                        
+                    }
+                };
+                xmlHttp.open("POST", url, true);
+                xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlHttp.send(postdata);
+                return xmlHttp;
+            }
+
+            </script>

@@ -577,7 +577,6 @@ class Vendor_model extends CI_Model {
         $sql = "SELECT r.*, u.created as 'joindate', u.ip as 'userip', u.fullname, u.level, u.avatar  FROM reviews r 
         LEFT JOIN users u ON r.uid = u.id  
         WHERE rid = ".$this->db->escape((int)$rid)." 
-        AND u.active = '1'
         AND r.active = '1'  ORDER BY id DESC";
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
@@ -588,8 +587,7 @@ class Vendor_model extends CI_Model {
     }
 
     public function reviewAction($rid=0, $reviewid=0, $data=0, $action=0) {
-        $response = $data;
-
+        $response = $data; 
         if ($action == "respondToReview") {
             if ($rid == 0 || $reviewid == 0) { return FALSE; }
             $sql = "SELECT id FROM review_responses WHERE rid = ".$this->db->escape((int)$rid)." AND reviewid = ".$this->db->escape((int)$reviewid);
@@ -612,35 +610,41 @@ class Vendor_model extends CI_Model {
         if ($action == "deleteReview") {
             if ($rid == 0 || $reviewid == 0) { return FALSE; }
             // check if the user level is normal, notactivated, or not a user
-            $sql = "SELECT r.uid, u.level FROM reviews r 
+            $sql = "SELECT r.uid, COALESCE(u.level,'none') as 'level' FROM reviews r 
             LEFT JOIN users u ON r.uid = u.id
             WHERE r.rid = ".$this->db->escape((int)$rid)." AND r.id = ".$this->db->escape((int)$reviewid);
             $query = $this->db->query($sql);
             if ($query->num_rows() > 0) {
                 if ($query->row()->level == "normal") {
                     return FALSE;
-                } else {
+                } elseif ($query->row()->level == "none") {
+                    $sql2 = "UPDATE reviews SET active = '0' WHERE rid = ".$this->db->escape((int)$rid)." AND id = ".$this->db->escape((int)$reviewid);
+                    $this->db->query($sql2);
+                    $sql3 = "INSERT INTO review_history (rid, reviewid, action, created, vendoruid) VALUES (".$this->db->escape((int)$rid).", ".$this->db->escape((int)$reviewid).", 'Deleted Review', NOW(), ".$this->db->escape((int)$this->session->userdata("uid")).")";
+                    $this->db->query($sql3);
+                    return TRUE;
+                }  else { 
                     $sql2 = "SELECT id FROM review_history WHERE action = 'Deleted Review' AND rid = ".$this->db->escape((int)$rid)." AND notactivateduser = '1' AND created >= DATE_ADD(CURDATE(), INTERVAL -30 DAY)";
                     $query2 = $this->db->query($sql2);
                     if ($query2->num_rows() > 0) {
+                        echo "1";
                         return FALSE;
                     } else {
                         $sql3 = "INSERT INTO review_history (rid, reviewid, action, created, vendoruid, notactivateduser) VALUES (".$this->db->escape((int)$rid).", ".$this->db->escape((int)$reviewid).", 'Deleted Review', NOW(), ".$this->db->escape((int)$this->session->userdata("uid")).", '1')";
                         $this->db->query($sql3);
+                        $sql2 = "UPDATE reviews SET active = '0' WHERE rid = ".$this->db->escape((int)$rid)." AND id = ".$this->db->escape((int)$reviewid);
+                        $this->db->query($sql2);
                         return TRUE;
                     }
                 }
             } else {
-                $sql2 = "UPDATE reviews SET active = '0' WHERE rid = ".$this->db->escape((int)$rid)." AND uid = ".$this->db->escape((int)$reviewid);
-                $this->db->query($sql2);
-                $sql3 = "INSERT INTO review_history (rid, reviewid, action, created, vendoruid) VALUES (".$this->db->escape((int)$rid).", ".$this->db->escape((int)$reviewid).", 'Deleted Review', NOW(), ".$this->db->escape((int)$this->session->userdata("uid")).")";
-                $this->db->query($sql3);
-                return TRUE;
+                return false;
             }
         }
 
         if ($action == "requestReviewDelete") {
             if ($rid == 0) { return FALSE; }
+            $data="request plz";
             // check if the user level is normal, notactivated, or not a user
             $sql2 = "INSERT INTO requests (rid, uid, type, data, created) VALUES (".$this->db->escape((int)$rid).", ".$this->db->escape((int)$this->session->userdata("uid")).", '1', ".$this->db->escape(strip_tags($data)).", NOW())";
             $this->db->query($sql2);
