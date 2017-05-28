@@ -73,6 +73,7 @@
                                 if (isset($v["level"]) && $v["level"] == "notactive") { $q="in-queue"; $qi="check"; $lvl = 1;}
                                 if (isset($v["level"]) && $v["level"] == "active") { $q="approved"; $qi="check"; $lvl = 2;}
                                 $createdate = date("M j y\' \@ g:i a", strtotime($v["created"]));
+                                if ($v["responded"] == 1) { $responded = "<li>YOU RESPONDED</li>"; $extracomm = "edit"; } else {$responded = ""; $extracomm = "comment"; }
                              ?>
                                 <div class="item list admin-view" id="r-<?=$v["id"]?>">
                                     <div class="image"> 
@@ -88,7 +89,8 @@
                                     </div>
                                     <div class="description">
                                         <ul class="list-unstyled actions">
-                                            <li><a href="#" onClick="comment(<?=$v["id"]?>)"><i class="fa fa-comment"></i></a></li>
+                                            <?=$responded?>
+                                            <li><a href="#" onClick="comment(<?=$v["id"]?>)"><i class="fa fa-<?=$extracomm?>"></i></a></li>
                                             <li><a href="#" onClick="request(<?=$v["id"]?>, <?=$lvl?>);"><i class="fa fa-trash"></i></a></li>
                                         </ul>
                                     </div>
@@ -111,9 +113,19 @@
                 var elem = document.getElementById(id);
                 return elem.parentNode.removeChild(elem);
             }
-            function comment(reviewid) {
-
+            function comment(reviewd) {
+                var ri = <?=$rid?>;
+             $.ajax({
+                    type: 'POST',
+                    url: 'http://<?=$_SERVER["SERVER_NAME"]?>/vendor/reviewresponse',
+                    data: {rid:ri,reviewid:reviewd},
+                    success: function (data) {
+                        // Create HTML element with loaded data
+                        $('body').append(data);
+                    }
+                });
             }
+
             function request(reviewid, action) { 
                if (action == 0) { action = "deleteReview"; }
                if (action == 1) { action = "deleteReview"; }

@@ -200,6 +200,20 @@ class Vendor extends CI_Controller {
 		}
 	}
 
+	public function reviewresponse() {
+		if ($this->Vendor_model->verifyUser()) {
+			 if($this->input->is_ajax_request()) {
+			 	if ($this->input->post()) {
+			 		$post = $this->input->post();
+			 		$data["rid"] = $post["rid"];
+			 		$data["reviewid"] = $post["reviewid"];
+			 		$data["originalresponse"] = $this->Vendor_model->getResponse($post["rid"], $post["reviewid"]);
+			 		$this->load->view('reviewresponse', $data);
+			 	}
+			 }
+		}
+	}
+
 	public function marketingtools() {
 		if ($this->Vendor_model->verifyUser()) {
 			$this->load->view('landingheader');

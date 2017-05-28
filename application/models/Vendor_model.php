@@ -563,6 +563,16 @@ class Vendor_model extends CI_Model {
 
     }
 
+    public function getResponse($rid=0, $reviewid=0) {
+        if ((int)$rid == 0 || (int)$reviewid == 0) { return ""; }
+        $sql = "SELECT response FROM review_responses WHERE reviewid = ".$this->db->escape(strip_tags((int)$reviewid))." AND rid = ".$this->db->escape(strip_tags((int)$rid));
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            return $query->row()->response;
+        } else {
+            return "";
+        }
+    }
     public function getPremiumStatus($rid=0) {
         if ($rid == 0) {return array();}
         $sql = "SELECT COALESCE(v.premium, 0), COALESCE(vs.sponsoredads,0), COALESCE(vs.reviews,0), COALESCE(vs.ppc,0) FROM vendors v 
@@ -574,9 +584,10 @@ class Vendor_model extends CI_Model {
 
     public function getBizReviews($rid=0) {
         if ($rid == 0) {return array(); }
-        $sql = "SELECT r.*, u.created as 'joindate', u.ip as 'userip', u.fullname, u.level, u.avatar  FROM reviews r 
+        $sql = "SELECT r.*, u.created as 'joindate', u.ip as 'userip', u.fullname, u.level, u.avatar, COALESCE(rr.id-rr.id+1,0) as 'responded'  FROM reviews r 
         LEFT JOIN users u ON r.uid = u.id  
-        WHERE rid = ".$this->db->escape((int)$rid)." 
+        LEFT JOIN review_responses rr ON r.id = rr.reviewid
+        WHERE r.rid = ".$this->db->escape((int)$rid)." 
         AND r.active = '1'  ORDER BY id DESC";
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
@@ -587,7 +598,13 @@ class Vendor_model extends CI_Model {
     }
 
     public function reviewAction($rid=0, $reviewid=0, $data=0, $action=0) {
-        $response = $data; 
+        if ($data != 0) { 
+            if (isset($data["response"]) && !empty($data["response"])){
+              $response = $data["response"];  
+            } else {
+                $response = $data;
+            }
+        }
         if ($action == "respondToReview") {
             if ($rid == 0 || $reviewid == 0) { return FALSE; }
             $sql = "SELECT id FROM review_responses WHERE rid = ".$this->db->escape((int)$rid)." AND reviewid = ".$this->db->escape((int)$reviewid);
@@ -595,13 +612,13 @@ class Vendor_model extends CI_Model {
             if ($query->num_rows() > 0) {
                 $sql2 = "UPDATE review_responses SET response = ".$this->db->escape(strip_tags($response))." WHERE rid = ".$this->db->escape((int)$rid)." AND reviewid = ".$this->db->escape((int)$reviewid);
                 $this->db->query($sql2);
-                $sql3 = "INSERT INTO review_history (rid, reviewid, action, details, created, vendoruid) VALUES (".$this->db->escape((int)$rid).", ".$this->db->escape((int)$reviewid).", 'Response Updated', ".$this->db->escape($response).", NOW(), ".$this->db->escape((int)$this->session->userdata("uid"));
+                $sql3 = "INSERT INTO review_history (rid, reviewid, action, details, created, vendoruid) VALUES (".$this->db->escape((int)$rid).", ".$this->db->escape((int)$reviewid).", 'Response Updated', ".$this->db->escape($response).", NOW(), ".$this->db->escape((int)$this->session->userdata("uid")).")";
                 $this->db->query($sql3);
                 return TRUE;
             } else {
                 $sql2 = "INSERT INTO review_responses (rid, reviewid, response, created) VALUES (".$this->db->escape((int)$rid).", ".$this->db->escape((int)$reviewid).", ".$this->db->escape(strip_tags($response)).", NOW())";
                 $this->db->query($sql2);
-                $sql3 = "INSERT INTO review_history (rid, reviewid, action, details, created, vendoruid) VALUES (".$this->db->escape((int)$rid).", ".$this->db->escape((int)$reviewid).", 'Responded', ".$this->db->escape($response).", NOW(), ".$this->db->escape((int)$this->session->userdata("uid"));
+                $sql3 = "INSERT INTO review_history (rid, reviewid, action, details, created, vendoruid) VALUES (".$this->db->escape((int)$rid).", ".$this->db->escape((int)$reviewid).", 'Responded', ".$this->db->escape($response).", NOW(), ".$this->db->escape((int)$this->session->userdata("uid")).")";
                 $this->db->query($sql3);
                 return TRUE;
             }
@@ -626,8 +643,7 @@ class Vendor_model extends CI_Model {
                 }  else { 
                     $sql2 = "SELECT id FROM review_history WHERE action = 'Deleted Review' AND rid = ".$this->db->escape((int)$rid)." AND notactivateduser = '1' AND created >= DATE_ADD(CURDATE(), INTERVAL -30 DAY)";
                     $query2 = $this->db->query($sql2);
-                    if ($query2->num_rows() > 0) {
-                        echo "1";
+                    if ($query2->num_rows() > 0) { 
                         return FALSE;
                     } else {
                         $sql3 = "INSERT INTO review_history (rid, reviewid, action, created, vendoruid, notactivateduser) VALUES (".$this->db->escape((int)$rid).", ".$this->db->escape((int)$reviewid).", 'Deleted Review', NOW(), ".$this->db->escape((int)$this->session->userdata("uid")).", '1')";
