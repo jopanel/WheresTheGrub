@@ -69,7 +69,7 @@
                                             <header>
                                                 <h1 class="page-title">Update Business Information</h1>
                                             </header>  
-                                            <form role="form" id="form-register" method="post" action="">
+                                            <form role="form" id="info-form" method="post" action="">
                                             <input type="hidden" name="infopage" value="information">
                                                 <div class="form-group">
                                                     <label>Address:</label>
@@ -111,108 +111,338 @@
                                                 <label>$$$ ($41+) <input type="radio" name="price" value="3" <?php if (isset($l["price"]) && $l["price"] == "3") { echo 'checked="checked"'; } ?>></label></div> 
                                                 </div><!-- /.form-group -->  
                                                 <hr>
+                                                <?php
+                                                    $hourscreator = 0;
+                                                    $hours = [];
+                                                    // setup the hours array
+                                                    if (isset($l["hours"]) && !empty($l["hours"])) {
+                                                        $hoursarray = json_decode($l["hours"], true);
+                                                        if (isset($hoursarray["monday"]) && !empty($hoursarray["monday"])) {
+                                                            $hours["monday"]["show"] = "";
+                                                            $hours["monday"]["hours"] = $hoursarray["monday"];
+                                                        } else { $hours["monday"]["show"] = "display:none;"; }
+                                                        if (isset($hoursarray["tuesday"]) && !empty($hoursarray["tuesday"])) {
+                                                            $hours["tuesday"]["show"] = "";
+                                                            $hours["tuesday"]["hours"] = $hoursarray["tuesday"];
+                                                        } else { $hours["tuesday"]["show"] = "display:none;"; }
+                                                        if (isset($hoursarray["wednesday"]) && !empty($hoursarray["wednesday"])) {
+                                                            $hours["wednesday"]["show"] = "";
+                                                            $hours["wednesday"]["hours"] = $hoursarray["wednesday"];
+                                                        } else { $hours["wednesday"]["show"] = "display:none;"; }
+                                                        if (isset($hoursarray["thursday"]) && !empty($hoursarray["thursday"])) {
+                                                            $hours["thursday"]["show"] = "";
+                                                            $hours["thursday"]["hours"] = $hoursarray["thursday"];
+                                                        } else { $hours["thursday"]["show"] = "display:none;"; }
+                                                        if (isset($hoursarray["friday"]) && !empty($hoursarray["friday"])) {
+                                                            $hours["friday"]["show"] = "";
+                                                            $hours["friday"]["hours"] = $hoursarray["friday"];
+                                                        } else { $hours["friday"]["show"] = "display:none;"; }
+                                                        if (isset($hoursarray["saturday"]) && !empty($hoursarray["saturday"])) {
+                                                            $hours["saturday"]["show"] = "";
+                                                            $hours["saturday"]["hours"] = $hoursarray["saturday"];
+                                                        } else { $hours["saturday"]["show"] = "display:none;"; }
+                                                        if (isset($hoursarray["sunday"]) && !empty($hoursarray["sunday"])) {
+                                                            $hours["sunday"]["show"] = "";
+                                                            $hours["sunday"]["hours"] = $hoursarray["sunday"];
+                                                        } else { $hours["sunday"]["show"] = "display:none;"; }
+                                                    } else {
+                                                        // no hours just create blank arrays
+                                                        $hours["monday"]["show"] = "display:none;"; $hours["monday"]["hours"] = [];
+                                                        $hours["tuesday"]["show"] = "display:none;"; $hours["tuesday"]["hours"] = [];
+                                                        $hours["wednesday"]["show"] = "display:none;"; $hours["wednesday"]["hours"] = [];
+                                                        $hours["thursday"]["show"] = "display:none;"; $hours["thursday"]["hours"] = [];
+                                                        $hours["friday"]["show"] = "display:none;"; $hours["friday"]["hours"] = [];
+                                                        $hours["saturday"]["show"] = "display:none;"; $hours["saturday"]["hours"] = [];
+                                                        $hours["sunday"]["show"] = "display:none;"; $hours["sunday"]["hours"] = [];
+                                                    }
+
+                                                ?>
                                                 <section>
                                                     <h3>Opening Hours</h3>
                                                     <div class="opening-hours">
                                                         <div class="table-responsive">
-                                                            <table class="table">
+                                                            <table class="table" id="hours-table">
                                                                 <tbody>
-                                                                <tr class="day">
+                                                                <tr class="day" id="monday">
                                                                     <td class="day-name">Monday</td>
-                                                                    <td class="from"><input class="oh-timepicker" type="text" placeholder="From" name="open-hour-from-monday[]"></td>
-                                                                    <td class="to"><input class="oh-timepicker" type="text" placeholder="To" name="open-hour-to-monday[]"></td>
-                                                                    <td class="non-stop"><div class="checkbox">
-                                                                        <label>
-                                                                            <input type="checkbox">Non-stop <a href="#" onClick="showAdditionalHours(">
-                                                                        </label>
-                                                                    </div>
-                                                                    <div id="monday-additionalhours">
-                                                                    </div>
+                                                                    <td class="from"><input class="oh-timepicker" type="text" placeholder="From" id="monday-from" ></td>
+                                                                    <td class="to"><input class="oh-timepicker" type="text" placeholder="To" id="monday-to"></td>
+                                                                    <td class="non-stop">
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" id="monday-24hr">Non-stop <a href="#" class="btn btn-default" onClick="addTime('monday');">Add Time</a>
+                                                                            </label>
+                                                                        </div>
                                                                     </td>
+
+                                                                    <div id="monday-additionalhours" >
+                                                                        <?php 
+                                                                        foreach ($hours["monday"]["hours"] as $k => $v) {
+                                                                            $hourscreator += 1;
+                                                                            $time1arr = explode(":", $v[0]); $time2arr = explode(":", $v[1]);
+                                                                            if ($time1arr[0] < 12) { $ampm1 = "AM";} else { $ampm1 = "PM"; }
+                                                                            if ($time2arr[0] < 12) { $ampm2 = "AM";} else { $ampm2 = "PM"; }
+                                                                            $display1 = date("h:i", strtotime($v[0])).$ampm1;
+                                                                            $display2 = date("h:i", strtotime($v[1])).$ampm2;
+                                                                            ?>
+                                                                            <tr id="dateadd-<?=$hourscreator?>" class="day">
+                                                                                <td></td>
+                                                                                <td class="from"><input type="hidden" name="open-hour-from-monday[]" value="<?=$v[0]?>"><?=$display1?></td>
+                                                                                <td class="to"><input type="hidden" name="open-hour-to-monday[]" value="<?=$v[1]?>"><?=$display2?></td>
+                                                                                <td class="non-stop">
+                                                                                    <div class="checkbox">
+                                                                                        <label>
+                                                                                            <a href="#" class="btn btn-default" onClick="removeDate(<?=$hourscreator?>)">Remove</a>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+
+                                                                        <?php
+                                                                        }
+                                                                        ?> 
+                                                                    </div>
                                                                 </tr>
+                                                                
                                                                 <!--/.day-->
-                                                                <tr class="day">
+                                                                <tr class="day" id="tuesday">
                                                                     <td class="day-name">Tuesday</td>
-                                                                    <td class="from"><input class="oh-timepicker" type="text" placeholder="From" name="open-hour-from-tuesday[]"></td>
-                                                                    <td class="to"><input class="oh-timepicker" type="text" placeholder="To" name="open-hour-to-tuesday[]"></td>
-                                                                    <td class="non-stop"><div class="checkbox">
-                                                                        <label>
-                                                                            <input type="checkbox">Non-stop
-                                                                        </label>
-                                                                    </div>
-                                                                    <div id="tuesday-additionalhours">
-                                                                    </div>
+                                                                    <td class="from"><input class="oh-timepicker" type="text" placeholder="From" id="tuesday-from" ></td>
+                                                                    <td class="to"><input class="oh-timepicker" type="text" placeholder="To" id="tuesday-to"></td>
+                                                                    <td class="non-stop">
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" id="tuesday-24hr">Non-stop <a href="#" class="btn btn-default" onClick="addTime('tuesday');">Add Time</a>
+                                                                            </label>
+                                                                        </div>
                                                                     </td>
+                                                                    <div id="tuesday-additionalhours" >
+                                                                    <?php 
+                                                                        foreach ($hours["tuesday"]["hours"] as $k => $v) {
+                                                                            $hourscreator += 1;
+                                                                            $time1arr = explode(":", $v[0]); $time2arr = explode(":", $v[1]);
+                                                                            if ($time1arr[0] < 12) { $ampm1 = "AM";} else { $ampm1 = "PM"; }
+                                                                            if ($time2arr[0] < 12) { $ampm2 = "AM";} else { $ampm2 = "PM"; }
+                                                                            $display1 = date("h:i", strtotime($v[0])).$ampm1;
+                                                                            $display2 = date("h:i", strtotime($v[1])).$ampm2;
+                                                                            ?>
+                                                                            <tr id="dateadd-<?=$hourscreator?>" class="day">
+                                                                                <td></td>
+                                                                                <td class="from"><input type="hidden" name="open-hour-from-tuesday[]" value="<?=$v[0]?>"><?=$display1?></td>
+                                                                                <td class="to"><input type="hidden" name="open-hour-to-tuesday[]" value="<?=$v[1]?>"><?=$display2?></td>
+                                                                                <td class="non-stop">
+                                                                                    <div class="checkbox">
+                                                                                        <label>
+                                                                                            <a href="#" class="btn btn-default" onClick="removeDate(<?=$hourscreator?>)">Remove</a>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+
+                                                                        <?php
+                                                                        }
+                                                                        ?> 
+                                                                    </div> 
                                                                 </tr>
                                                                 <!--/.day-->
-                                                                <tr class="day">
+                                                                <tr class="day" id="wednesday">
                                                                     <td class="day-name">Wednesday</td>
-                                                                    <td class="from"><input class="oh-timepicker" type="text" placeholder="From" name="open-hour-from-wednesday[]"></td>
-                                                                    <td class="to"><input class="oh-timepicker" type="text" placeholder="To" name="open-hour-to-wednesday[]"></td>
-                                                                    <td class="non-stop"><div class="checkbox">
-                                                                        <label>
-                                                                            <input type="checkbox">Non-stop
-                                                                        </label>
-                                                                    </div>
-                                                                    <div id="wednesday-additionalhours">
-                                                                    </div>
+                                                                    <td class="from"><input class="oh-timepicker" type="text" placeholder="From" id="wednesday-from" ></td>
+                                                                    <td class="to"><input class="oh-timepicker" type="text" placeholder="To" id="wednesday-to"></td>
+                                                                    <td class="non-stop">
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" id="wednesday-24hr">Non-stop <a href="#" class="btn btn-default" onClick="addTime('wednesday');">Add Time</a>
+                                                                            </label>
+                                                                        </div>
                                                                     </td>
+                                                                    <div id="wednesday-additionalhours" style="<?=$hours["wednesday"]["show"]?>">
+                                                                    <?php 
+                                                                        foreach ($hours["wednesday"]["hours"] as $k => $v) {
+                                                                            $hourscreator += 1;
+                                                                            $time1arr = explode(":", $v[0]); $time2arr = explode(":", $v[1]);
+                                                                            if ($time1arr[0] < 12) { $ampm1 = "AM";} else { $ampm1 = "PM"; }
+                                                                            if ($time2arr[0] < 12) { $ampm2 = "AM";} else { $ampm2 = "PM"; }
+                                                                            $display1 = date("h:i", strtotime($v[0])).$ampm1;
+                                                                            $display2 = date("h:i", strtotime($v[1])).$ampm2;
+                                                                            ?>
+                                                                            <tr id="dateadd-<?=$hourscreator?>" class="day">
+                                                                                <td></td>
+                                                                                <td class="from"><input type="hidden" name="open-hour-from-wednesday[]" value="<?=$v[0]?>"><?=$display1?></td>
+                                                                                <td class="to"><input type="hidden" name="open-hour-to-wednesday[]" value="<?=$v[1]?>"><?=$display2?></td>
+                                                                                <td class="non-stop">
+                                                                                    <div class="checkbox">
+                                                                                        <label>
+                                                                                            <a href="#" class="btn btn-default" onClick="removeDate(<?=$hourscreator?>)">Remove</a>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+
+                                                                        <?php
+                                                                        }
+                                                                        ?> 
+                                                                    </div> 
                                                                 </tr>
                                                                 <!--/.day-->
-                                                                <tr class="day">
+                                                                <tr class="day" id="thursday">
                                                                     <td class="day-name">Thursday</td>
-                                                                    <td class="from"><input class="oh-timepicker" type="text" placeholder="From" name="open-hour-from-thursday[]"></td>
-                                                                    <td class="to"><input class="oh-timepicker" type="text" placeholder="To" name="open-hour-to-thursday[]"></td>
-                                                                    <td class="non-stop"><div class="checkbox">
-                                                                        <label>
-                                                                            <input type="checkbox">Non-stop
-                                                                        </label>
-                                                                    </div>
-                                                                    <div id="thursday-additionalhours">
-                                                                    </div>
+                                                                    <td class="from"><input class="oh-timepicker" type="text" placeholder="From" id="thursday-from" ></td>
+                                                                    <td class="to"><input class="oh-timepicker" type="text" placeholder="To" id="thursday-to"></td>
+                                                                    <td class="non-stop">
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" id="thursday-24hr">Non-stop <a href="#" class="btn btn-default" onClick="addTime('thursday');">Add Time</a>
+                                                                            </label>
+                                                                        </div>
                                                                     </td>
+                                                                    <div id="thursday-additionalhours" style="<?=$hours["thursday"]["show"]?>">
+                                                                    <?php 
+                                                                        foreach ($hours["thursday"]["hours"] as $k => $v) {
+                                                                            $hourscreator += 1;
+                                                                            $time1arr = explode(":", $v[0]); $time2arr = explode(":", $v[1]);
+                                                                            if ($time1arr[0] < 12) { $ampm1 = "AM";} else { $ampm1 = "PM"; }
+                                                                            if ($time2arr[0] < 12) { $ampm2 = "AM";} else { $ampm2 = "PM"; }
+                                                                            $display1 = date("h:i", strtotime($v[0])).$ampm1;
+                                                                            $display2 = date("h:i", strtotime($v[1])).$ampm2;
+                                                                            ?>
+                                                                            <tr id="dateadd-<?=$hourscreator?>" class="day">
+                                                                                <td></td>
+                                                                                <td class="from"><input type="hidden" name="open-hour-from-thursday[]" value="<?=$v[0]?>"><?=$display1?></td>
+                                                                                <td class="to"><input type="hidden" name="open-hour-to-thursday[]" value="<?=$v[1]?>"><?=$display2?></td>
+                                                                                <td class="non-stop">
+                                                                                    <div class="checkbox">
+                                                                                        <label>
+                                                                                            <a href="#" class="btn btn-default" onClick="removeDate(<?=$hourscreator?>)">Remove</a>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+
+                                                                        <?php
+                                                                        }
+                                                                        ?> 
+                                                                    </div> 
                                                                 </tr>
                                                                 <!--/.day-->
-                                                                <tr class="day">
+                                                                <tr class="day" id="friday">
                                                                     <td class="day-name">Friday</td>
-                                                                    <td class="from"><input class="oh-timepicker" type="text" placeholder="From" name="open-hour-from-friday[]"></td>
-                                                                    <td class="to"><input class="oh-timepicker" type="text" placeholder="To" name="open-hour-to-friday[]"></td>
-                                                                    <td class="non-stop"><div class="checkbox">
-                                                                        <label>
-                                                                            <input type="checkbox">Non-stop
-                                                                        </label>
-                                                                    </div>
-                                                                    <div id="friday-additionalhours">
-                                                                    </div>
+                                                                    <td class="from"><input class="oh-timepicker" type="text" placeholder="From" id="friday-from" ></td>
+                                                                    <td class="to"><input class="oh-timepicker" type="text" placeholder="To" id="friday-to"></td>
+                                                                    <td class="non-stop">
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" id="friay-24hr">Non-stop <a href="#" class="btn btn-default" onClick="addTime('friday');">Add Time</a>
+                                                                            </label>
+                                                                        </div>
                                                                     </td>
+                                                                    <div id="friday-additionalhours" >
+                                                                    <?php 
+                                                                        foreach ($hours["friday"]["hours"] as $k => $v) {
+                                                                            $hourscreator += 1;
+                                                                            $time1arr = explode(":", $v[0]); $time2arr = explode(":", $v[1]);
+                                                                            if ($time1arr[0] < 12) { $ampm1 = "AM";} else { $ampm1 = "PM"; }
+                                                                            if ($time2arr[0] < 12) { $ampm2 = "AM";} else { $ampm2 = "PM"; }
+                                                                            $display1 = date("h:i", strtotime($v[0])).$ampm1;
+                                                                            $display2 = date("h:i", strtotime($v[1])).$ampm2;
+                                                                            ?>
+                                                                            <tr id="dateadd-<?=$hourscreator?>" class="day">
+                                                                                <td></td>
+                                                                                <td class="from"><input type="hidden" name="open-hour-from-friday[]" value="<?=$v[0]?>"><?=$display1?></td>
+                                                                                <td class="to"><input type="hidden" name="open-hour-to-friday[]" value="<?=$v[1]?>"><?=$display2?></td>
+                                                                                <td class="non-stop">
+                                                                                    <div class="checkbox">
+                                                                                        <label>
+                                                                                            <a href="#" class="btn btn-default" onClick="removeDate(<?=$hourscreator?>)">Remove</a>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+
+                                                                        <?php
+                                                                        }
+                                                                        ?> 
+                                                                    </div> 
                                                                 </tr>
                                                                 <!--/.day-->
-                                                                <tr class="day weekend">
+                                                                <tr class="day weekend" id="saturday">
                                                                     <td class="day-name">Saturday</td>
-                                                                    <td class="from"><input class="oh-timepicker" type="text" placeholder="From" name="open-hour-from-saturday[]"></td>
-                                                                    <td class="to"><input class="oh-timepicker" type="text" placeholder="To" name="open-hour-to-saturday[]"></td>
-                                                                    <td class="non-stop"><div class="checkbox">
-                                                                        <label>
-                                                                            <input type="checkbox">Non-stop
-                                                                        </label>
-                                                                    </div>
-                                                                    <div id="saturday-additionalhours">
-                                                                    </div>
+                                                                    <td class="from"><input class="oh-timepicker" type="text" placeholder="From" id="saturday-from" ></td>
+                                                                    <td class="to"><input class="oh-timepicker" type="text" placeholder="To" id="saturday-to"></td>
+                                                                    <td class="non-stop">
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" id="saturday-24hr">Non-stop <a href="#" class="btn btn-default" onClick="addTime('saturday');">Add Time</a>
+                                                                            </label>
+                                                                        </div>
                                                                     </td>
+                                                                    <div id="saturday-additionalhours" >
+                                                                    <?php 
+                                                                        foreach ($hours["saturday"]["hours"] as $k => $v) {
+                                                                            $hourscreator += 1;
+                                                                            $time1arr = explode(":", $v[0]); $time2arr = explode(":", $v[1]);
+                                                                            if ($time1arr[0] < 12) { $ampm1 = "AM";} else { $ampm1 = "PM"; }
+                                                                            if ($time2arr[0] < 12) { $ampm2 = "AM";} else { $ampm2 = "PM"; }
+                                                                            $display1 = date("h:i", strtotime($v[0])).$ampm1;
+                                                                            $display2 = date("h:i", strtotime($v[1])).$ampm2;
+                                                                            ?>
+                                                                            <tr id="dateadd-<?=$hourscreator?>" class="day">
+                                                                                <td></td>
+                                                                                <td class="from"><input type="hidden" name="open-hour-from-saturday[]" value="<?=$v[0]?>"><?=$display1?></td>
+                                                                                <td class="to"><input type="hidden" name="open-hour-to-saturday[]" value="<?=$v[1]?>"><?=$display2?></td>
+                                                                                <td class="non-stop">
+                                                                                    <div class="checkbox">
+                                                                                        <label>
+                                                                                            <a href="#" class="btn btn-default" onClick="removeDate(<?=$hourscreator?>)">Remove</a>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+
+                                                                        <?php
+                                                                        }
+                                                                        ?> 
+                                                                    </div> 
                                                                 </tr>
                                                                 <!--/.day-->
-                                                                <tr class="day weekend">
+                                                                <tr class="day weekend" id="sunday">
                                                                     <td class="day-name">Sunday</td>
-                                                                    <td class="from"><input class="oh-timepicker" type="text" placeholder="From" name="open-hour-from-sunday[]"></td>
-                                                                    <td class="to"><input class="oh-timepicker" type="text" placeholder="To" name="open-hour-to-sunday[]"></td>
-                                                                    <td class="non-stop"><div class="checkbox">
-                                                                        <label>
-                                                                            <input type="checkbox">Non-stop
-                                                                        </label>
-                                                                    </div>
-                                                                    <div id="sunday-additionalhours">
-                                                                    </div>
+                                                                    <td class="from"><input class="oh-timepicker" type="text" placeholder="From" id="sunday-from" ></td>
+                                                                    <td class="to"><input class="oh-timepicker" type="text" placeholder="To" id="sunday-to" ></td>
+                                                                    <td class="non-stop">
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" id="sunday-24hr">Non-stop <a href="#" class="btn btn-default" onClick="addTime('sunday');">Add Time</a>
+                                                                            </label>
+                                                                        </div>
                                                                     </td>
+                                                                    <div id="sunday-additionalhours" >
+                                                                    <?php 
+                                                                        foreach ($hours["sunday"]["hours"] as $k => $v) {
+                                                                            $hourscreator += 1;
+                                                                            $time1arr = explode(":", $v[0]); $time2arr = explode(":", $v[1]);
+                                                                            if ($time1arr[0] < 12) { $ampm1 = "AM";} else { $ampm1 = "PM"; }
+                                                                            if ($time2arr[0] < 12) { $ampm2 = "AM";} else { $ampm2 = "PM"; }
+                                                                            $display1 = date("h:i", strtotime($v[0])).$ampm1;
+                                                                            $display2 = date("h:i", strtotime($v[1])).$ampm2;
+                                                                            ?>
+                                                                            <tr id="dateadd-<?=$hourscreator?>" class="day">
+                                                                                <td></td>
+                                                                                <td class="from"><input type="hidden" name="open-hour-from-sunday[]" value="<?=$v[0]?>"><?=$display1?></td>
+                                                                                <td class="to"><input type="hidden" name="open-hour-to-sunday[]" value="<?=$v[1]?>"><?=$display2?></td>
+                                                                                <td class="non-stop">
+                                                                                    <div class="checkbox">
+                                                                                        <label>
+                                                                                            <a href="#" class="btn btn-default" onClick="removeDate(<?=$hourscreator?>)">Remove</a>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+
+                                                                        <?php
+                                                                        }
+                                                                        ?> 
+                                                                    </div> 
                                                                 </tr>
                                                                 <!--/.day-->
                                                                 </tbody>
@@ -220,6 +450,9 @@
                                                         </div>
                                                     </div>
                                                 </section>
+                                                <div class="form-group clearfix">
+                                                    <a href="#" onClick="saveChanges(<?=$rid?>);" class="btn btn-default" >Save Changes</a>
+                                                </div><!-- /.form-group -->
                                             </form>
 
 
@@ -228,6 +461,97 @@
                     </div>
                 </section>
             </div>
+            <script>
+            var hourscreator = <?=$hourscreator?>;
+
+            function saveChanges(rid) {
+                var apiData = $("#info-form").serialize();
+                apiData = JSON.stringify(apiData); 
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://<?=$_SERVER["SERVER_NAME"]?>/vendor/updateBasicInfo/'+rid+'/basic',
+                    data: apiData,
+                    cache: false,
+                    success: function (data) { 
+                        loadMap(JSON.parse(data));
+                    }
+                });
+            }
+
+            function addTime(day) {
+                hourscreator += 1;
+                //check if 24 hours
+                //else get to and from time, populate data onto the form
+                //reset fields
+                var from = document.getElementById(day+"-from").value;
+                var to = document.getElementById(day+"-to").value;
+                var go = 1;
+                if (document.getElementById(day+"-24hr").checked) {
+                    // 24 hours
+                    from = "00:00";
+                    to = "23:59";
+                } else {
+                    if (from == "" || from == "undefined" || from == null) { go = 0; }
+                    if (to == "" || to == "undefined" || to == null) { go = 0; }
+                }
+                if (go == 1) {
+                    var insert = '<tr id="dateadd-'+hourscreator+'" class="day"><td></td><td class="from"><input type="hidden" name="open-hour-from-sunday[]" value="'+from+'">'+from+'</td><td class="to"><input type="hidden" name="open-hour-to-sunday[]" value="'+to+'">'+to+'</td><td class="non-stop"><div class="checkbox"><label><button class="btn btn-default" onClick="removeDate('+hourscreator+')">Remove</button></label></div></td></tr>';
+                    $('#hours-table > tbody > #'+day).after(insert); 
+                } 
+                
+
+            }
+
+            function removeDate(counter) {
+                document.getElementById("dateadd-"+counter).innerHTML = "";
+            }
+
+            function getXmlHttpObject() {
+                var xmlHttp;
+                try {
+                    // Firefox, Opera 8.0+, Safari
+                    xmlHttp = new XMLHttpRequest();
+                } catch (e) {
+                    // Internet Explorer
+                    try {
+                        xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+                    } catch (e) {
+                        xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+                    }
+                }
+                if (!xmlHttp) {
+                    alert("Your browser does not support AJAX!", "Hold Up");
+                }
+                return xmlHttp;
+            }
+
+
+            function ajax(url, postdata, onSuccess, onError) {
+            
+                var xmlHttp = getXmlHttpObject();
+                
+                xmlHttp.onreadystatechange = function() {
+                    if (this.readyState === 4) {
+                        
+                        // onSuccess
+                        if (this.status === 200 && typeof onSuccess == 'function') {
+                            onSuccess(this.responseText);
+                            
+                        }
+                        
+                        // onError
+                        else if(typeof onError == 'function') {
+                            onError();
+                        }
+                        
+                    }
+                };
+                xmlHttp.open("POST", url, true);
+                xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlHttp.send(postdata);
+                return xmlHttp;
+            }
+            </script>
 
 
 

@@ -67,9 +67,9 @@
                                                 </ul>
                                             </header> 
                                             <header>
-                                                <h1 class="page-title">Update Business Search Engine Optimization</h1>
+                                                <h1 class="page-title">Update Search Attributes</h1>
                                             </header>  
-                                            <form role="form" id="form-register" method="post" action="">
+                                            <form role="form" id="attributeform" method="post" action="">
                                             <input type="hidden" name="infopage" value="seo">
                                                 <div class="form-group">
                                                 <label>Search Options and Attributes</label>
@@ -188,7 +188,7 @@
                                                 <label>
                                                 </div>
                                                 <div class="form-group clearfix">
-                                                    <button type="submit" class="btn btn-default" id="account-submit">Save Changes</button>
+                                                    <a href="#" onClick="saveChanges(<?=$rid?>);" class="btn btn-default" >Save Changes</a>
                                                 </div><!-- /.form-group -->
                                             </form>
 
@@ -198,7 +198,67 @@
                     </div>
                 </section>
             </div>
+<script>
 
+            function saveChanges(rid) {
+              var attribs = $("#attributeform").serialize();
+              attribs = JSON.stringify(attribs); 
+              $.ajax({
+                  type: 'POST',
+                  url: 'http://<?=$_SERVER["SERVER_NAME"]?>/vendor/updateBasicInfo/'+rid+'/seo',
+                  data: attribs,
+                  cache: false,
+                  success: function (data) { 
+                      
+                  }
+              });
+            }
+            function getXmlHttpObject() {
+                var xmlHttp;
+                try {
+                    // Firefox, Opera 8.0+, Safari
+                    xmlHttp = new XMLHttpRequest();
+                } catch (e) {
+                    // Internet Explorer
+                    try {
+                        xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+                    } catch (e) {
+                        xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+                    }
+                }
+                if (!xmlHttp) {
+                    alert("Your browser does not support AJAX!");
+                }
+                return xmlHttp;
+            }
+
+
+            function ajax(url, postdata, onSuccess, onError) {
+            
+                var xmlHttp = getXmlHttpObject();
+                
+                xmlHttp.onreadystatechange = function() {
+                    if (this.readyState === 4) {
+                        
+                        // onSuccess
+                        if (this.status === 200 && typeof onSuccess == 'function') {
+                            onSuccess(this.responseText);
+                            
+                        }
+                        
+                        // onError
+                        else if(typeof onError == 'function') {
+                            onError();
+                        }
+                        
+                    }
+                };
+                xmlHttp.open("POST", url, true);
+                xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlHttp.send(postdata);
+                return xmlHttp;
+            }
+</script>
 
 
 

@@ -185,7 +185,7 @@ if ($this->uri->segment(1)) {
         //});
         $.ajax({
             type: 'POST',
-            url: 'http://local.wheresthegrub.com/api/search',
+            url: 'http://<?=$_SERVER["SERVER_NAME"]?>/api/search',
             data: apiData,
             cache: false,
             success: function (data) { 
@@ -225,7 +225,7 @@ if ($this->uri->segment(1)) {
             }
         }
         if (!xmlHttp) {
-            showprompt("Your browser does not support AJAX!", "Hold Up");
+            alert("Your browser does not support AJAX!");
         }
         return xmlHttp;
     }

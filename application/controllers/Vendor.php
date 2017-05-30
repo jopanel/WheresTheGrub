@@ -137,7 +137,7 @@ class Vendor extends CI_Controller {
 	}
 
 	public function manageusers($action=null, $uid=0) {
-		if ($this->Vendor_model->verifyUser()) {
+		if ($this->Vendor_model->verifyUser($rid)) {
 			$this->load->view('landingheader');
 			if ($action == "add") {
 				if ($this->input->post()) {
@@ -201,21 +201,22 @@ class Vendor extends CI_Controller {
 	}
 
 	public function reviewresponse() {
-		if ($this->Vendor_model->verifyUser()) {
+		
 			 if($this->input->is_ajax_request()) {
 			 	if ($this->input->post()) {
 			 		$post = $this->input->post();
 			 		$data["rid"] = $post["rid"];
-			 		$data["reviewid"] = $post["reviewid"];
-			 		$data["originalresponse"] = $this->Vendor_model->getResponse($post["rid"], $post["reviewid"]);
-			 		$this->load->view('reviewresponse', $data);
+			 		if ($this->Vendor_model->verifyUser($data["rid"])) {
+				 		$data["reviewid"] = $post["reviewid"];
+				 		$data["originalresponse"] = $this->Vendor_model->getResponse($post["rid"], $post["reviewid"]);
+				 		$this->load->view('reviewresponse', $data);
+			 		}
 			 	}
-			 }
-		}
+			 } 
 	}
 
 	public function marketingtools() {
-		if ($this->Vendor_model->verifyUser()) {
+		if ($this->Vendor_model->verifyUser($rid)) {
 			$this->load->view('landingheader');
 				$this->load->view('vendormarketingtools');
 			$this->load->view('landingfooter');
@@ -223,7 +224,7 @@ class Vendor extends CI_Controller {
 	}
 
 	public function addlisting() {
-		if ($this->Vendor_model->verifyUser()) {
+		if ($this->Vendor_model->verifyUser($rid)) {
 			$this->load->view('landingheader');
 				$this->load->view('vendoraddlisting');
 			$this->load->view('landingfooter');
@@ -349,6 +350,17 @@ class Vendor extends CI_Controller {
 		}
 	}
 	
+	public function updateBasicInfo($rid=0, $action=0) {
+		if ($this->Vendor_model->verifyUser($rid)) {
+			 if($this->input->is_ajax_request()) {
+			 	if ($this->input->post()) {
+			 		$post = $this->input->post(); 
+			 		$this->Vendor_model->editBizInformation($rid,$action,$post);
+			 		return TRUE;
+			 	}
+			 }
+		}
+	}
 
 	public function businessinformation($rid=null, $page=null, $dat=null) {
 		if ($rid == null) { return; }

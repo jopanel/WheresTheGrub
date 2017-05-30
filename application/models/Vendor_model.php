@@ -206,8 +206,49 @@ class Vendor_model extends CI_Model {
             }
     }
 
-    public function editBizInformation() {
-        // needs work
+    public function editBizInformation($rid=0, $action=0, $data=0) {  
+        if ($rid == 0) { return FALSE; }
+        if ($action == "seo") {  
+            if (!isset($data["meal_deliver"]) || empty($data["meal_deliver"])) { $meal_deliver = 0; } else { $meal_deliver = 1; }
+            if (!isset($data["meal_takeout"]) || empty($data["meal_takeout"])) { $meal_takeout = 0; } else { $meal_takeout = 1; }
+            if (!isset($data["payment_cashonly"]) || empty($data["payment_cashonly"])) { $payment_cashonly = 0; } else { $payment_cashonly = 1; }
+            if (!isset($data["accessible_wheelchair"]) || empty($data["accessible_wheelchair"])) { $accessible_wheelchair = 0; } else { $accessible_wheelchair = 1; }
+            if (!isset($data["alcohol_beer"]) || empty($data["alcohol_beer"])) { $alcohol_beer = 0; } else { $alcohol_beer = 1; }
+            if (!isset($data["alcohol"]) || empty($data["alcohol"])) { $alcohol = 0; } else { $alcohol = 1; }
+            if (!isset($data["alcohol_beer_wine"]) || empty($data["alcohol_beer_wine"])) { $alcohol_beer_wine = 0; } else { $alcohol_beer_wine = 1; }
+            if (!isset($data["kids_goodfor"]) || empty($data["kids_goodfor"])) { $kids_goodfor = 0; } else { $kids_goodfor = 1; }
+            if (!isset($data["meal_breakfast"]) || empty($data["meal_breakfast"])) { $meal_breakfast = 0; } else { $meal_breakfast = 1; }
+            if (!isset($data["meal_dinner"]) || empty($data["meal_dinner"])) { $meal_dinner = 0; } else { $meal_dinner = 1; }
+            if (!isset($data["meal_lunch"]) || empty($data["meal_lunch"])) { $meal_lunch = 0; } else { $meal_lunch = 1; }
+            if (!isset($data["meal_cater"]) || empty($data["meal_cater"])) { $meal_cater = 0; } else { $meal_cater = 1; }
+            if (!isset($data["open_24hrs"]) || empty($data["open_24hrs"])) { $open_24hrs = 0; } else { $open_24hrs = 1; }
+            if (!isset($data["options_healthy"]) || empty($data["options_healthy"])) { $options_healthy = 0; } else { $options_healthy = 1; }
+            if (!isset($data["options_vegetarian"]) || empty($data["options_vegetarian"])) { $options_vegetarian = 0; } else { $options_vegetarian = 1; }
+            if (!isset($data["parking"]) || empty($data["parking"])) { $parking = 0; } else { $parking = 1; }
+            if (!isset($data["parking_lot"]) || empty($data["parking_lot"])) { $parking_lot = 0; } else { $parking_lot = 1; }
+            if (!isset($data["parking_street"]) || empty($data["parking_street"])) { $parking_street = 0; } else { $parking_street = 1; }
+            if (!isset($data["reservations"]) || empty($data["reservations"])) { $reservations = 0; } else { $reservations = 1; }
+            if (!isset($data["seating_outdoor"]) || empty($data["seating_outdoor"])) { $seating_outdoor = 0; } else { $seating_outdoor = 1; }
+            if (!isset($data["smoking"]) || empty($data["smoking"])) { $smoking = 0; } else { $smoking = 1; }
+            if (!isset($data["wifi"]) || empty($data["wifi"])) { $wifi = 0; } else { $wifi = 1; }
+            $sql = "UPDATE leads SET meal_deliver = $meal_deliver, meal_takeout = $meal_takeout, payment_cashonly = $payment_cashonly, accessible_wheelchair = $accessible_wheelchair, alcohol_beer = $alcohol_beer, alcohol = $alcohol, alcohol_beer_wine = $alcohol_beer_wine, kids_goodfor = $kids_goodfor, meal_breakfast = $meal_breakfast, meal_dinner = $meal_dinner, meal_lunch = $meal_lunch, meal_cater = $meal_cater, open_24hrs = $open_24hrs, options_healthy = $options_healthy, options_vegetarian = $options_vegetarian, parking = $parking, parking_lot = $parking_lot, parking_street = $parking_street, seating_outdoor = $seating_outdoor, smoking = $smoking, wifi = $wifi, reservations = $reservations WHERE id = ".$this->db->escape(strip_tags((int)$rid));
+            $this->db->query($sql);
+            return TRUE; 
+        }
+
+        if ($action == "basic") {
+            if (isset($data["address"]) || !empty($data["address"])) { $address = $data["address"]; } else { $address = ""; }
+            if (isset($data["postcode"]) || !empty($data["postcode"])) { $postcode = $data["postcode"]; } else { $postcode = ""; }
+            if (isset($data["tel"]) || !empty($data["tel"])) { $tel = $data["tel"]; } else { $tel = ""; }
+            if (isset($data["website"]) || !empty($data["website"])) { $website = $data["website"]; } else { $website = ""; }
+            if (isset($data["attire"]) || !empty($data["attire"])) { $attire = $data["attire"]; } else { $attire = ""; }
+            if (isset($data["description"]) || !empty($data["description"])) { $description = $data["description"]; } else { $description = ""; }
+            if (isset($data["price"]) || !empty($data["price"])) { $price = $data["price"]; } else { $price = 2; }
+            var_dump($data);
+            //if (isset($data[""]) || !empty($data[""])) { $ = $data[""]; } else { $ = ""; } 
+            
+        }
+
     }
 
     public function uploadPhotos($_FILE=null, $rid=null) {
