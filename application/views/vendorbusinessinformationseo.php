@@ -209,7 +209,7 @@
                   data: attribs,
                   cache: false,
                   success: function (data) { 
-                      
+                      location.reload();
                   }
               });
             }

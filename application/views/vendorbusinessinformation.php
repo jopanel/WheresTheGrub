@@ -473,7 +473,7 @@
                     data: apiData,
                     cache: false,
                     success: function (data) { 
-                        loadMap(JSON.parse(data));
+                        location.reload();
                     }
                 });
             }
@@ -498,6 +498,9 @@
                     var insert = '<tr id="dateadd-'+hourscreator+'" class="day"><td></td><td class="from"><input type="hidden" name="open-hour-from-sunday[]" value="'+from+'">'+from+'</td><td class="to"><input type="hidden" name="open-hour-to-sunday[]" value="'+to+'">'+to+'</td><td class="non-stop"><div class="checkbox"><label><button class="btn btn-default" onClick="removeDate('+hourscreator+')">Remove</button></label></div></td></tr>';
                     $('#hours-table > tbody > #'+day).after(insert); 
                 } 
+                document.getElementById(day+"-from").value = "";
+                document.getElementById(day+"-to").value = "";
+                document.getElementById(day+"-24hr").checked = false;
                 
 
             }
