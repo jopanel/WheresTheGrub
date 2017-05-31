@@ -244,8 +244,17 @@ class Vendor_model extends CI_Model {
             if (isset($data["attire"]) || !empty($data["attire"])) { $attire = $data["attire"]; } else { $attire = ""; }
             if (isset($data["description"]) || !empty($data["description"])) { $description = $data["description"]; } else { $description = ""; }
             if (isset($data["price"]) || !empty($data["price"])) { $price = $data["price"]; } else { $price = 2; }
-            var_dump($data);
-            //if (isset($data[""]) || !empty($data[""])) { $ = $data[""]; } else { $ = ""; } 
+            if (!isset($data["open-hour-from-monday"])) { $hours["monday"] = []; } else {  foreach ($data["open-hour-from-monday"] as $k => $v) { $hours["monday"][] = array(strip_tags($v), stripslashes(strip_tags($data["open-hour-to-monday"][$k]))); }   } 
+            if (!isset($data["open-hour-from-tuesday"])) { $hours["tuesday"] = []; } else {  foreach ($data["open-hour-from-tuesday"] as $k => $v) { $hours["tuesday"][] = array(strip_tags($v), stripslashes(strip_tags($data["open-hour-to-tuesday"][$k]))); }   }
+            if (!isset($data["open-hour-from-wednesday"])) { $hours["wednesday"] = []; } else {  foreach ($data["open-hour-from-wednesday"] as $k => $v) { $hours["wednesday"][] = array(strip_tags($v), stripslashes(strip_tags($data["open-hour-to-wednesday"][$k]))); }   } 
+            if (!isset($data["open-hour-from-thursday"])) { $hours["thursday"] = []; } else {  foreach ($data["open-hour-from-thursday"] as $k => $v) { $hours["thursday"][] = array(strip_tags($v), stripslashes(strip_tags($data["open-hour-to-thursday"][$k]))); }   } 
+            if (!isset($data["open-hour-from-friday"])) { $hours["friday"] = []; } else {  foreach ($data["open-hour-from-friday"] as $k => $v) { $hours["friday"][] = array(strip_tags($v), stripslashes(strip_tags($data["open-hour-to-friday"][$k]))); }   } 
+            if (!isset($data["open-hour-from-saturday"])) { $hours["saturday"] = []; } else {  foreach ($data["open-hour-from-saturday"] as $k => $v) { $hours["saturday"][] = array(strip_tags($v), stripslashes(strip_tags($data["open-hour-to-saturday"][$k]))); }   } 
+            if (!isset($data["open-hour-from-sunday"])) { $hours["sunday"] = []; } else {  foreach ($data["open-hour-from-sunday"] as $k => $v) { $hours["sunday"][] = array(strip_tags($v), stripslashes(strip_tags($data["open-hour-to-sunday"][$k]))); }   } 
+            $hours = json_encode($hours);
+            $hoursdisplay = "";
+            $sql = "UPDATE leads SET address = ".$this->db->escape(strip_tags($address)).", postcode = ".$this->db->escape(strip_tags($postcode)).", tel = ".$this->db->escape(strip_tags($tel)).", website = ".$this->db->escape(strip_tags($website)).", attire = ".$this->db->escape(strip_tags($attire)).", description = ".$this->db->escape(strip_tags($description)).", price = ".$this->db->escape(strip_tags($price)).", hours = ".$this->db->escape($hours).", hours_display = '' WHERE id = ".$this->db->escape(strip_tags((int)$rid));
+            $this->db->query($sql);
             
         }
 

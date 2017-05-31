@@ -120,31 +120,31 @@
                                                         if (isset($hoursarray["monday"]) && !empty($hoursarray["monday"])) {
                                                             $hours["monday"]["show"] = "";
                                                             $hours["monday"]["hours"] = $hoursarray["monday"];
-                                                        } else { $hours["monday"]["show"] = "display:none;"; }
+                                                        } else { $hours["monday"]["show"] = "display:none;"; $hours["monday"]["hours"] = [];}
                                                         if (isset($hoursarray["tuesday"]) && !empty($hoursarray["tuesday"])) {
                                                             $hours["tuesday"]["show"] = "";
                                                             $hours["tuesday"]["hours"] = $hoursarray["tuesday"];
-                                                        } else { $hours["tuesday"]["show"] = "display:none;"; }
+                                                        } else { $hours["tuesday"]["show"] = "display:none;"; $hours["tuesday"]["hours"] = [];}
                                                         if (isset($hoursarray["wednesday"]) && !empty($hoursarray["wednesday"])) {
                                                             $hours["wednesday"]["show"] = "";
                                                             $hours["wednesday"]["hours"] = $hoursarray["wednesday"];
-                                                        } else { $hours["wednesday"]["show"] = "display:none;"; }
+                                                        } else { $hours["wednesday"]["show"] = "display:none;"; $hours["wednesday"]["hours"] = [];}
                                                         if (isset($hoursarray["thursday"]) && !empty($hoursarray["thursday"])) {
                                                             $hours["thursday"]["show"] = "";
                                                             $hours["thursday"]["hours"] = $hoursarray["thursday"];
-                                                        } else { $hours["thursday"]["show"] = "display:none;"; }
+                                                        } else { $hours["thursday"]["show"] = "display:none;"; $hours["thursday"]["hours"] = [];}
                                                         if (isset($hoursarray["friday"]) && !empty($hoursarray["friday"])) {
                                                             $hours["friday"]["show"] = "";
                                                             $hours["friday"]["hours"] = $hoursarray["friday"];
-                                                        } else { $hours["friday"]["show"] = "display:none;"; }
+                                                        } else { $hours["friday"]["show"] = "display:none;"; $hours["friday"]["hours"] = [];}
                                                         if (isset($hoursarray["saturday"]) && !empty($hoursarray["saturday"])) {
                                                             $hours["saturday"]["show"] = "";
                                                             $hours["saturday"]["hours"] = $hoursarray["saturday"];
-                                                        } else { $hours["saturday"]["show"] = "display:none;"; }
+                                                        } else { $hours["saturday"]["show"] = "display:none;"; $hours["saturday"]["hours"] = [];}
                                                         if (isset($hoursarray["sunday"]) && !empty($hoursarray["sunday"])) {
                                                             $hours["sunday"]["show"] = "";
                                                             $hours["sunday"]["hours"] = $hoursarray["sunday"];
-                                                        } else { $hours["sunday"]["show"] = "display:none;"; }
+                                                        } else { $hours["sunday"]["show"] = "display:none;"; $hours["sunday"]["hours"] = [];}
                                                     } else {
                                                         // no hours just create blank arrays
                                                         $hours["monday"]["show"] = "display:none;"; $hours["monday"]["hours"] = [];
@@ -332,7 +332,7 @@
                                                                     <td class="non-stop">
                                                                         <div class="checkbox">
                                                                             <label>
-                                                                                <input type="checkbox" id="friay-24hr">Non-stop <a href="#" class="btn btn-default" onClick="addTime('friday');">Add Time</a>
+                                                                                <input type="checkbox" id="friday-24hr">Non-stop <a href="#" class="btn btn-default" onClick="addTime('friday');">Add Time</a>
                                                                             </label>
                                                                         </div>
                                                                     </td>
@@ -495,7 +495,7 @@
                     if (to == "" || to == "undefined" || to == null) { go = 0; }
                 }
                 if (go == 1) {
-                    var insert = '<tr id="dateadd-'+hourscreator+'" class="day"><td></td><td class="from"><input type="hidden" name="open-hour-from-sunday[]" value="'+from+'">'+from+'</td><td class="to"><input type="hidden" name="open-hour-to-sunday[]" value="'+to+'">'+to+'</td><td class="non-stop"><div class="checkbox"><label><button class="btn btn-default" onClick="removeDate('+hourscreator+')">Remove</button></label></div></td></tr>';
+                    var insert = '<tr id="dateadd-'+hourscreator+'" class="day"><td></td><td class="from"><input type="hidden" name="open-hour-from-'+day+'[]" value="'+from+'">'+from+'</td><td class="to"><input type="hidden" name="open-hour-to-'+day+'[]" value="'+to+'">'+to+'</td><td class="non-stop"><div class="checkbox"><label><button class="btn btn-default" onClick="removeDate('+hourscreator+')">Remove</button></label></div></td></tr>';
                     $('#hours-table > tbody > #'+day).after(insert); 
                 } 
                 document.getElementById(day+"-from").value = "";
