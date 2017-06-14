@@ -63,7 +63,30 @@
 
                             <div class="container">
                                 <header class="no-border"><h3>Create Promotion</h3></header>
-                                
+                                    <form role="form" method="post" action="">
+                                        <input type="hidden" name="action" value="add"> 
+                                        <input type="hidden" name="type" value="item">
+                                        <div class="form-group">
+                                            <label>Promotion Name:</label>
+                                            <input type="text" class="form-control" name="subject" required>
+                                        </div><!-- /.form-group -->
+                                        <div class="form-group">    
+                                            <label>Cost Without Sale <i>(-1 to hide cost)</i></label>
+                                            <input type="text" class="form-control" name="cost" value="-1" required>
+                                        </div><!-- /.form-group -->
+                                        <div class="form-group">    
+                                            <label>Discount Cost<i>(-1 to hide cost)</i></label>
+                                            <input type="text" class="form-control" name="cost" value="-1" required>
+                                        </div><!-- /.form-group -->
+                                        <div class="form-group">
+                                            <label>Promotion Information:</label>
+                                            <textarea class="form-control" name="body"></textarea>
+                                        </div><!-- /.form-group --> 
+                                        <br><br>
+                                        <div class="form-group clearfix">
+                                            <button type="submit" class="btn btn-default">Create Promotion</button>
+                                        </div><!-- /.form-group -->
+                                    </form>
                             </div>
 
 

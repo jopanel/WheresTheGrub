@@ -259,74 +259,34 @@ class Vendor extends CI_Controller {
 		}
 	}
 
-	public function managepromos($rid=null, $action=null) {
+	public function managepromos($rid=null, $page=null, $dat=null) {
 		if ($rid == null) { return; }
 		if ($this->Vendor_model->verifyUser($rid)) {
-			$this->load->view('landingheader');
-			
-			if ($action == "add") {
-				$data["promos"] = $this->Vendor_model->getAllPromos($rid);
-				$data["rid"] = $rid;
-				if ($this->input->post()) {
-					$postData = $this->input->post(); 
-					$return = $this->Vendor_model->editVendorUser(0,$postData, 1); 
-					if ($return == TRUE) {
-						$data["res"] = $this->Vendor_model->getVendorUsers();
-						$this->load->view('vendormanagepromos', $data);
-					} else {
-						$data["problem"] = $return;
-						$data["res"] = $this->Vendor_model->getRestaurantsByMaster();
-						$this->load->view('vendormanagepromos_add', $data);
-					}
-				} else {
-					$data["problem"] = 0;
-					$data["res"] = $this->Vendor_model->getRestaurantsByMaster();
-					$this->load->view('vendormanagepromos_add', $data);
-				}
-			} 
-			if ($action == "delete") {
-				$this->Vendor_model->editVendorUser(0, array("id"=>$uid), 2);
-				$data["res"] = $this->Vendor_model->getVendorUsers();
-				$this->load->view('vendormanagepromos', $data);
-			} 
-			if ($action == "edit") {
-				if ($this->input->post()) {
-					$postData = $this->input->post();
-					$return = $this->Vendor_model->editVendorUser($uid, $postData, 3);
-					if ($return == TRUE) {
-						$data["userperm"] = $this->Vendor_model->getUserPermissions($uid);
-						$data["problem"] = 0;
-						$data["userinfo"] = $this->Vendor_model->getVendorUser($uid);
-						$data["res"] = $this->Vendor_model->getRestaurantsByMaster();
-						$data["id"] = $uid;
-						$this->load->view('vendormanagepromos_edit', $data);
-					} else {
-						$data["userperm"] = $this->Vendor_model->getUserPermissions($uid);
-						$data["problem"] = $return;
-						$data["userinfo"] = $this->Vendor_model->getVendorUser($uid);
-						$data["res"] = $this->Vendor_model->getRestaurantsByMaster();
-						$data["id"] = $uid;
-						$this->load->view('vendormanagepromos_edit', $data);
-					}
-
-				} else {
-					$data["userperm"] = $this->Vendor_model->getUserPermissions($uid);
-					$data["problem"] = 0;
-					$data["userinfo"] = $this->Vendor_model->getVendorUser($uid);
-					$data["res"] = $this->Vendor_model->getRestaurantsByMaster();
-					$data["id"] = $uid;
-					$this->load->view('vendormanagepromos_edit', $data);
-				}
-				
-			} 
-
-			if ($action == null) {
-				$data["promos"] = $this->Vendor_model->getAllPromos($rid);
-				$data["rid"] = $rid;
-				$this->load->view('vendormanagepromos', $data);
+			$data["rid"] = $rid;
+			$data["page"] = null;
+			if ($this->input->post()) {
+				$datapost = $this->input->post();
+				$this->Vendor_model->editMenuItems($rid, $datapost, $datapost["action"]);
 			}
-			$this->load->view('landingfooter');
-		}
+			if ($page == null) {
+				$data["promos"] = $this->Vendor_model->getAllPromos($rid);
+				$this->load->view('landingheader');
+				$this->load->view('vendormanagepromos', $data);
+				$this->load->view('landingfooter');
+			}
+			if ($page == "edit") { 
+			  	$this->load->view('landingheader');
+				$this->load->view('vendormanagepromos_edit', $data);
+				$this->load->view('landingfooter');
+			}
+			if ($page == "add") { 
+				$this->load->view('landingheader');
+				$this->load->view('vendormanagepromos_add', $data);
+				$this->load->view('landingfooter');
+			}
+			
+		} 
+
 	}
 
 	public function ppc($rid=null) {
