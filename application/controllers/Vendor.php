@@ -266,7 +266,7 @@ class Vendor extends CI_Controller {
 			$data["page"] = null;
 			if ($this->input->post()) {
 				$datapost = $this->input->post();
-				$this->Vendor_model->editMenuItems($rid, $datapost, $datapost["action"]);
+				$this->Vendor_model->editPromo($rid, $datapost, $datapost["action"]); //$rid=0, $data, $action=0
 			}
 			if ($page == null) {
 				$data["promos"] = $this->Vendor_model->getAllPromos($rid);

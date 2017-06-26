@@ -38,7 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link rel="stylesheet" href="http://<?=$_SERVER['SERVER_NAME']?>/resources/css/user.style.css" type="text/css">
     <link rel="stylesheet" href="http://<?=$_SERVER['SERVER_NAME']?>/resources/css/dropzone.css" type="text/css">
     <link rel="stylesheet" href="http://<?=$_SERVER['SERVER_NAME']?>/resources/css/jquery.ui.timepicker.css" type="text/css"> 
-
+     
 
     <title>Wheres The Grub - Find Your Food Fast!</title>
     <meta name="robots" content="index, nofollow">
