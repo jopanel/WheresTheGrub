@@ -218,17 +218,17 @@ class User_model extends CI_Model {
         return $buildarray;
     }
 
-    public function isFollowing($uid=null) {
+    public function isFollowing($rid=null) {
         $buildarray = [];
         $sql = "SELECT l.name, l.url, l.id FROM followers f
         LEFT JOIN restaurantlist l ON f.rid = l.id
-        WHERE f.uid = ".$this->db->escape((int)$this->session->userdata("uid"))." AND rid = ".$this->db->escape((int)$this->session->userdata("rid"));
+        WHERE f.uid = ".$this->db->escape((int)$this->session->userdata("uid"))." AND rid = ".$this->db->escape((int)$rid);
         $query = $this->db->query($sql);
         if ($query) {
             if ($query->num_rows() > 0) {
-                return $query->result_array();
+                return TRUE;
             } else {
-                return $buildarray;
+                return FALSE;
             }
         }
         return $buildarray;

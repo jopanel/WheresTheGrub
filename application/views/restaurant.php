@@ -9,7 +9,17 @@
                             <section class="block" id="main-content">
                                 <header class="page-title">
                                     <div class="title">
-                                        <h1><?=$res["name"]?> <button class="followbtn" onClick="follow(<?php echo $res["id"]; ?>)">Follow</button></h1>
+                                        <h1><?=$res["name"]?>
+                                        <?php 
+                                        if (isset($this->session->userdata('loggedin')) && !empty($this->session->userdata('loggedin'))) {
+                                            if ($isfollowing == TRUE) { ?>
+                                                <button class="followbtn" class="btn btn-default" onClick="request(<?php echo $res["id"]; ?>,1)">Follow</button>
+                                           <?php  } else { ?>
+                                                <button class="followbtn" class="btn btn-default" onClick="request(<?php echo $res["id"]; ?>,2)">Un-Follow</button>
+                                           <?php } ?>
+                                         </h1>
+                                        }
+                                        ?>
                                         <figure><?php
                                             if (isset($res["hours"]) && !empty($res["hours"])) {
                                                 $hoursarray = json_decode($res["hours"], true);
@@ -464,3 +474,67 @@
                 <!-- /.container-->
             </div>
             <!-- end Page Content-->
+
+            <script>
+            function request(rid, action) { 
+               if (action == 0) { action = "deleteReview"; }
+               if (action == 1) { action = "follow"; }
+               if (action == 2) { action = "unfollow"; }
+               var postData = { "rid": rid, "action": action };
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://<?=$_SERVER["SERVER_NAME"]?>/place/managereviews/<?=$rid?>/'+action,
+                    data: postData,
+                    cache: false,
+                    success: function (data) { 
+                       
+                    }
+                });
+            }
+            
+            function getXmlHttpObject() {
+                var xmlHttp;
+                try {
+                    // Firefox, Opera 8.0+, Safari
+                    xmlHttp = new XMLHttpRequest();
+                } catch (e) {
+                    // Internet Explorer
+                    try {
+                        xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+                    } catch (e) {
+                        xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+                    }
+                }
+                if (!xmlHttp) {
+                    showprompt("Your browser does not support AJAX!", "Hold Up");
+                }
+                return xmlHttp;
+            }
+
+
+            function ajax(url, postdata, onSuccess, onError) {
+            
+                var xmlHttp = getXmlHttpObject();
+                
+                xmlHttp.onreadystatechange = function() {
+                    if (this.readyState === 4) {
+                        
+                        // onSuccess
+                        if (this.status === 200 && typeof onSuccess == 'function') {
+                            onSuccess(this.responseText);
+                            
+                        }
+                        
+                        // onError
+                        else if(typeof onError == 'function') {
+                            onError();
+                        }
+                        
+                    }
+                };
+                xmlHttp.open("POST", url, true);
+                xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlHttp.send(postdata);
+                return xmlHttp;
+            }
+            </script>

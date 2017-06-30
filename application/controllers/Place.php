@@ -90,7 +90,9 @@ class Place extends CI_Controller {
 				$this->User_model->addReview($post);
 			} elseif ($post["action"] == "contact") {
 				$this->User_model->contactRestaurant($post);
-			} 
+			} elseif ($post["action"] == "updatefollow") {
+				$this->User_model->updateFollow($post);
+			}
 		}
 
 		if (!empty($restaurant)) {
@@ -103,9 +105,9 @@ class Place extends CI_Controller {
 		} else {
 			$data["problem"] = 1;
 		}
-		if ($this->session->userdata("email")) {
+		if ($this->session->userdata("loggedin") && $this->session->userdata("uid")) {
 			$this->load->model('User_model');
-			$data["userdata"] = $this->User_model->
+			$data["isfollowing"] = $this->User_model->isFollowing($basicinfo["id"]);
 		}
 		$this->load->view('landingheader');
 		$this->load->view('restaurant', $data);
