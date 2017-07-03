@@ -10,6 +10,7 @@
                                 <header class="page-title">
                                     <div class="title">
                                         <h1><?=$res["name"]?>
+                                        <follow id="followbtn">
                                         <?php 
                                         if (isset($this->session->userdata('loggedin')) && !empty($this->session->userdata('loggedin'))) {
                                             if ($isfollowing == TRUE) { ?>
@@ -17,6 +18,7 @@
                                            <?php  } else { ?>
                                                 <button class="followbtn" class="btn btn-default" onClick="request(<?php echo $res["id"]; ?>,2)">Un-Follow</button>
                                            <?php } ?>
+                                           </follow>
                                          </h1>
                                         }
                                         ?>
@@ -94,9 +96,6 @@
                                         <section>
                                             <header><h3>Contact Form</h3></header>
                                             <figure>
-                                                <form id="item-detail-form" role="form" method="post" action="?">
-                                                <input type="hidden" name="action" value="contact">
-                                                <input type="hidden" name="rid" value="<?=$res["id"]?>">
                                                     <div class="form-group">
                                                         <label for="item-detail-name">Name</label>
                                                         <input type="text" class="form-control framed" id="contactname" name="item-detail-name" required="">
@@ -113,10 +112,9 @@
                                                     </div>
                                                     <!-- /.form-group -->
                                                     <div class="form-group">
-                                                        <button type="submit" class="btn framed icon">Send<i class="fa fa-angle-right"></i></button>
+                                                        <button type="submit" onClick="request(<?=$res["id"]?>,4);" class="btn framed icon">Send<i class="fa fa-angle-right"></i></button> <p id="contactsuccess"></p>
                                                     </div>
                                                     <!-- /.form-group -->
-                                                </form>
                                             </figure>
                                         </section>
                                         <!--end Contact Form-->
@@ -365,30 +363,27 @@
                                         <section id="write-review">
                                             <header>
                                                 <h2>Write a Review</h2>
-                                            </header>
-                                            <form id="form-review" role="form" method="post" action="?" class="background-color-white">
-                                            <input type="hidden" name="action" value="review">
-                                            <input type="hidden" name="rid" value="<?=$res["id"]?>">
+                                            </header> 
                                                 <div class="row">
                                                     <div class="col-md-8">
                                                         <div class="form-group">
                                                             <label for="form-review-message">Message</label>
-                                                            <textarea class="form-control" id="form-review-message" name="reviewmessage"  rows="3" required=""></textarea>
+                                                            <textarea class="form-control" id="reviewmessage" name="reviewmessage"  rows="3" required=""></textarea>
+                                                            <p id="reviewsuccess"></p>
                                                         </div>
                                                         <!-- /.form-group -->
                                                         <div class="form-group">
-                                                            <button type="submit" class="btn btn-default">Submit Review</button>
+                                                            <button type="submit" onClick="request(<?=$res["id"]?>,3);" class="btn btn-default">Submit Review</button>
                                                         </div>
                                                         <!-- /.form-group -->
                                                     </div>
                                                     <div class="col-md-4">
                                                         <aside class="user-rating">
                                                             <label>Ratings</label>
-                                                            <figure class="rating active" name="reviewrating" data-name="rating"></figure>
+                                                            <figure class="rating active" name="reviewrating" id="reviewrating" data-name="rating"></figure>
                                                         </aside>
                                                     </div>
-                                                </div>
-                                            </form>
+                                                </div> 
                                             <!-- /.main-search -->
                                         </section>
                                         <!--end Review Form-->
@@ -476,20 +471,66 @@
             <!-- end Page Content-->
 
             <script>
+            var hascontacted = 0;
+            var hasreviewed = 0;
             function request(rid, action) { 
-               if (action == 0) { action = "deleteReview"; }
-               if (action == 1) { action = "follow"; }
-               if (action == 2) { action = "unfollow"; }
-               var postData = { "rid": rid, "action": action };
+                
+                if (hascontacted == 1) { document.getElementById("contactsuccess").innerHTML = "You have already contacted this business.";}
+                if (hasreviewed == 1) { document.getElementById("reviewsuccess").innerHTML = "You have made a review already."; }
+
+               if (action == 1) { var action2 = "updatefollow"; var display = '<button class="followbtn" class="btn btn-default" onClick="request(<?php echo $res["id"]; ?>,1)">Follow</button>';}
+               if (action == 2) { var action2 = "updatefollow"; var display = '<button class="followbtn" class="btn btn-default" onClick="request(<?php echo $res["id"]; ?>,2)">Un-Follow</button>'; }
+               if (action == 3) { var action2 = "review"; 
+                    var review = document.getElementById("reviewmessage").value;
+                    var rating = document.getElementById("reviewrating").value;
+                }
+               if (action == 4) { var action2 = "contact"; 
+                    var contactname = document.getElementById("contactname").value;
+                    var contactemail = document.getElementById("contactemail").value;
+                    var contactmessage = document.getElementById("contactmessage").value;
+                }
+
+               if (action == 1 || action == 2) {
+                var postData = { "rid": rid, "action": action2 };
                 $.ajax({
                     type: 'POST',
-                    url: 'http://<?=$_SERVER["SERVER_NAME"]?>/place/managereviews/<?=$rid?>/'+action,
+                    url: 'http://<?=$_SERVER["SERVER_NAME"]?>/place/request/<?=$rid?>/'+action2,
                     data: postData,
                     cache: false,
                     success: function (data) { 
-                       
+                       document.getElementById("followbtn").innerHTML = display;
                     }
                 });
+               }
+               if (action == 3 && hasreviewed == 0) {
+                hasreviewed = 1;
+                var postData = { "rid": rid, "action": action2, "reviewmessage": review, "reviewrating": rating };
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://<?=$_SERVER["SERVER_NAME"]?>/place/request/<?=$rid?>/'+action2,
+                    data: postData,
+                    cache: false,
+                    success: function (data) { 
+                       if (action == "review") { document.getElementById("reviewsuccess").innerHTML = "Your review will be available shortly. Thank you"; }
+                    }
+                });
+               }
+               if (action == 4 && hascontacted == 0) {
+                hascontacted = 1;
+                var postData = { "rid": rid, "action": action2, "contactname": contactname, "contactemail": contactemail, "contactmessage": contactmessage };
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://<?=$_SERVER["SERVER_NAME"]?>/place/request/<?=$rid?>/'+action2,
+                    data: postData,
+                    cache: false,
+                    success: function (data) { 
+                       if (action == "contact") { document.getElementById("contactsuccess").innerHTML = "Your contact request has been submitted."; }
+                    }
+                });
+               }
+
+
+               
             }
             
             function getXmlHttpObject() {

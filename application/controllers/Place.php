@@ -80,6 +80,24 @@ class Place extends CI_Controller {
 		
 	}
 
+	public function request($rid=0, $action=0) {
+		if($this->input->is_ajax_request()) {
+			if ($this->input->post()) {
+			 	if (!empty($rid) || !empty($action)) {
+			 		$this->load->model('User_model');
+			 		if ($action == "updatefollow") {
+			 			if ($rid == $post["rid"]) {
+			 				$this->User_model->updateFollow($post);
+			 			}
+			 		} elseif ($action == "review") {
+			 			$this->User_model->addReview($post);
+			 		}
+
+			 	}
+			}
+		}
+	}
+
 	public function index($restaurant=0)
 	{
 
@@ -91,7 +109,7 @@ class Place extends CI_Controller {
 			} elseif ($post["action"] == "contact") {
 				$this->User_model->contactRestaurant($post);
 			} elseif ($post["action"] == "updatefollow") {
-				$this->User_model->updateFollow($post);
+				
 			}
 		}
 
