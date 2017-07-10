@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | environments.
 |
 */
-$config['base_url'] = 'http://wheresthegrub.com/beta/';
+$config['base_url'] = 'http://local.wheresthegrub.com';
 
 /*
 |--------------------------------------------------------------------------

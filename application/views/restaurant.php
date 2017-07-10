@@ -1,3 +1,4 @@
+<?php $rid = $res["id"]; ?>
 <!--Page Content-->
             <div id="page-content">
 
@@ -12,7 +13,7 @@
                                         <h1><?=$res["name"]?>
                                         <follow id="followbtn">
                                         <?php 
-                                        if (isset($this->session->userdata('loggedin')) && !empty($this->session->userdata('loggedin'))) {
+                                        if ($this->session->userdata('loggedin') && !empty($this->session->userdata('loggedin'))) {
                                             if ($isfollowing == TRUE) { ?>
                                                 <button class="followbtn" class="btn btn-default" onClick="request(<?php echo $res["id"]; ?>,1)">Follow</button>
                                            <?php  } else { ?>
@@ -45,6 +46,7 @@
                                                 $hours = "CURRENTLY CLOSED";
                                             }
                                             echo $hours;
+                                        }
             ?></figure>
                                     </div>
                                     <div class="info">

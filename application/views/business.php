@@ -3,7 +3,7 @@
                 <section class="hero-image search-filter-middle height-550" style="background-image: url(resources/img/biz.jpg);">
                     <div class="inner">
                         <div class="container">
-                            <h1>Paving A Path For A Long Lasting Success</h1> 
+                            <h1>Bring in New Customers<br> Build a Positive Reputation <br> Create A Proactive Customer Base <br> Pave a Path for An Everlasting Success</h1> 
                             <!-- /.search-bar -->
                         </div>
                     </div>

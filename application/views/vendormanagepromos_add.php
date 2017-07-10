@@ -78,6 +78,10 @@
                                             <label>Discount Cost<i>(-1 to hide cost)</i></label>
                                             <input type="text" class="form-control" name="cost" value="-1" required>
                                         </div><!-- /.form-group -->
+                                        <div class="form-group">    
+                                            <label>Total Vouchers<i>(0 for unlimited)</i></label>
+                                            <input type="text" class="form-control" name="numvouchers" value="0" required>
+                                        </div><!-- /.form-group -->
                                         <div class="form-group">
                                             <label>Promotion Information:</label>
                                             <textarea class="form-control" name="body"></textarea>
