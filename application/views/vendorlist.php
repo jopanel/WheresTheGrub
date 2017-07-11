@@ -55,7 +55,10 @@
                                     </div>
                                     <div class="wrapper">
                                         <a href="item-detail.html"><h3><?=$v["name"]?></h3></a>
-                                        <figure><?=$v["address"]?></figure>
+                                        <figure><?=$v["address"]?> <?php 
+                                        if ($v["premium"] == 1) { echo '<span class="label label-success">PREMIUM</span>';} else { echo '<span class="label label-danger">NON PREMIUM</span>'; }
+                                         ?> 
+                                         </figure>
                                         <div class="info">
                                             <div class="type">
                                                 <i><img src="../resources/icons/restaurants-bars/restaurants/cafetaria.png" alt=""></i>

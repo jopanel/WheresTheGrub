@@ -235,6 +235,7 @@ class Vendor extends CI_Controller {
 		if ($rid == null) { return; }
 		if ($this->Vendor_model->verifyUser($rid)) {
 			$data["rid"] = $rid;
+			$data["premiumstatus"] = $this->Vendor_model->getPremiumStatus($rid);
 			$this->load->view('landingheader'); 
 			$this->load->view('vendormanagebusiness', $data);
 			$this->load->view('landingfooter');
@@ -395,7 +396,7 @@ class Vendor extends CI_Controller {
 
 	public function index($userid=0){
 			if ($this->Vendor_model->verifyUser()) {
-				$data["biz"] = $this->Vendor_model->getMyBusinesses();
+				$data["biz"] = $this->Vendor_model->getMyBusinesses(); 
 				$this->load->view('landingheader');
 				$this->load->view('vendorlist', $data);
 				$this->load->view('landingfooter');

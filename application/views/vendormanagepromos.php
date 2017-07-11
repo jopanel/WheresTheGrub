@@ -66,24 +66,27 @@
                                 <?php
                                 $count = 0;
                                 foreach ($promos as $k => $v) {
-                                    $count += 1;
-                                    if ($count == 1) { echo '<div class="row">'; }
-                                    if ($count == 4) { echo '</div><div class="row">'; $count = 1; }
-                                    echo '<div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <div class="member">
-                                                    <h4>'.$v["subject"].'</h4>
-                                                    <p>Starting: '.$v["starting"].' - Ending: '.$v["ending"].' 
-                                                    <br>
-                                                    <div class="social">
-                                                        <a href="http://'.$_SERVER["SERVER_NAME"].'/vendor/managepromos/'.$rid.'/edit/'.$v["id"].'" >Edit</a> 
-                                                        - 
-                                                        <a href="http://'.$_SERVER["SERVER_NAME"].'/vendor/managepromos/'.$rid.'/delete/'.$v["id"].'" >Delete</a>
+                                    if ($v["id"] > 0) {
+                                       $count += 1;
+                                        if ($count == 1) { echo '<div class="row">'; }
+                                        if ($count == 4) { echo '</div><div class="row">'; $count = 1; }
+                                        echo '<div class="row">
+                                                <div class="col-md-3 col-sm-3">
+                                                    <div class="member">
+                                                        <h4>'.$v["subject"].'</h4>
+                                                        <p>Starting: '.$v["starting"].' - Ending: '.$v["ending"].' 
+                                                        <br>
+                                                        <div class="social">
+                                                            <a href="http://'.$_SERVER["SERVER_NAME"].'/vendor/managepromos/'.$rid.'/edit/'.$v["id"].'" >Edit</a> 
+                                                            - 
+                                                            <a href="http://'.$_SERVER["SERVER_NAME"].'/vendor/managepromos/'.$rid.'/delete/'.$v["id"].'" >Delete</a>
+                                                        </div>
                                                     </div>
+                                                    <!--/.member-->
                                                 </div>
-                                                <!--/.member-->
-                                            </div>
-                                        </div>';
+                                            </div>'; 
+                                    }
+                                    
                                 }
                                 if ($count > 0) { echo '</div>'; }
                                 ?>

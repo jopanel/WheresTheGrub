@@ -625,11 +625,11 @@ class Vendor_model extends CI_Model {
     }
     public function getPremiumStatus($rid=0) {
         if ($rid == 0) {return array();}
-        $sql = "SELECT COALESCE(v.premium, 0), COALESCE(vs.sponsoredads,0), COALESCE(vs.reviews,0), COALESCE(vs.ppc,0) FROM vendors v 
-        LEFT JOIN vendorprivileges vs ON v.rid = vs.rid
+        $sql = "SELECT COALESCE(v.premium, 0) as 'premium', COALESCE(vs.sponsoredads,0) as 'sponsoredads', COALESCE(vs.reviews,0) as 'reviews', COALESCE(vs.ppc,0) as 'ppc' FROM vendors v 
+        LEFT JOIN vendor_privileges vs ON v.rid = vs.rid
         WHERE v.rid = ".$this->db->escape((int)$rid);
         $query = $this->db->query($sql);
-        return $query->result_array();
+        return $query->row();
     }
 
     public function getBizReviews($rid=0) {
@@ -721,11 +721,11 @@ class Vendor_model extends CI_Model {
 
     public function getAllPromos($rid=0) {
         if ($rid == 0) { return array(); }
-        $sql = "SELECT c.*, COALESCE(COUNT(cv.redeemed),0) as 'redeemed', COALESCE(COUNT(cvv.used),0) as 'used', COALESCE(COUNT(cvvv.id),'unlimited') as 'totalvouchers' FROM coupons c 
-        LEFT JOIN coupon_vouchers cv ON c.rid = cv.rid AND cv.redeemed IS NOT NULL 
+        $sql = "SELECT c.*, COALESCE(COUNT(cv.redeem),0) as 'redeemed', COALESCE(COUNT(cvv.used),0) as 'used', COALESCE(COUNT(cvvv.id),'unlimited') as 'totalvouchers' FROM coupons c 
+        LEFT JOIN coupon_vouchers cv ON c.rid = cv.rid AND cv.redeem IS NOT NULL 
         LEFT JOIN coupon_vouchers cvv ON c.rid = cvv.rid AND cvv.used IS NOT NULL 
         LEFT JOIN coupon_vouchers cvvv ON c.rid = cvvv.rid
-        WHERE c.rid = ".$this->db->escape((int)$rid);
+        WHERE c.rid = ".$this->db->escape((int)$rid)." AND c.id IS NOT NULL";
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
             return $query->result_array();
@@ -735,7 +735,8 @@ class Vendor_model extends CI_Model {
     }
 
     public function editPromo($rid=0, $data, $action=0) {
-        if ($rid == 0 || $action == 0) { return FALSE; }
+        if ($rid == 0) { return FALSE; }
+        echo 1;
         if ($action == "add") {
             if (isset($data["numvouchers"]) && (int)$data["numvouchers"] > 0) {
                 $redeemable = 1;
@@ -743,11 +744,14 @@ class Vendor_model extends CI_Model {
             $redeemable = 0;
             $sql = "INSERT INTO coupons (rid, starting, ending, discount, subject, body, created, redeemable, active) VALUES (".$this->db->escape((int)$rid).", ".$this->db->escape(strip_tags($data["starting"])).", ".$this->db->escape(strip_tags($data["ending"])).", ".$this->db->escape(strip_tags($data["discount"])).", ".$this->db->escape(strip_tags($data["subject"])).", ".$this->db->escape(strip_tags($data["body"])).", NOW(), ".$this->db->escape($redeemable).", 1)";
             $this->db->query($sql);
+            $sql2 = "SELECT id FROM coupons WHERE rid = ".$this->db->escape((int)$rid)." ORDER BY id DESC LIMIT 1";
+            $query = $this->db->query($sql2);
+            $cid = $query->row()->id;
 
             if ($redeemable == 1) {
                 for ($i=0; $i<$data["numvouchers"]; $i++) {
                     $code = $this->randomString();
-                    $insert = "INSERT INTO coupon_vouchers (rid, code, created) VALUES (".$this->db->escape((int)$rid).", ".$this->db->escape($code).", NOW())";
+                    $insert = "INSERT INTO coupon_vouchers (cid, rid, code, created) VALUES (".$this->db->escape((int)$cid).", ".$this->db->escape((int)$rid).", ".$this->db->escape($code).", NOW())";
                     $this->db->query($insert);
                 }
             }

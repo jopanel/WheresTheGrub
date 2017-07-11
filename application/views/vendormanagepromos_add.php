@@ -70,16 +70,24 @@
                                             <label>Promotion Name:</label>
                                             <input type="text" class="form-control" name="subject" required>
                                         </div><!-- /.form-group -->
+                                        <div class="form-group">
+                                            <label>Start Date/Time</label> 
+                                            <input class="oh-timepicker" data-format="MM/dd/yyyy HH:mm:ss PP" name="starting" type="text"> 
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Ending Date/Time</label> 
+                                            <input class="oh-timepicker" data-format="MM/dd/yyyy HH:mm:ss PP" name="ending" type="text"> 
+                                        </div>
                                         <div class="form-group">    
                                             <label>Cost Without Sale <i>(-1 to hide cost)</i></label>
                                             <input type="text" class="form-control" name="cost" value="-1" required>
                                         </div><!-- /.form-group -->
                                         <div class="form-group">    
-                                            <label>Discount Cost<i>(-1 to hide cost)</i></label>
-                                            <input type="text" class="form-control" name="cost" value="-1" required>
+                                            <label>Discount Cost <i>(-1 to hide cost)</i></label>
+                                            <input type="text" class="form-control" name="discount" value="-1" required>
                                         </div><!-- /.form-group -->
                                         <div class="form-group">    
-                                            <label>Total Vouchers<i>(0 for unlimited)</i></label>
+                                            <label>Total Vouchers <i>(0 for unlimited)</i></label>
                                             <input type="text" class="form-control" name="numvouchers" value="0" required>
                                         </div><!-- /.form-group -->
                                         <div class="form-group">
@@ -98,4 +106,17 @@
                         </div>
                     </div>
                 </section>
-            </div>
+            </div> 
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/before.load.js"></script>
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/jquery-ui.min.js"></script> 
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/richmarker-compiled.js"></script>
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/smoothscroll.js"></script>
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/bootstrap-select.min.js"></script>
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/icheck.min.js"></script>
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/jquery.hotkeys.js"></script>
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/dropzone.min.js"></script>
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/jquery.ui.timepicker.js"></script>
+<script type="text/javascript" src="http://<?=$_SERVER['SERVER_NAME']?>/resources/js/custom.js"></script> 
