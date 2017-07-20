@@ -1,6 +1,39 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+/*
+|--------------------------------------------------------------------------
+| Wheres The Grub Constants
+|--------------------------------------------------------------------------
+|
+| Most of these constants are just me hardcoding values that are in the
+| the database. Which really isn't that bad since I don't think I will
+| need to change any of them. RIP To those who have to change things
+| like this in the future. Thats what I pay you for.
+|
+*/
+// --- Stats
+// Clicks Normal
+define("MapClick",2); // -- done
+define("ListingClick",3); // -- done
+define("CompetitorClick",7); // -- done
+// Clicks PPC
+define("PPCMapClick",13); // -- done
+define("PPCCompetitorClick",14); // -- done
+define("PPCListingClick",15); // -- done
+// Being Listed
+define("PPCMap",8); // -- done
+define("PPCCompetitor",9);  // -- done
+define("PPCListing",10);
+define("Map",16); // -- done
+define("Competitor",17); // -- done
+define("Listing",18);
+// Others
+define("ReferralOpen",6); // -- done
+// Mobile
+define("PPCMobileMap",11);
+define("PPCMobileListing",12);
+define("MobileMapClick",5);
+define("MobileListingClick",4);
 /*
 |--------------------------------------------------------------------------
 | File and Directory Modes

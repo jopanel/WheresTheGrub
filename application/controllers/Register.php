@@ -5,10 +5,7 @@ class Register extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
-		$this->load->library('session');
-		$this->load->helper('url');
 		date_default_timezone_set('America/Los_Angeles');
-		$this->load->model('General_model');
 			if ( !$this->session->userdata('zipcode') ) {
 				if ($this->_bot_detected() == TRUE) {
 					$this->session->set_userdata("zipcode", "90713");

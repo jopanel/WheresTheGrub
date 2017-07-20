@@ -4,11 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class User extends CI_Controller {
 
 	function __construct() {
-		parent::__construct();
-		$this->load->library('session');
-		$this->load->helper('url');
-		date_default_timezone_set('America/Los_Angeles');
-		$this->load->model('General_model');
+		parent::__construct(); 
+		date_default_timezone_set('America/Los_Angeles'); 
 		$this->load->model('Restaurant_model');
 		$this->load->model('User_model');
 		if ( !$this->session->userdata('zipcode') ) {

@@ -414,8 +414,9 @@
                                             } else {
                                             $label = "Restaurant";
                                             }
+                                            if ($br["premium"] == 1) { $pre = 1; } else { $pre = 0; }
                                             ?>
-                                        <a href="item-detail.html" class="item-horizontal small">
+                                        <a href="#" onClick="competitorClick(<?=$br["id"]?>,<?=$pre?>,'<?=$br["url"]?>');" class="item-horizontal small">
                                             <h3><?=$br["name"];?></h3>
                                             <figure><?=$br["address"]?></figure>
                                             <div class="wrapper">
@@ -533,6 +534,20 @@
 
 
                
+            }
+
+            function openCompetitor(rid,pre,url) {
+                if (pre == 1) { var uri = "openCompetitorPPC"; } else { var uri = "openCompetitor"; }
+                var postData = { "rid": rid }
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://<?=$_SERVER["SERVER_NAME"]?>/place/'+uri+,
+                    data: postData,
+                    cache: false,
+                    success: function (data) { 
+                       window.location.href = "http://<?=$_SERVER["SERVER_NAME"]?>/place/"+url;
+                    }
+                });
             }
             
             function getXmlHttpObject() {

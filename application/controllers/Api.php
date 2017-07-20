@@ -4,11 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Api extends CI_Controller {
 
 	function __construct() {
-		parent::__construct();
-		$this->load->library('session');
-		$this->load->helper('url');
-		date_default_timezone_set('America/Los_Angeles');
-		$this->load->model('General_model');
+		parent::__construct(); 
+		date_default_timezone_set('America/Los_Angeles'); 
 	}
 
 	private function _bot_detected() {
@@ -19,6 +16,22 @@ class Api extends CI_Controller {
 	    return FALSE;
 	  }
 	}
+
+	public function getIP() {
+        if (!empty($_SERVER['HTTP_CLIENT_IP']))   //check ip from share internet
+        {
+          $ip=$_SERVER['HTTP_CLIENT_IP'];
+        }
+        elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))   //to check ip is pass from proxy
+        {
+          $ip=$_SERVER['HTTP_X_FORWARDED_FOR'];
+        }
+        else
+        {
+          $ip=$_SERVER['REMOTE_ADDR'];
+        }
+        return $ip;
+    }
 
 	public function index()
 	{
@@ -42,7 +55,7 @@ class Api extends CI_Controller {
 		 		$post = $this->input->post();
 		 		if (is_int((int)$post["id"])) {
 		 			$buildarray = [];
-		 			$sql = "SELECT * FROM leads WHERE id = ".$this->db->escape((int)$post["id"]);
+		 			$sql = "SELECT * FROM leads WHERE id = ".$this->db->escape(strip_tags((int)$post["id"]));
 		 			$query = $this->db->query($sql);
 		 			if ($query->num_rows() > 0) {
 		 				foreach ($query->result_array() as $res) {
@@ -69,6 +82,17 @@ class Api extends CI_Controller {
 			                        );
 			                }
 			            }
+			            $sql4 = "SELECT COALESCE(premium, 0) as 'premium' FROM vendors WHERE rid = ".$this->db->escape($buildarray["id"]);
+			            $query4 = $this->db->query($sql4);
+			            $ispremium = $query4->row()->premium;
+			            $ip = $this->getIP();
+			            $now = time();
+			            if ($ispremium == 1) {
+			            	$sql5 = "INSERT INTO vendorstats (rid,ip,date,type) VALUES (".$this->db->escape($buildarray["id"]).", ".$this->db->escape($ip).", ".$this->db->escape($now).", ".$this->db->escape(PPCMapClick).")";
+			            } else {
+			            	$sql5 = "INSERT INTO vendorstats (rid,ip,date,type) VALUES (".$this->db->escape($buildarray["id"]).", ".$this->db->escape($ip).", ".$this->db->escape($now).", ".$this->db->escape(MapClick).")";
+			            }
+			            $this->db->query($sql5);
 			            $buildarray["review"] = $reviewsarray;
 		 				$data["arraydata"] = $buildarray;
 		 				$this->load->view('quickview', $data);
@@ -142,70 +166,72 @@ class Api extends CI_Controller {
 				// start getting information
 				$latitude = $this->session->userdata("userdata_lat");
 				$longitude = $this->session->userdata("userdata_lon");
-				$sql = "SELECT hours, category_labels, cuisine, id, name, address, latitude, longitude, rating,url,( 3959 * acos( cos( radians(".$this->db->escape($latitude).") ) 
-		              * cos( radians( latitude ) ) 
-		              * cos( radians( longitude ) - radians(".$this->db->escape($longitude).") ) 
+				$sql = "SELECT COALESCE(v.premium,0) as 'premium', rl.hours, rl.category_labels, rl.cuisine, rl.id, rl.name, rl.address, rl.latitude, rl.longitude, rl.rating,rl.url,( 3959 * acos( cos( radians(".$this->db->escape($latitude).") ) 
+		              * cos( radians( rl.latitude ) ) 
+		              * cos( radians( rl.longitude ) - radians(".$this->db->escape($longitude).") ) 
 		              + sin( radians(".$this->db->escape($latitude).") ) 
-		              * sin( radians( latitude ) ) ) ) AS distance FROM restaurantlist WHERE `active` = '1'";
+		              * sin( radians( rl.latitude ) ) ) ) AS distance FROM restaurantlist rl
+		              LEFT JOIN vendors v ON rl.id = v.rid
+		               WHERE `rl.active` = '1'";
 				$yes = 1;
 				if (isset($post["accessible_wheelchair"])) {
-					$sql .= " AND `accessible_wheelchair` = '".$yes."'";
+					$sql .= " AND `rl.accessible_wheelchair` = '".$yes."'";
 				}
 				if (isset($post["kids_goodfor"])) {
-					$sql .= " AND `kids_goodfor` = '".$yes."'";
+					$sql .= " AND `rl.kids_goodfor` = '".$yes."'";
 				}
 				if (isset($post["meal_breakfast"])) {
-					$sql .= " AND `meal_breakfast`  = '".$yes."'";
+					$sql .= " AND `rl.meal_breakfast`  = '".$yes."'";
 				}
 				if (isset($post["meal_dinner"])) {
-					$sql .= " AND `meal_dinner` = '".$yes."'";
+					$sql .= " AND `rl.meal_dinner` = '".$yes."'";
 				}
 				if (isset($post["meal_lunch"])) {
-					$sql .= " AND `meal_lunch` = '".$yes."'";
+					$sql .= " AND `rl.meal_lunch` = '".$yes."'";
 				}
 				if (isset($post["open_24hrs"])) {
-					$sql .= " AND `open_24hrs` = '".$yes."'";
+					$sql .= " AND `rl.open_24hrs` = '".$yes."'";
 				}
 				if (isset($post["options_healthy"])) {
-					$sql .= " AND `options_healthy` = '".$yes."'";
+					$sql .= " AND `rl.options_healthy` = '".$yes."'";
 				}
 				if (isset($post["wifi"])) {
-					$sql .= " AND `wifi` = '".$yes."'";
+					$sql .= " AND `rl.wifi` = '".$yes."'";
 				}
 				if (isset($post["options_vegetarian"])) {
-					$sql .= " AND `options_vegetarian` = '".$yes."'";
+					$sql .= " AND `rl.options_vegetarian` = '".$yes."'";
 				}
 				if (isset($post["alcohol"])) {
-					$sql .= " AND `alcohol` = '".$yes."'";
+					$sql .= " AND `rl.alcohol` = '".$yes."'";
 				}
 				if (isset($post["alcohol_beer"])) {
-					$sql .= " AND `alcohol_beer` = '".$yes."'";
+					$sql .= " AND `rl.alcohol_beer` = '".$yes."'";
 				}
 				if (isset($post["alcohol_beer_wine"])) {
-					$sql .= " AND `alcohol_beer_wine` = '".$yes."'";
+					$sql .= " AND `rl.alcohol_beer_wine` = '".$yes."'";
 				}
 				if (isset($post["deliverypickup"])) {
 					if ($post["deliverypickup"] == 1) {
-						$sql .= " AND `meal_deliver` = '".$yes."'";
+						$sql .= " AND `rl.meal_deliver` = '".$yes."'";
 					} else {
-						$sql .= " AND `meal_takeout` = '".$yes."'";
+						$sql .= " AND `rl.meal_takeout` = '".$yes."'";
 					}
 				}
 				if (isset($post["ratingpopularity"])) {
 					if ($post["ratingpopularity"] == 1) {
-						$sql .= " AND `rating` >= '4'";
+						$sql .= " AND `rl.rating` >= '4'";
 					} else {
 						// needs updating for popularity after the restaurant page is made
 					}
 				}
 				if (isset($post["opennow"])) { 
-					$sql .= " AND `hours` IS NOT NULL";
+					$sql .= " AND `rl.hours` IS NOT NULL";
 				}
 				if (isset($post["keyword"])) {
 					// needs updating for keyword searching, this part should probably be pretty advanced.
 					// im thinking create another function that builds a large where clause for different keyword specifics
 					$keyword = $this->db->escape("%".strip_tags($post["keyword"])."%");
-					$sql .= " AND (`name` LIKE ".$keyword." OR `category_labels` LIKE ".$keyword." OR `cuisine` LIKE ".$keyword." OR `description` LIKE ".$keyword.")";
+					$sql .= " AND (`rl.name` LIKE ".$keyword." OR `rl.category_labels` LIKE ".$keyword." OR `rl.cuisine` LIKE ".$keyword." OR `rl.description` LIKE ".$keyword.")";
 				}
 				if (isset($post["distance"])) {
 					if ($post["distance"] == 1) {
@@ -230,6 +256,7 @@ class Api extends CI_Controller {
 		              + sin( radians(33.8477257) ) 
 		              * sin( radians( latitude ) ) ) ) AS distance FROM restaurantlist WHERE `active` = '1' AND (`name` LIKE '%%' OR `category_labels` LIKE '%%' OR `cuisine` LIKE '%%' OR `description` LIKE '%%') HAVING distance < 2
 		        */
+		        $ip = $this->getIP();
 				$result = $this->db->query($sql);
 				if ($result) {
 					$resultset = $result->result_array();
@@ -258,51 +285,62 @@ class Api extends CI_Controller {
 					$count = 0;
 					foreach ($resultset as $resarr) {
 						// build the data translation
+						if (isset($resarr["id"]) && !empty($resarr["id"])) {
+							//category
+							$label = "";
+							if ($resarr["category_labels"]) {
+								$categoryarray = json_decode($resarr["category_labels"], true);
+	                            foreach ($categoryarray[0] as $labels) {
+	                                $label .= $labels." ";
+	                            }
+	                            $categoryarray = null;
+							}
 
-						//category
-						$label = "";
-						if ($resarr["category_labels"]) {
-							$categoryarray = json_decode($resarr["category_labels"], true);
-                            foreach ($categoryarray[0] as $labels) {
-                                $label .= $labels." ";
-                            }
-                            $categoryarray = null;
-						}
-
-						$type = "Place";
-						if ($resarr["cuisine"]) {
-							$categoryarray = json_decode($resarr["cuisine"], true);
-                            $type = $categoryarray[0][0];
+							$type = "Place";
+							if ($resarr["cuisine"]) {
+								$categoryarray = json_decode($resarr["cuisine"], true);
+	                            $type = $categoryarray[0][0];
+							} 
+							$now = time();
+							if ($resarr["premium"] == 1) {
+								$sql5 = "INSERT INTO vendorstats (rid,ip,date,type) VALUES (".$this->db->escape($buildarray["id"]).", ".$this->db->escape($ip).", ".$this->db->escape($now).", ".$this->db->escape(PPCMap).")";
+							} else {
+								$sql5 = "INSERT INTO vendorstats (rid,ip,date,type) VALUES (".$this->db->escape($buildarray["id"]).", ".$this->db->escape($ip).", ".$this->db->escape($now).", ".$this->db->escape(Map).")";
+							}
+							$this->db->query($sql5);
+							$today = date("Y-m-d");
+							$buildarray["data"][] = array(
+								"id" => $resarr["id"],
+								"category" =>$label,
+								"title" =>$resarr["name"],
+								"location" =>$resarr["address"],
+								"latitude" =>$resarr["latitude"],
+								"longitude" =>$resarr["longitude"],
+								"url" =>$resarr["url"],
+								"type" =>$type,
+								"type_icon" =>"resources/icons/restaurants-bars/restaurants/restaurant.png",
+								"rating" =>$resarr["rating"],
+								"gallery" =>array("resources/img/items/4.jpg"),
+								"features" =>array("Free parking?"),
+								"date_created" =>$today,
+								"featured" =>0,
+								"color" =>"",
+								"person_id" =>$resarr["id"],
+								"year" => "",
+								"special_offer" =>0,
+								"item_specific" => array(
+									"menu" => 0,
+									"offer1" =>0,
+									"offer1_price" =>0
+									),
+								"description" =>0,
+								"last_review" =>0,
+								"last_review_rating" =>0,
+								"premium" => $resarr["premium"]
+								);
+						} else {
+							$buildarray["data"] = array();
 						} 
-						$today = date("Y-m-d");
-						$buildarray["data"][] = array(
-							"id" => $resarr["id"],
-							"category" =>$label,
-							"title" =>$resarr["name"],
-							"location" =>$resarr["address"],
-							"latitude" =>$resarr["latitude"],
-							"longitude" =>$resarr["longitude"],
-							"url" =>$resarr["url"],
-							"type" =>$type,
-							"type_icon" =>"resources/icons/restaurants-bars/restaurants/restaurant.png",
-							"rating" =>$resarr["rating"],
-							"gallery" =>array("resources/img/items/4.jpg"),
-							"features" =>array("Free parking?"),
-							"date_created" =>$today,
-							"featured" =>0,
-							"color" =>"",
-							"person_id" =>$resarr["id"],
-							"year" => "",
-							"special_offer" =>0,
-							"item_specific" => array(
-								"menu" => 0,
-								"offer1" =>0,
-								"offer1_price" =>0
-								),
-							"description" =>0,
-							"last_review" =>0,
-							"last_review_rating" =>0
-							);
 					}
 				} else {
 					$buildarray["data"] = array();

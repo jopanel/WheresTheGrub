@@ -24,6 +24,18 @@ class General_model extends CI_Model {
 	    return $ip;
 	}
 
+	public function addVendorStats($rid=null,$type=null) {
+		if ($rid == null) { return FALSE; }
+		if ($type == null) { return FALSE; }
+		$rid = strip_tags((int)$rid);
+		$type = strip_tags((int)$type);
+		$ip = $this->getIP();
+		$now = time();
+		$sql = "INSERT INTO vendorstats (rid,ip,date,type) VALUES (".$this->db->escape($rid).", ".$this->db->escape($ip).", ".$this->db->escape($now).", ".$this->db->escape($type).")";
+		$this->db->query($sql);
+		return TRUE;
+	}
+
 	public function getZipDetails($zipcode=null) {
 		if ($zipcode) {
 			$query = $this->db->query("SELECT * FROM zip_code WHERE zip_code = ".$this->db->escape($zipcode));

@@ -5,10 +5,7 @@ class Place extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
-		$this->load->library('session');
-		$this->load->helper('url');
 		date_default_timezone_set('America/Los_Angeles');
-		$this->load->model('General_model');
 		$this->load->model('Restaurant_model');
 		if ( !$this->session->userdata('zipcode') ) {
 			if ($this->_bot_detected() == TRUE) {
@@ -98,6 +95,34 @@ class Place extends CI_Controller {
 		}
 	}
 
+	public function openListing($rid=null, $type=null) {
+		if ($rid == null) { return FALSE; }
+		if ($type == null) { return FALSE; }
+		if ($this->input->is_ajax_request()) {
+			return $this->General_model->addVendorStats((int)$rid,(int)$type);
+		} else {
+			return FALSE;
+		}
+	}
+
+	public function openCompetitor($rid=null) {
+		if ($rid == null) { return FALSE; }
+		if ($this->input->is_ajax_request()) {
+			return $this->General_model->addVendorStats((int)$rid,CompetitorClick);
+		} else {
+			return FALSE;
+		}
+	}
+
+	public function openCompetitorPPC($rid=null) {
+		if ($rid == null) { return FALSE; }
+		if ($this->input->is_ajax_request()) {
+			return $this->General_model->addVendorStats((int)$rid,PPCCompetitorClick);
+		} else {
+			return FALSE;
+		}
+	}
+
 	public function index($restaurant=0)
 	{
 
@@ -126,6 +151,9 @@ class Place extends CI_Controller {
 		if ($this->session->userdata("loggedin") && $this->session->userdata("uid")) {
 			$this->load->model('User_model');
 			$data["isfollowing"] = $this->User_model->isFollowing($basicinfo["id"]);
+		}
+		if (isset($_SERVER["HTTP_REFERER"]) && !empty($_SERVER["HTTP_REFERER"])) {
+			$this->General_model->addVendorStats($restaurant,ReferralOpen);
 		}
 		$this->load->view('landingheader');
 		$this->load->view('restaurant', $data);

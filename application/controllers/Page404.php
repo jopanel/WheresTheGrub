@@ -5,8 +5,7 @@ class page404 extends CI_Controller
 {
     public function __construct() 
     {
-        parent::__construct(); 
-        $this->load->library('session');
+        parent::__construct();  
         date_default_timezone_set('America/Los_Angeles');
     } 
 
