@@ -194,6 +194,20 @@ if ($this->uri->segment(1)) {
         });
     }
 
+    function openListing(rid,pre,url) {
+                if (pre == 1) { var uri = <?=PPCListingClick?>; } else { var uri = <?=ListingClick?>; }
+                var postData = { "rid": rid }
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://<?=$_SERVER["SERVER_NAME"]?>/place/openListing/'+rid+'/'+uri,
+                    data: postData,
+                    cache: false,
+                    success: function (data) { 
+                       window.location.href = "http://<?=$_SERVER["SERVER_NAME"]?>/place/"+url;
+                    }
+                });
+            }
+
     function loadMap(jsonData) {  
         if (currentLocation == getLocation || currentLocation == "") {
             currentLocation = getLocation;

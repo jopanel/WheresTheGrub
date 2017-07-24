@@ -82,9 +82,12 @@ class Api extends CI_Controller {
 			                        );
 			                }
 			            }
-			            $sql4 = "SELECT COALESCE(premium, 0) as 'premium' FROM vendors WHERE rid = ".$this->db->escape($buildarray["id"]);
+			            $sql4 = "SELECT COALESCE(premium, 0) as 'premium' FROM vendors WHERE rid = ".$this->db->escape($buildarray["id"]); 
 			            $query4 = $this->db->query($sql4);
-			            $ispremium = $query4->row()->premium;
+			            if (isset($query4->row()->premium)) {
+			            	$ispremium = $query4->row()->premium;
+			            } else { $ispremium = 0;}
+			            
 			            $ip = $this->getIP();
 			            $now = time();
 			            if ($ispremium == 1) {
@@ -93,8 +96,10 @@ class Api extends CI_Controller {
 			            	$sql5 = "INSERT INTO vendorstats (rid,ip,date,type) VALUES (".$this->db->escape($buildarray["id"]).", ".$this->db->escape($ip).", ".$this->db->escape($now).", ".$this->db->escape(MapClick).")";
 			            }
 			            $this->db->query($sql5);
+
+			            $data["premium"] = $ispremium;
 			            $buildarray["review"] = $reviewsarray;
-		 				$data["arraydata"] = $buildarray;
+		 				$data["arraydata"] = $buildarray; 
 		 				$this->load->view('quickview', $data);
 		 			} else {
 		 				return FALSE;
@@ -172,66 +177,66 @@ class Api extends CI_Controller {
 		              + sin( radians(".$this->db->escape($latitude).") ) 
 		              * sin( radians( rl.latitude ) ) ) ) AS distance FROM restaurantlist rl
 		              LEFT JOIN vendors v ON rl.id = v.rid
-		               WHERE `rl.active` = '1'";
+		               WHERE rl.active = '1'";
 				$yes = 1;
 				if (isset($post["accessible_wheelchair"])) {
-					$sql .= " AND `rl.accessible_wheelchair` = '".$yes."'";
+					$sql .= " AND rl.accessible_wheelchair = '".$yes."'";
 				}
 				if (isset($post["kids_goodfor"])) {
-					$sql .= " AND `rl.kids_goodfor` = '".$yes."'";
+					$sql .= " AND rl.kids_goodfor = '".$yes."'";
 				}
 				if (isset($post["meal_breakfast"])) {
-					$sql .= " AND `rl.meal_breakfast`  = '".$yes."'";
+					$sql .= " AND rl.meal_breakfast  = '".$yes."'";
 				}
 				if (isset($post["meal_dinner"])) {
-					$sql .= " AND `rl.meal_dinner` = '".$yes."'";
+					$sql .= " AND rl.meal_dinner = '".$yes."'";
 				}
 				if (isset($post["meal_lunch"])) {
-					$sql .= " AND `rl.meal_lunch` = '".$yes."'";
+					$sql .= " AND rl.meal_lunch = '".$yes."'";
 				}
 				if (isset($post["open_24hrs"])) {
-					$sql .= " AND `rl.open_24hrs` = '".$yes."'";
+					$sql .= " AND rl.open_24hrs = '".$yes."'";
 				}
 				if (isset($post["options_healthy"])) {
-					$sql .= " AND `rl.options_healthy` = '".$yes."'";
+					$sql .= " AND rl.options_healthy = '".$yes."'";
 				}
 				if (isset($post["wifi"])) {
-					$sql .= " AND `rl.wifi` = '".$yes."'";
+					$sql .= " AND rl.wifi = '".$yes."'";
 				}
 				if (isset($post["options_vegetarian"])) {
-					$sql .= " AND `rl.options_vegetarian` = '".$yes."'";
+					$sql .= " AND rl.options_vegetarian = '".$yes."'";
 				}
 				if (isset($post["alcohol"])) {
-					$sql .= " AND `rl.alcohol` = '".$yes."'";
+					$sql .= " AND rl.alcohol = '".$yes."'";
 				}
 				if (isset($post["alcohol_beer"])) {
-					$sql .= " AND `rl.alcohol_beer` = '".$yes."'";
+					$sql .= " AND rl.alcohol_beer = '".$yes."'";
 				}
 				if (isset($post["alcohol_beer_wine"])) {
-					$sql .= " AND `rl.alcohol_beer_wine` = '".$yes."'";
+					$sql .= " AND rl.alcohol_beer_wine = '".$yes."'";
 				}
 				if (isset($post["deliverypickup"])) {
 					if ($post["deliverypickup"] == 1) {
-						$sql .= " AND `rl.meal_deliver` = '".$yes."'";
+						$sql .= " AND rl.meal_deliver = '".$yes."'";
 					} else {
-						$sql .= " AND `rl.meal_takeout` = '".$yes."'";
+						$sql .= " AND rl.meal_takeout = '".$yes."'";
 					}
 				}
 				if (isset($post["ratingpopularity"])) {
 					if ($post["ratingpopularity"] == 1) {
-						$sql .= " AND `rl.rating` >= '4'";
+						$sql .= " AND rl.rating >= '4'";
 					} else {
 						// needs updating for popularity after the restaurant page is made
 					}
 				}
 				if (isset($post["opennow"])) { 
-					$sql .= " AND `rl.hours` IS NOT NULL";
+					$sql .= " AND rl.hours IS NOT NULL";
 				}
 				if (isset($post["keyword"])) {
 					// needs updating for keyword searching, this part should probably be pretty advanced.
 					// im thinking create another function that builds a large where clause for different keyword specifics
 					$keyword = $this->db->escape("%".strip_tags($post["keyword"])."%");
-					$sql .= " AND (`rl.name` LIKE ".$keyword." OR `rl.category_labels` LIKE ".$keyword." OR `rl.cuisine` LIKE ".$keyword." OR `rl.description` LIKE ".$keyword.")";
+					$sql .= " AND (rl.name LIKE ".$keyword." OR rl.category_labels LIKE ".$keyword." OR rl.cuisine LIKE ".$keyword." OR rl.description LIKE ".$keyword.")";
 				}
 				if (isset($post["distance"])) {
 					if ($post["distance"] == 1) {
@@ -254,7 +259,7 @@ class Api extends CI_Controller {
 		              * cos( radians( latitude ) ) 
 		              * cos( radians( longitude ) - radians(-118.1181199) ) 
 		              + sin( radians(33.8477257) ) 
-		              * sin( radians( latitude ) ) ) ) AS distance FROM restaurantlist WHERE `active` = '1' AND (`name` LIKE '%%' OR `category_labels` LIKE '%%' OR `cuisine` LIKE '%%' OR `description` LIKE '%%') HAVING distance < 2
+		              * sin( radians( latitude ) ) ) ) AS distance FROM restaurantlist WHERE active = '1' AND (name LIKE '%%' OR category_labels LIKE '%%' OR cuisine LIKE '%%' OR description LIKE '%%') HAVING distance < 2
 		        */
 		        $ip = $this->getIP();
 				$result = $this->db->query($sql);
@@ -303,9 +308,9 @@ class Api extends CI_Controller {
 							} 
 							$now = time();
 							if ($resarr["premium"] == 1) {
-								$sql5 = "INSERT INTO vendorstats (rid,ip,date,type) VALUES (".$this->db->escape($buildarray["id"]).", ".$this->db->escape($ip).", ".$this->db->escape($now).", ".$this->db->escape(PPCMap).")";
+								$sql5 = "INSERT INTO vendorstats (rid,ip,date,type) VALUES (".$this->db->escape($resarr["id"]).", ".$this->db->escape($ip).", ".$this->db->escape($now).", ".$this->db->escape(PPCMap).")";
 							} else {
-								$sql5 = "INSERT INTO vendorstats (rid,ip,date,type) VALUES (".$this->db->escape($buildarray["id"]).", ".$this->db->escape($ip).", ".$this->db->escape($now).", ".$this->db->escape(Map).")";
+								$sql5 = "INSERT INTO vendorstats (rid,ip,date,type) VALUES (".$this->db->escape($resarr["id"]).", ".$this->db->escape($ip).", ".$this->db->escape($now).", ".$this->db->escape(Map).")";
 							}
 							$this->db->query($sql5);
 							$today = date("Y-m-d");

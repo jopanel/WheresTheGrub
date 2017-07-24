@@ -137,7 +137,7 @@
                 echo "<p>Currently there are no reviews, you could be the first!</p>";
                }?>
                <br>
-               <a href="#" onClick="openListing(<?=$arraydata["id"]?>,<?=$arraydata["premium"]?>);"><button class="btn btn-default">Open Restaurant</button></a>
+               <a href="#" onClick="openListing(<?=$arraydata["id"]?>,<?=$premium?>,'<?=$arraydata["url"]?>');"><button class="btn btn-default">Open Restaurant</button></a>
                 </div>
         </div>
         <div class="modal-close"><img src="resources/img/close.png"></div>
@@ -163,65 +163,7 @@
             $('.modal-window').remove();
         }, 300);
     });
-            function openListing(rid,pre) {
-                if (pre == 1) { var uri = <?=PPCListingClick?>; } else { var uri = <?=ListingClick?>; }
-                var postData = { "rid": rid }
-                $.ajax({
-                    type: 'POST',
-                    url: 'http://<?=$_SERVER["SERVER_NAME"]?>/place/openListing/<?=$arraydata["id"]?>/'+uri+,
-                    data: postData,
-                    cache: false,
-                    success: function (data) { 
-                       window.location.href = "http://<?=$_SERVER["SERVER_NAME"]?>/place/<?=$arraydata["url"]?>";
-                    }
-                });
-            }
             
-            function getXmlHttpObject() {
-                var xmlHttp;
-                try {
-                    // Firefox, Opera 8.0+, Safari
-                    xmlHttp = new XMLHttpRequest();
-                } catch (e) {
-                    // Internet Explorer
-                    try {
-                        xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
-                    } catch (e) {
-                        xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
-                    }
-                }
-                if (!xmlHttp) {
-                    showprompt("Your browser does not support AJAX!", "Hold Up");
-                }
-                return xmlHttp;
-            }
-
-
-            function ajax(url, postdata, onSuccess, onError) {
-            
-                var xmlHttp = getXmlHttpObject();
-                
-                xmlHttp.onreadystatechange = function() {
-                    if (this.readyState === 4) {
-                        
-                        // onSuccess
-                        if (this.status === 200 && typeof onSuccess == 'function') {
-                            onSuccess(this.responseText);
-                            
-                        }
-                        
-                        // onError
-                        else if(typeof onError == 'function') {
-                            onError();
-                        }
-                        
-                    }
-                };
-                xmlHttp.open("POST", url, true);
-                xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xmlHttp.send(postdata);
-                return xmlHttp;
-            }
 </script>
 
 <!--[if lte IE 9]>
