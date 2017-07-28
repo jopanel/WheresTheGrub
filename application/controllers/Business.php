@@ -51,6 +51,11 @@ class Business extends CI_Controller {
 		$this->load->view('business');
 		$this->load->view('landingfooter');
 	}
+	public function premium() {
+		$this->load->view('landingheader');
+		$this->load->view('business');
+		$this->load->view('landingfooter');
+	}
 
 	
 

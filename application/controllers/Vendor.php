@@ -291,6 +291,7 @@ class Vendor extends CI_Controller {
 		if ($rid == null) { return; }
 		if ($this->Vendor_model->verifyUser($rid)) {
 			$data["rid"] = $rid;
+			$data["premiumstatus"] = $this->Vendor_model->getPremiumStatus($rid);
 			//$data[""] = $this->Vendor_model->userFeed();
 			$this->load->view('landingheader');
 			$this->load->view('vendorppc', $data);
@@ -302,6 +303,7 @@ class Vendor extends CI_Controller {
 		if ($rid == null) { return; }
 		if ($this->Vendor_model->verifyUser($rid)) {
 			$data["rid"] = $rid;
+			$data["premiumstatus"] = $this->Vendor_model->getPremiumStatus($rid);
 			$this->load->view('landingheader');
 				$this->load->view('vendorreports', $data);
 			$this->load->view('landingfooter');
@@ -390,6 +392,22 @@ class Vendor extends CI_Controller {
 		} 
 	}
 
+	public function premium($rid=null,$page=null) {
+		if ($rid == null) { return; }
+		if ($this->Vendor_model->verifyUser($rid)) {
+			$data["secret"] = $this->session->userdata("uid")."-".$rid."-".$this->session->userdata("vendortoken");
+			$data["rid"] = $rid;
+			if ($this->input->post()) {
+				$datapost = $this->input->post();
+				$this->Vendor_model->submitPayment($rid);
+			}
+			$this->load->view("landingheader");
+			if ($page == null) {
+				$this->load->view("vendorpremium", $data);
+			} 
+			$this->load->view("landingfooter");
+		}
+	}
 
 	public function index($userid=0){
 			if ($this->Vendor_model->verifyUser()) {

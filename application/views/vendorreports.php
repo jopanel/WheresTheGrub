@@ -59,12 +59,17 @@
                         </div>
                         <div class="col-md-9 col-sm-9">
 
+                        <?php if ($premiumstatus["premium"] == 0) { ?>
+                        <div class="jumbotron">
+                          <h1>THIS IS A PREMIUM SECTION. GET PREMIUM TODAY</h1>
+                          <p>Stay ahead of the competition, get more customers, enjoy more features, keep your business reputation in good standing.</p>
+                          <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+                        </div>
+                        <?php } else { ?>
 
+                        
 
-
-
-
-
+                        <?php } ?>
 
                         </div>
                     </div>
