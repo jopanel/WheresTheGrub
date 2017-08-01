@@ -346,8 +346,11 @@ class Vendor extends CI_Controller {
 				}
 				$this->load->view('landingheader');
 					if ($page == null) {
+						$data["reviewstats"] = $this->Vendor_model->getBizReviewStatsSpecific($rid, 7);
+						$data["percentcomplete"] = $this->Vendor_model->getPercentageCompleted($rid);
 						$data["premiumstatus"] = $this->Vendor_model->getPremiumStatus($rid);
 						$data["ppcstats"] = $this->Vendor_model->getPPCStats($rid);
+						$data["impressions"] = $this->Vendor_model->getBizImpressions($rid, 7);
 						$this->load->view('vendorbusinessinformation', $data);
 					} elseif ($page == "photos") {
 						$data["vendorphotos"] = $this->Vendor_model->getBizPhotos($rid);

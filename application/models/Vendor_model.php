@@ -26,7 +26,52 @@ class Vendor_model extends CI_Model {
 
                     fclose($fp);
                     return $file;
-    }                
+    }         
+
+    public function getPercentageCompleted($rid=null) {
+        /*
+            Things To Check:
+            1 - Added Menu Items
+            2 - Filled Out Hours 
+            3 - Wrote A Description
+            4 - Added a promo or coupon 
+            5 - Signed up for premium
+            6 - Started a PPC Campaign
+            7 - Uploaded Business Photos
+        */ 
+        if ($rid == null) { return array("percentage"=>"?", array()); }
+        $tasksnotcomplete = array();
+        $data = array("percentage"=>100, array());
+        $totaltasks = 7; // set total tasks to check
+        $taskscompleted = 0; 
+        $sql = "SELECT COALESCE(COUNT(id), 0) as 'totalitems' FROM vendor_menu_items WHERE rid = ".$this->db->escape((int)$rid);
+        $query = $this->db->query($sql);
+        if ($query->row()->totalitems > 0) { $taskscompleted += 1; } else { $tasksnotcomplete[] = "Add menu items."; }
+        $sql = $query = null;
+        $sql = "SELECT COALESCE(hours,0) as 'hours', COALESCE(description,0) as 'description' FROM leads WHERE id = ".$this->db->escape((int)$rid);
+        $query = $this->db->query($sql);
+        if ($query->row()->hours != 0) { $taskscompleted += 1; } else { $tasksnotcomplete[] = "Set hours of operation."; }
+        if ($query->row()->description != 0) { $taskscompleted += 1; } else { $tasksnotcomplete[] = "Set a business description/bio."; }
+        $sql = $query = null;
+        $sql = "SELECT COALESCE(COUNT(id),0) as 'totalcoupons' FROM coupons WHERE rid = ".$this->db->escape((int)$rid);
+        $query = $this->db->query($sql);
+        if ($query->row()->totalcoupons > 0) { $taskscompleted += 1; } else { $tasksnotcomplete[] = "Create your first coupon/promotion."; }
+        $sql = $query = null;
+        $pstatus = $this->getPremiumStatus($rid);
+        if ($pstatus == 1) { $taskscompleted += 1; } else { $tasksnotcomplete[] = "Become a premium member."; }
+        $sql = "SELECT COALESCE(COUNT(id),0) as 'totalppc' FROM ppc_campaigns WHERE rid = ".$this->db->escape((int)$rid);
+        $query = $this->db->query($sql);
+        if ($query->row()->totalppc > 0) { $taskcompleted += 1; } else { $tasksnotcomplete[] = "Create a PPC/Adwords campaign."; }
+        $sql = $query = null;
+        $sql = "SELECT COALESCE(COUNT(id),0) as 'totalphotos' FROM photos WHERE reviewid IS NULL and rid = ".$this->db->escape((int)$rid);
+        $query = $this->db->query($sql);
+        if ($query->row()->totalphotos > 0) { $taskscompleted += 1; } else { $tasksnotcomplete[] = "Upload photos of your business."; }
+
+        $percentage = ($taskscompleted !== 0 ? ($taskscompleted / $totaltasks) : 0) * 100;
+        return array("percentage"=>round($percentage), $tasksnotcomplete);
+
+    }
+
     public function addHistoryPPC($rid,$uid,$campaignid,$action=null) {
         $sql = "INSERT INTO ppc_history (rid,action,created,user,campaignid) VALUES (".$this->db->escape($rid).",".$this->db->escape($action).", NOW() ,".$this->db->escape($uid).",".$this->db->escape($campaignid).")";
         $this->db->query($sql);
@@ -114,6 +159,26 @@ class Vendor_model extends CI_Model {
         // needs work
     }
 
+    public function getBizReviewStatsSpecific($rid, $days=0) {
+        if ($days == 0) { return $this->getBizReviewStats($rid); }
+        $data = [];
+        $sql = "SELECT COALESCE(count(re.id),0) as 'total', COALESCE(AVG(r.rating),0) as 'avgrating', COALESCE(AVG(r.power),0) as 'avgreviewpower' 
+                FROM reviews re
+                JOIN ratings r 
+                WHERE re.rid = ".$this->db->escape((int)$rid)." 
+                AND r.rid = ".$this->db->escape((int)$rid)." 
+                AND r.created >= DATE_ADD(CURDATE(), INTERVAL -".$days." DAY) 
+                AND re.created >= DATE_ADD(CURDATE(), INTERVAL -".$days." DAY)";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            $data["reviews_total"] = $query->row()->total;
+            $data["rating_total"] = $query->row()->avgrating;
+            $data["rating_powertotal"] = $query->row()->avgreviewpower;
+        }
+        $sql = null; $query = null;
+        return $data;
+    }
+
     public function getBizReviewStats($rid) { 
         $data = [];
         $sql = "SELECT COALESCE(count(re.id),0) as 'total', COALESCE(AVG(r.rating),0) as 'avgrating', COALESCE(AVG(r.power),0) as 'avgreviewpower' 
@@ -159,6 +224,24 @@ class Vendor_model extends CI_Model {
         return $data;
     }
 
+    public function getBizImpressions($rid, $fromdate=1) {
+        if ($fromdate == null) { $fromdate = ""; } else { $fromdate = " AND vs.date >= '".strtotime("-".(int)$fromdate." day", time())."'"; }
+        return 0;
+        if ($rid == null) { return 0; }
+        $sql = "SELECT COALESCE(count(vs.id),0) as 'count'
+            FROM vendorstats vs 
+            LEFT JOIN vendorstats_type vst ON vs.type = vst.id 
+            WHERE vs.rid = ".$this->db->escape((int)$rid).$fromdate."
+            AND vst.id IN (10,12,18)";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+                $impressions = $query->row()->count;
+        } else {
+            return 0;
+        }
+        return 0;
+    }
+
     public function getBizStats($rid) {
         $data = [];
         $sql = "SELECT COALESCE(count(vs.id),0) as 'count', vst.name as 'typename', vst.id as 'typeid' 
@@ -177,7 +260,7 @@ class Vendor_model extends CI_Model {
             FROM vendorstats vs 
             LEFT JOIN vendorstats_type vst ON vs.type = vst.id 
             WHERE vs.rid = ".$this->db->escape((int)$rid)."
-            AND vs.date >= DATE_ADD(CURDATE(), INTERVAL -30 DAY) 
+            AND vs.date >= ".strtotime("-30 day", time())." 
             GROUP BY vs.type";
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
@@ -190,7 +273,7 @@ class Vendor_model extends CI_Model {
             FROM vendorstats vs 
             LEFT JOIN vendorstats_type vst ON vs.type = vst.id 
             WHERE vs.rid = ".$this->db->escape((int)$rid)."
-            AND vs.date >= DATE_ADD(CURDATE(), INTERVAL -365 DAY) 
+            AND vs.date >= ".strtotime("-365 day", time())."
             GROUP BY vs.type";
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {

@@ -65,10 +65,9 @@
                             Premium Functions:
                                 
                             - PPC clicks today, Website Clicks Today, Mobile Clicks Today [ possible line graph of month ] -- got model
-                            - PPC balance left
-                            - Premium Member Since [date]
-                            - Clicks today [all types] 
-
+                            - PPC balance left -- PPC needs development
+                            - Premium Member Since [date] -- premium subscriptions needs development 
+    
                             Non Premium Functions:
                             
                             - Premium status -- model done
@@ -77,10 +76,10 @@
 
                             Both Premium/Non Premium Functions:
 
-                            - % completion of profile (added menu?, filled out all restaurant information?, Added promotions/coupons?)
+                            - % completion of profile -- model done
                             - If promotions are expired and to update
-                            - show how many reviews this week
-                            - impressions (how many times been listed in a search result or competitor)
+                            - show how many reviews this week -- done
+                            - impressions (how many times been listed in a search result or competitor) -- model done
 
                         */
 
