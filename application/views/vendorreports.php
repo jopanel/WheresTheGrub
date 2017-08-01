@@ -57,6 +57,45 @@
                                 </ul>
                             </aside>
                         </div>
+                        <?php
+                        /*  
+                            Things To Include (on this page):
+                            -> Review Stats:
+                            - Total Reviews (All-Time, This Month, 7 Days)
+                            - How Many Rating Stars (5,4,3,2,1) (All-Time, This Month, 7 Days)
+                            - Average Rating
+
+                            -> Follower Stats:
+                            - How many total, this month, 7 days
+                            - How many average per month
+                            - How many un-follow total, this month, 7 days
+
+                            -> Promotional Stats:
+                            - How many seen a promotion (impression) total, this month, 7 days (of specific promotion)
+                            - How many redeemed voucher total, this month, 7 days
+
+                            -> Mobile Device Stats:
+                            - How many times viewed on listing  (all time, month, 7 day)
+                            - How many times viewed on map (all time, month, 7 day)
+                            - How many times clicked on map (all time, month, 7 day)
+                            - How many times clicked on listing (all time, month, 7 day)
+                            - How many times viewed on PPC-BASED listing  (all time, month, 7 day)
+                            - How many times viewed on PPC-BASED map (all time, month, 7 day)
+                            - How many times clicked on PPC-BASED map (all time, month, 7 day)
+                            - How many times clicked on PPC-BASED listing (all time, month, 7 day)
+
+                            -> Desktop Device Stats: 
+                            - How many times viewed on listing  (all time, month, 7 day)
+                            - How many times viewed on map (all time, month, 7 day)
+                            - How many times clicked on map (all time, month, 7 day)
+                            - How many times clicked on listing (all time, month, 7 day)
+                            - How many times viewed on PPC-BASED listing  (all time, month, 7 day)
+                            - How many times viewed on PPC-BASED map (all time, month, 7 day)
+                            - How many times clicked on PPC-BASED map (all time, month, 7 day)
+                            - How many times clicked on PPC-BASED listing (all time, month, 7 day)
+
+                        */
+                        ?>
                         <div class="col-md-9 col-sm-9">
 
                         <?php if ($premiumstatus["premium"] == 0) { ?>
