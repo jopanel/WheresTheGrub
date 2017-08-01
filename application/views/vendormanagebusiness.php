@@ -64,14 +64,14 @@
                         /*
                             Premium Functions:
                                 
-                            - PPC clicks today, Website Clicks Today, Mobile Clicks Today [ possible line graph of month ]
+                            - PPC clicks today, Website Clicks Today, Mobile Clicks Today [ possible line graph of month ] -- got model
                             - PPC balance left
                             - Premium Member Since [date]
                             - Clicks today [all types] 
 
                             Non Premium Functions:
                             
-                            - Premium status 
+                            - Premium status -- model done
                             - sign up for premium shit
 
 

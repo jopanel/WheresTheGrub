@@ -168,7 +168,9 @@ class Vendor_model extends CI_Model {
             GROUP BY vs.type";
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
-            $data["total"] = array("typename" => $query->row()->typename, "typeid" => $query->row()->typeid, "count" => $query->row()->count);
+            foreach ($query->result_array() as $v) {
+                $data["total"][] = array("typename" => $v["typename"], "typeid" => $v["typeid"], "count" => $v["count"]);
+            } 
         }
         $sql = null; $query = null;
         $sql = "SELECT COALESCE(count(vs.id),0) as 'count', vst.name as 'typename', vst.id as 'typeid' 
@@ -179,7 +181,9 @@ class Vendor_model extends CI_Model {
             GROUP BY vs.type";
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
-            $data["30"] = array("typename" => $query->row()->typename, "typeid" => $query->row()->typeid, "count" => $query->row()->count);
+            foreach ($query->result_array() as $v) {
+                $data["30"][] = array("typename" => $v["typename"], "typeid" => $v["typeid"], "count" => $v["count"]);
+            } 
         }
         $sql = null; $query = null;
         $sql = "SELECT COALESCE(count(vs.id),0) as 'count', vst.name as 'typename', vst.id as 'typeid' 
@@ -190,10 +194,33 @@ class Vendor_model extends CI_Model {
             GROUP BY vs.type";
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
-            $data["1y"] = array("typename" => $query->row()->typename, "typeid" => $query->row()->typeid, "count" => $query->row()->count);
+            foreach ($query->result_array() as $v) {
+                $data["1y"][] = array("typename" => $v["typename"], "typeid" => $v["typeid"], "count" => $v["count"]);
+            } 
         }
         $sql = null; $query = null;
         
+    }
+
+    public function getPPCStats($rid=null, $fromdate=null) {
+        if ($fromdate == null) { $fromdate = ""; } else { $fromdate = " AND vs.date >= '".strtotime("-".(int)$fromdate." day", time())."'"; }
+        $data = array();
+        if ($rid == null) { return $data; }
+        $sql = "SELECT COALESCE(count(vs.id),0) as 'count', vst.name as 'typename', vst.id as 'typeid' 
+            FROM vendorstats vs 
+            LEFT JOIN vendorstats_type vst ON vs.type = vst.id 
+            WHERE vs.rid = ".$this->db->escape((int)$rid).$fromdate."
+            AND vst.id IN (8,9,10,11,12,13,14,15) 
+            GROUP BY vs.type";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            foreach ($query->result_array() as $v) {
+                $data[] = array("typename" => $v["typename"], "typeid" => $v["typeid"], "count" => $v["count"]);
+            }
+        } else {
+            return $data;
+        }
+        return $data;
     }
 
 
