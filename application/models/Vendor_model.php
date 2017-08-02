@@ -179,6 +179,13 @@ class Vendor_model extends CI_Model {
         return $data;
     }
 
+    public function getTotalReviews($rid=null) {
+        if ($rid == null) { return 0; }
+        $sql = "SELECT COALESCE(COUNT(id),0) as 'totalreviews' FROM reviews WHERE rid = ".$this->db->escape((int)$rid);
+        $query = $this->db->query($sql);
+        return $query->row()->totalreviews;
+    }
+
     public function getBizReviewStats($rid) { 
         $data = [];
         $sql = "SELECT COALESCE(count(re.id),0) as 'total', COALESCE(AVG(r.rating),0) as 'avgrating', COALESCE(AVG(r.power),0) as 'avgreviewpower' 
@@ -309,10 +316,15 @@ class Vendor_model extends CI_Model {
 
     public function getBizInformation($rid=0) {
             if ($rid == 0) { return FALSE; }
+            $buildarray = [];
             $sql = "SELECT * FROM leads WHERE id = ".$this->db->escape((int)$rid);
             $query = $this->db->query($sql);
             if ($query->num_rows() > 0) {
-                return $query->result_array();
+                foreach($query->result_array() as $v) {
+                    return $v;
+                }
+            } else {
+                return array();
             }
     }
 

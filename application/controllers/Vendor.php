@@ -231,8 +231,14 @@ class Vendor extends CI_Controller {
 	public function managebusiness($rid=null) {
 		if ($rid == null) { return; }
 		if ($this->Vendor_model->verifyUser($rid)) {
-			$data["rid"] = $rid;
+			$data["rid"] = $rid; 
+			$data["bizinfo"] = $this->Vendor_model->getBizInformation($rid);
+			$data["reviewstats"] = $this->Vendor_model->getBizReviewStatsSpecific($rid, 7);
+			$data["percentcomplete"] = $this->Vendor_model->getPercentageCompleted($rid);
 			$data["premiumstatus"] = $this->Vendor_model->getPremiumStatus($rid);
+			$data["ppcstats"] = $this->Vendor_model->getPPCStats($rid);
+			$data["impressions"] = $this->Vendor_model->getBizImpressions($rid, 7); 
+			$data["totalreviews"] = $this->Vendor_model->getTotalReviews($rid);
 			$this->load->view('landingheader'); 
 			$this->load->view('vendormanagebusiness', $data);
 			$this->load->view('landingfooter');
@@ -327,8 +333,7 @@ class Vendor extends CI_Controller {
 		if ($this->Vendor_model->verifyUser($rid)) {
 			if ($this->input->post()) { $post = $this->input->post(); }
 			$data["rid"] = $rid;
-			$l = $this->Vendor_model->getBizInformation($rid);
-			$data["l"] = $l[0];
+			$data["l"] = $this->Vendor_model->getBizInformation($rid); 
 
 			if ($page == "upload") {
 				//var_dump($_FILES);
@@ -346,11 +351,6 @@ class Vendor extends CI_Controller {
 				}
 				$this->load->view('landingheader');
 					if ($page == null) {
-						$data["reviewstats"] = $this->Vendor_model->getBizReviewStatsSpecific($rid, 7);
-						$data["percentcomplete"] = $this->Vendor_model->getPercentageCompleted($rid);
-						$data["premiumstatus"] = $this->Vendor_model->getPremiumStatus($rid);
-						$data["ppcstats"] = $this->Vendor_model->getPPCStats($rid);
-						$data["impressions"] = $this->Vendor_model->getBizImpressions($rid, 7);
 						$this->load->view('vendorbusinessinformation', $data);
 					} elseif ($page == "photos") {
 						$data["vendorphotos"] = $this->Vendor_model->getBizPhotos($rid);

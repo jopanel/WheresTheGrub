@@ -59,37 +59,11 @@
                             </aside>
                         </div>
                         <div class="col-md-9 col-sm-9">
-                        <?php 
-
-                        /*
-                            Premium Functions:
-                                
-                            - PPC clicks today, Website Clicks Today, Mobile Clicks Today [ possible line graph of month ] -- got model
-                            - PPC balance left -- PPC needs development
-                            - Premium Member Since [date] -- premium subscriptions needs development 
-    
-                            Non Premium Functions:
-                            
-                            - Premium status -- model done
-                            - sign up for premium shit
-
-
-                            Both Premium/Non Premium Functions:
-
-                            - % completion of profile -- model done
-                            - If promotions are expired and to update
-                            - show how many reviews this week -- done
-                            - impressions (how many times been listed in a search result or competitor) -- model done
-
-                        */
-
-                        ?>
-
                         <?php if ($premiumstatus["premium"] == 0) { ?>
                         <div class="jumbotron">
                           <h1>GET PREMIUM TODAY</h1>
                           <p>Stay ahead of the competition, get more customers, enjoy more features, keep your business reputation in good standing.</p>
-                          <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+                          <p><a class="btn btn-primary btn-lg" href="<?=base_url()?>vendor/premium/<?=$rid?>" role="button">Learn more</a></p>
                         </div>
                         <?php } else { ?>
 
@@ -103,12 +77,12 @@
                                                     <i class="fa fa-comments fa-5x"></i>
                                                 </div>
                                                 <div class="col-xs-9 text-right">
-                                                    <div class="huge">26</div>
+                                                    <div class="huge"><?=$totalreviews?></div>
                                                     <div>Reviews</div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <a href="#">
+                                        <a href="<?=base_url()?>vendor/managereviews/<?=$rid?>">
                                             <div class="panel-footer">
                                                 <span class="pull-left">See Reviews</span>
                                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -140,7 +114,7 @@
                                                     <i class="fa fa-star fa-5x"></i>
                                                 </div>
                                                 <div class="col-xs-9 text-right">
-                                                    <div class="huge">124</div>
+                                                    <div class="huge"><?=$bizinfo["rating"]?></div>
                                                     <div>Rating</div>
                                                 </div>
                                             </div>
@@ -152,26 +126,62 @@
                                         <div class="panel-heading">
                                             <div class="row">
                                                 <div class="col-xs-3">
-                                                    <i class="fa fa-support fa-5x"></i>
+                                                    <i class="fa fa-group fa-5x"></i>
                                                 </div>
                                                 <div class="col-xs-9 text-right">
-                                                    <div class="huge">13</div>
-                                                    <div>Support Tickets!</div>
+                                                    <div class="huge"><?=$impressions?></div>
+                                                    <div>Impressions<br>(Last 7 Days)</div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <a href="#">
-                                            <div class="panel-footer">
-                                                <span class="pull-left">View Details</span>
-                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                        </a>
                                     </div>
+                                </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="rol-lg-3 col-md-6">
+                                <div class="panel panel-default">
+                                  <div class="panel-body">
+                                  <h3>Things Left To Do:</h3> 
+                                    <div class="progress">
+                                      <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <?=$percentcomplete["percentage"]?>%;">
+                                        <?=$percentcomplete["percentage"]?>%
+                                      </div>
+                                    </div>
+                                    <?php
+                                    if (count($percentcomplete[0]) > 0) {
+                                        foreach ($percentcomplete[0] as $v) {
+                                            echo "<p>".$v."</p>";
+                                        }
+                                    } else {
+                                        echo "<p>Nothing left to do</p>";
+                                    }
+                                    ?>
+                                  </div>
                                 </div>
                             </div>
 
+                            <div class="rol-lg-3 col-md-6"> 
+                                  <ul class="list-group">
+                                  <?php
+                                  if ($premiumstatus == 1) { ?>
+                                      <li class="list-group-item list-group-item-success">Premium Membership: Active</li>
+                                      <li class="list-group-item ">Reviews Past 7 Days: <?=$reviewstats["reviews_total"]?></li> 
+                                      <li class="list-group-item ">Rating Power Past 7 Days: <?=$reviewstats["rating_powertotal"]?></li> 
+                                      <li class="list-group-item ">Rating Past 7 Days: <?=$reviewstats["rating_total"]?></li> 
+                                 <?php } else { ?>
+                                      <li class="list-group-item list-group-item-danger">Premium Membership: Not Active</li>
+                                    <?php } ?>
+                                      
+                                      
+                                    </ul> 
+                            </div>
+
+
+                        </div>
                         
+
+                            
 
                         </div>
                     </div>
