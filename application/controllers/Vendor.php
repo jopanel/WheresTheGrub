@@ -310,6 +310,8 @@ class Vendor extends CI_Controller {
 		if ($this->Vendor_model->verifyUser($rid)) {
 			$data["rid"] = $rid;
 			$data["premiumstatus"] = $this->Vendor_model->getPremiumStatus($rid);
+			$data["reviewratingstats"] = $this->Vendor_model->getBizReviewStats($rid);
+			$data["bizstats"] = $this->Vendor_model->getBizStats($rid);
 			$this->load->view('landingheader');
 				$this->load->view('vendorreports', $data);
 			$this->load->view('landingfooter');

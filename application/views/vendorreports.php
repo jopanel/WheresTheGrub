@@ -60,10 +60,10 @@
                         <?php
                         /*  
                             Things To Include (on this page):
-                            -> Review Stats:
-                            - Total Reviews (All-Time, This Month, 7 Days)
-                            - How Many Rating Stars (5,4,3,2,1) (All-Time, This Month, 7 Days)
-                            - Average Rating
+                            -> Review Stats: reviewratingstats
+                            - Total Reviews (All-Time, This Month, 7 Days) - done
+                            - How Many Rating Stars (5,4,3,2,1) (All-Time, This Month, 7 Days) - done
+                            - Average Rating - done 
 
                             -> Follower Stats:
                             - How many total, this month, 7 days
@@ -74,26 +74,25 @@
                             - How many seen a promotion (impression) total, this month, 7 days (of specific promotion)
                             - How many redeemed voucher total, this month, 7 days
 
-                            -> Mobile Device Stats:
-                            - How many times viewed on listing  (all time, month, 7 day)
-                            - How many times viewed on map (all time, month, 7 day)
-                            - How many times clicked on map (all time, month, 7 day)
-                            - How many times clicked on listing (all time, month, 7 day)
-                            - How many times viewed on PPC-BASED listing  (all time, month, 7 day)
-                            - How many times viewed on PPC-BASED map (all time, month, 7 day)
-                            - How many times clicked on PPC-BASED map (all time, month, 7 day)
-                            - How many times clicked on PPC-BASED listing (all time, month, 7 day)
+                            -> Mobile Device Stats: bizstats
+                            - How many times viewed on listing  (all time, month, 7 day) - done
+                            - How many times viewed on map (all time, month, 7 day) - done
+                            - How many times clicked on map (all time, month, 7 day) - done
+                            - How many times clicked on listing (all time, month, 7 day) - done
+                            - How many times viewed on PPC-BASED listing  (all time, month, 7 day) - done
+                            - How many times viewed on PPC-BASED map (all time, month, 7 day) - done
+                            - How many times clicked on PPC-BASED map (all time, month, 7 day) - done
+                            - How many times clicked on PPC-BASED listing (all time, month, 7 day) - done
 
-                            -> Desktop Device Stats: 
-                            - How many times viewed on listing  (all time, month, 7 day)
-                            - How many times viewed on map (all time, month, 7 day)
-                            - How many times clicked on map (all time, month, 7 day)
-                            - How many times clicked on listing (all time, month, 7 day)
-                            - How many times viewed on PPC-BASED listing  (all time, month, 7 day)
-                            - How many times viewed on PPC-BASED map (all time, month, 7 day)
-                            - How many times clicked on PPC-BASED map (all time, month, 7 day)
-                            - How many times clicked on PPC-BASED listing (all time, month, 7 day)
-
+                            -> Desktop Device Stats: bizstats
+                            - How many times viewed on listing  (all time, month, 7 day) - done
+                            - How many times viewed on map (all time, month, 7 day) - done
+                            - How many times clicked on map (all time, month, 7 day) - done
+                            - How many times clicked on listing (all time, month, 7 day) - done
+                            - How many times viewed on PPC-BASED listing  (all time, month, 7 day) - done
+                            - How many times viewed on PPC-BASED map (all time, month, 7 day) - done
+                            - How many times clicked on PPC-BASED map (all time, month, 7 day) - done
+                            - How many times clicked on PPC-BASED listing (all time, month, 7 day) - done
                         */
                         ?>
                         <div class="col-md-9 col-sm-9">

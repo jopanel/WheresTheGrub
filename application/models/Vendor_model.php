@@ -187,6 +187,7 @@ class Vendor_model extends CI_Model {
     }
 
     public function getBizReviewStats($rid) { 
+        // this is not a best practice. better to get certain time frame and remove days from array. let php do heavy lifting
         $data = [];
         $sql = "SELECT COALESCE(count(re.id),0) as 'total', COALESCE(AVG(r.rating),0) as 'avgrating', COALESCE(AVG(r.power),0) as 'avgreviewpower' 
                 FROM reviews re
@@ -197,6 +198,20 @@ class Vendor_model extends CI_Model {
             $data["reviews_total"] = $query->row()->total;
             $data["rating_total"] = $query->row()->avgrating;
             $data["rating_powertotal"] = $query->row()->avgreviewpower;
+        }
+        $sql = null; $query = null;
+        $sql = "SELECT COALESCE(count(re.id),0) as 'total', COALESCE(AVG(r.rating),0) as 'avgrating', COALESCE(AVG(r.power),0) as 'avgreviewpower' 
+                FROM reviews re
+                JOIN ratings r 
+                WHERE re.rid = ".$this->db->escape((int)$rid)." 
+                AND r.rid = ".$this->db->escape((int)$rid)." 
+                AND r.created >= DATE_ADD(CURDATE(), INTERVAL -7 DAY) 
+                AND re.created >= DATE_ADD(CURDATE(), INTERVAL -7 DAY)";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            $data["reviews_7"] = $query->row()->total;
+            $data["rating_7"] = $query->row()->avgrating;
+            $data["rating_power7"] = $query->row()->avgreviewpower;
         }
         $sql = null; $query = null;
         $sql = "SELECT COALESCE(count(re.id),0) as 'total', COALESCE(AVG(r.rating),0) as 'avgrating', COALESCE(AVG(r.power),0) as 'avgreviewpower' 
