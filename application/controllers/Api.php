@@ -49,6 +49,63 @@ class Api extends CI_Controller {
     	return $remove_statecode ? preg_replace("/[^\d\-]/", "", extract_zipcode($matches[0])) : $matches[0];
 	}
 
+	public function ipn($rid=null, $vid=null, $secret=null) {
+		if ($rid == null) { header("HTTP/1.1 406 Not Acceptable"); return; die(); exit(); }
+		if ($vid == null) { header("HTTP/1.1 406 Not Acceptable"); return; die(); exit(); }
+		if ($secret == null) { header("HTTP/1.1 406 Not Acceptable"); return; die(); exit(); }
+		$this->load->model('Paypal_model');
+		$ipn = $this->Paypal_model;
+		if ($enable_sandbox) {
+		    $ipn->useSandbox();
+		}
+		$verified = $ipn->verifyIPN();
+
+		$data_text = "";
+		$POST = $this->input->post();
+		foreach ($POST as $key => $value) {
+		    $data_text .= $key . " = " . $value . "\r\n";
+		}
+
+		$test_text = "";
+		if ($POST["test_ipn"] == 1) {
+		    $test_text = "Test ";
+		}
+
+		// check for $vid matching vendor id and $secret matching the specific vendor connected to the $rid
+ 		if ($ipn->verifyPayor($rid,$vid,$secret) == FALSE) {
+ 			header("HTTP/1.1 406 Not Acceptable"); return; die(); exit();
+ 		}
+
+		list($year, $month, $day, $hour, $minute, $second, $timezone) = explode(":", date("Y:m:d:H:i:s:T"));
+		$date = $year . "-" . $month . "-" . $day;
+		$timestamp = $date . " " . $hour . ":" . $minute . ":" . $second . " " . $timezone;
+		$dated_log_file_dir = $log_file_dir . "/" . $year . "/" . $month;
+
+		$paypal_ipn_status = "VERIFICATION FAILED";
+		if ($verified) {
+		    // Process IPN
+		    // A list of variables are available here:
+		    // https://developer.paypal.com/webapps/developer/docs/classic/ipn/integration-guide/IPNandPDTVariables/
+		    // This is an example for sending an automated email to the customer when they purchases an item for a specific amount:
+
+		} elseif ($enable_sandbox) {
+		    if ($POST["test_ipn"] != 1) {
+		        $paypal_ipn_status = "RECEIVED FROM LIVE WHILE SANDBOXED";
+		    }
+		} elseif ($POST["test_ipn"] == 1) {
+		    $paypal_ipn_status = "RECEIVED FROM SANDBOX WHILE LIVE";
+		}
+
+		if ($send_confirmation_email) {
+		    // Send confirmation email
+		    mail($confirmation_email_address, $test_text . "PayPal IPN : " . $paypal_ipn_status, "paypal_ipn_status = " . $paypal_ipn_status . "\r\n" . "paypal_ipn_date = " . $timestamp . "\r\n" . $data_text, "From: " . $from_email_address);
+		}
+
+		// Reply with an empty 200 response to indicate to paypal the IPN was received correctly
+		header("HTTP/1.1 200 OK");
+
+	}
+
 	public function quickview() {
 		 if($this->input->is_ajax_request()) {
 		 	if ($this->input->post()) {
