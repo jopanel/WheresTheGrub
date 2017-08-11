@@ -13,30 +13,10 @@
 -Stats/Reports
 -Add/Edit Menu Items
 
-*/
 
-    /*
-    Model Functions Needing Developed:
-    - Manage Users
-    -- getVendorUsers
-    -- deleteVendorUser
-    -- addVendorUser
-    -- editVendorUser
-
-    - Marketing Tools
-    -- getMarketingTools
 
     - Add Listing 
     - addListing
-
-    - Manage Business
-    -- getPremiumStatus
-    -- getBizDetails 
-    
-    - Manage Reviews 
-    -- getBizReviews
-    -- respondToReview
-    -- requestReviewDelete
 
     - Manage Promos
     -- getAllPromos
@@ -53,27 +33,6 @@
     -- disablePPCkeyword
     -- addCredit
 
-    - Reports
-    - getBizReviewStats
-    - getBizStats
-    - getPPCStats
-    - getBizRatingStats
-    - getBizMobileStats
-    - getBizWebStats
-
-    - Business Information
-    -- getBizInformation
-    -- editBizInformation
-    -- addBizInformation
-    -- removeBizInformation
-    -- addPhotos
-    -- deletePhotos
-
-    - Menu
-    -- addMenuItems
-    -- deleteMenuItems
-    -- editMenuItems
-    -- listMenuItems
     */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -305,15 +264,38 @@ class Vendor extends CI_Controller {
 		}
 	}
 
-	public function reports($rid=null) {
+	public function reports($rid=null, $page=null, $dat=null) {
 		if ($rid == null) { return; }
 		if ($this->Vendor_model->verifyUser($rid)) {
 			$data["rid"] = $rid;
-			$data["premiumstatus"] = $this->Vendor_model->getPremiumStatus($rid);
-			$data["reviewratingstats"] = $this->Vendor_model->getBizReviewStats($rid);
-			$data["bizstats"] = $this->Vendor_model->getBizStats($rid);
+			$data["premiumstatus"] = $this->Vendor_model->getPremiumStatus($rid);  
 			$this->load->view('landingheader');
+			if ($page == null) {
 				$this->load->view('vendorreports', $data);
+			}
+			if ($page == "followers") {
+				$this->load->view('vendorreports_followers', $data);
+			}
+			if ($page == "reviews") {
+				$data["reviewratingstats"] = $this->Vendor_model->getBizReviewStats($rid);
+				$this->load->view('vendorreports_reviews', $data);
+			}
+			if ($page == "desktop") {
+				$data["bizstats"] = $this->Vendor_model->getBizStats($rid);
+				$this->load->view('vendorreports_desktop', $data);
+			}
+			if ($page == "mobile") {
+				$data["bizstats"] = $this->Vendor_model->getBizStats($rid);
+				$this->load->view('vendorreports_mobile', $data);
+			}
+			if ($page == "adwords") {
+				if ($dat = null) {
+					$data["bizstats"] = $this->Vendor_model->getPPCStats($rid);
+				} else {
+					$data["bizstats"] = $this->Vendor_model->getPPCStats($rid, $dat);
+				} 
+				$this->load->view('vendorreports_adwords', $data);
+			} 
 			$this->load->view('landingfooter');
 		}
 	}

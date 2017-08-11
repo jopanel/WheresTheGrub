@@ -308,7 +308,7 @@ class Vendor_model extends CI_Model {
     }
 
     public function getPPCStats($rid=null, $fromdate=null) {
-        if ($fromdate == null) { $fromdate = ""; } else { $fromdate = " AND vs.date >= '".strtotime("-".(int)$fromdate." day", time())."'"; }
+        if ($fromdate == null) { $fromdate = ""; $additional = "";} else { $fromdate = " AND vs.date >= '".strtotime("-".(int)$fromdate." day", time())."'"; $additional = ", DAY(vs.date)";}
         $data = array();
         if ($rid == null) { return $data; }
         $sql = "SELECT COALESCE(count(vs.id),0) as 'count', vst.name as 'typename', vst.id as 'typeid' 
@@ -316,7 +316,7 @@ class Vendor_model extends CI_Model {
             LEFT JOIN vendorstats_type vst ON vs.type = vst.id 
             WHERE vs.rid = ".$this->db->escape((int)$rid).$fromdate."
             AND vst.id IN (8,9,10,11,12,13,14,15) 
-            GROUP BY vs.type";
+            GROUP BY vs.type".$additional;
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
             foreach ($query->result_array() as $v) {
