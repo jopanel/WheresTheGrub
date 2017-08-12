@@ -13,43 +13,43 @@
                             <aside id="sidebar">
                                 <ul class="navigation-sidebar list-unstyled"> 
                                     <li>
-                                        <a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managebusiness/<?=$rid?>">
+                                        <a href="<?=base_url()?>vendor/managebusiness/<?=$rid?>">
                                             <i class="fa fa-info"></i>
                                             <span>Overview</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/businessinformation/<?=$rid?>">
+                                        <a href="<?=base_url()?>vendor/businessinformation/<?=$rid?>">
                                             <i class="fa fa-edit"></i>
                                             <span>Information</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managemenu/<?=$rid?>">
+                                        <a href="<?=base_url()?>vendor/managemenu/<?=$rid?>">
                                             <i class="fa fa-align-justify"></i>
                                             <span>Menu</span>
                                         </a>
                                     </li>
                                     <li class="active">
-                                        <a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managepromos/<?=$rid?>">
+                                        <a href="<?=base_url()?>vendor/managepromos/<?=$rid?>">
                                             <i class="fa fa-bolt"></i>
                                             <span>Promotions</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managereviews/<?=$rid?>">
+                                        <a href="<?=base_url()?>vendor/managereviews/<?=$rid?>">
                                             <i class="fa fa-bullhorn"></i>
                                             <span>Reviews</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/ppc/<?=$rid?>">
+                                        <a href="<?=base_url()?>vendor/ppc/<?=$rid?>">
                                             <i class="fa fa-dollar"></i>
                                             <span>Adwords</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/reports/<?=$rid?>">
+                                        <a href="<?=base_url()?>vendor/reports/<?=$rid?>">
                                             <i class="fa fa-bar-chart"></i>
                                             <span>Business Reports</span>
                                         </a>
@@ -62,7 +62,7 @@
 
 
                             <div class="container">
-                                <header class="no-border"><a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managepromos/<?=$rid?>/add"><h3>Add New Promotion/Coupon</h3></a></header>
+                                <header class="no-border"><a href="<?=base_url()?>vendor/managepromos/<?=$rid?>/add"><h3>Add New Promotion/Coupon</h3></a></header>
                                 <?php
                                 $count = 0;
                                 foreach ($promos as $k => $v) {
@@ -77,9 +77,9 @@
                                                         <p>Starting: '.$v["starting"].' - Ending: '.$v["ending"].' 
                                                         <br>
                                                         <div class="social">
-                                                            <a href="http://'.$_SERVER["SERVER_NAME"].'/vendor/managepromos/'.$rid.'/edit/'.$v["id"].'" >Edit</a> 
+                                                            <a href="'.base_url().'vendor/managepromos/'.$rid.'/edit/'.$v["id"].'" >Edit</a> 
                                                             - 
-                                                            <a href="http://'.$_SERVER["SERVER_NAME"].'/vendor/managepromos/'.$rid.'/delete/'.$v["id"].'" >Delete</a>
+                                                            <a href="'.base_url().'vendor/managepromos/'.$rid.'/delete/'.$v["id"].'" >Delete</a>
                                                         </div>
                                                     </div>
                                                     <!--/.member-->

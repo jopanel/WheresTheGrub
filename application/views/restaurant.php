@@ -13,7 +13,7 @@
                                         <h1><?=$res["name"]?>
                                         <follow id="followbtn">
                                         <?php 
-                                        if ($this->session->userdata('loggedin') && !empty($this->session->userdata('loggedin'))) {
+                                        if ($this->session->userdata('loggedin')) {
                                             if ($isfollowing == TRUE) { ?>
                                                 <button class="followbtn" class="btn btn-default" onClick="request(<?php echo $res["id"]; ?>,1)">Follow</button>
                                            <?php  } else { ?>
@@ -145,8 +145,9 @@
                                                 <div class="owl-carousel item-slider">
                                                 <?php 
                                                 if (!empty($res["photos"])) {
-                                                    foreach ($res["photos"] as $url) { ?>
-                                                    <div class="slide"><img src="<?=$url?>" data-hash="1" alt="<?=$res["name"]?>"></div>
+                                                    $counter1 = 0;
+                                                    foreach ($res["photos"] as $url) { $counter1+=1; ?>
+                                                    <div class="slide"><img src="<?=$url?>" data-hash="<?=$counter1?>" alt="<?=$res["name"]?>"></div>
                                                     <?php } ?>
                                                 <?php } ?> 
                                                 </div>
@@ -162,9 +163,9 @@
                                                                 if (!empty($review)) {  
                                                                 $countp += 1;
                                                                 if ($countp == 1) { ?>
-                                                                    <a href="#<?=$countp?>" id="thumbnail-<?=$countp?>" class="active"><img src="<?$review["photo"]?>" alt="<?=$res["name"]?>"></a>
+                                                                    <a href="#<?=$countp?>" id="thumbnail-<?=$countp?>" class="active"><img style="width:70px;" src="<?$review["photo"]?>" alt="<?=$res["name"]?>"></a>
                                                                 <?php } else { ?>
-                                                                    <a href="#<?=$countp?>" id="thumbnail-<?=$countp?>"><img src="<?$review["photo"]?>" alt="<?=$res["name"]?>"></a>
+                                                                    <a href="#<?=$countp?>" id="thumbnail-<?=$countp?>"><img style="width:70px;" src="<?$review["photo"]?>" alt="<?=$res["name"]?>"></a>
                                                                 <?php }
                                                                  } ?>
                                                             <?php } ?>
@@ -323,12 +324,7 @@
                                             <header class="clearfix">
                                                 <h2 class="pull-left">Reviews</h2>
                                                 <a href="#write-review" class="btn framed icon pull-right roll">Write a review <i class="fa fa-pencil"></i></a>
-                                            </header>
-                                            <article class="clearfix overall-rating">
-                                                <strong class="pull-left">Overall Rating</strong>
-                                                <figure class="rating big color pull-right" data-rating="<?=$res["rating"]?>"></figure>
-                                                <!-- /.rating -->
-                                            </article><!-- /.overall-rating-->
+                                            </header> 
                                             <section class="reviews">
  
                                             <?php
@@ -354,7 +350,11 @@
                                                     <!-- /.wrapper-->
                                                 </article>
                                                 <!-- /.review -->
-                                            <?php } ?> 
+                                            <?php } 
+                                            if (count($res["reviews"]) == 0) {
+                                                echo "<p>There are currently no reviews to show. You can be the first!</p>";
+                                            }
+                                            ?> 
  
                                             </section>
                                             <!-- /.reviews-->
@@ -476,6 +476,9 @@
             <script>
             var hascontacted = 0;
             var hasreviewed = 0;
+            function writeReview() {
+                $("#write-review").show();
+            }
             function request(rid, action) { 
                 
                 if (hascontacted == 1) { document.getElementById("contactsuccess").innerHTML = "You have already contacted this business.";}
@@ -497,7 +500,7 @@
                 var postData = { "rid": rid, "action": action2 };
                 $.ajax({
                     type: 'POST',
-                    url: 'http://<?=$_SERVER["SERVER_NAME"]?>/place/request/<?=$rid?>/'+action2,
+                    url: '<?=base_url()?>place/request/<?=$rid?>/'+action2,
                     data: postData,
                     cache: false,
                     success: function (data) { 
@@ -510,7 +513,7 @@
                 var postData = { "rid": rid, "action": action2, "reviewmessage": review, "reviewrating": rating };
                 $.ajax({
                     type: 'POST',
-                    url: 'http://<?=$_SERVER["SERVER_NAME"]?>/place/request/<?=$rid?>/'+action2,
+                    url: '<?=base_url()?>place/request/<?=$rid?>/'+action2,
                     data: postData,
                     cache: false,
                     success: function (data) { 
@@ -523,7 +526,7 @@
                 var postData = { "rid": rid, "action": action2, "contactname": contactname, "contactemail": contactemail, "contactmessage": contactmessage };
                 $.ajax({
                     type: 'POST',
-                    url: 'http://<?=$_SERVER["SERVER_NAME"]?>/place/request/<?=$rid?>/'+action2,
+                    url: '<?=base_url()?>place/request/<?=$rid?>/'+action2,
                     data: postData,
                     cache: false,
                     success: function (data) { 
@@ -541,11 +544,11 @@
                 var postData = { "rid": rid }
                 $.ajax({
                     type: 'POST',
-                    url: 'http://<?=$_SERVER["SERVER_NAME"]?>/place/'+uri+,
+                    url: '<?=base_url()?>place/'+uri+,
                     data: postData,
                     cache: false,
                     success: function (data) { 
-                       window.location.href = "http://<?=$_SERVER["SERVER_NAME"]?>/place/"+url;
+                       window.location.href = "<?=base_url()?>place/"+url;
                     }
                 });
             }

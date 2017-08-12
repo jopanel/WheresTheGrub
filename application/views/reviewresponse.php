@@ -11,7 +11,7 @@
             <div class="modal-content"> 
                             <div style="background-color:white;">  
                             <h1 id="suc" style="display:none;"><center>Success</center></h1>
-                                <form role="form" id="formin" method="post" action="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managereviews/<?=$rid?>/respondToReview"> 
+                                <form role="form" id="formin" method="post" action="<?=base_url()?>vendor/managereviews/<?=$rid?>/respondToReview"> 
                                     <input type="hidden" name="rid" value="<?=$rid?>">
                                     <input type="hidden" name="reviewid" value="<?=$reviewid?>">
                                     <input type="hidden" name="action" value="respondToReview">
@@ -26,7 +26,7 @@
                             </div> 
             </div>
         </div>
-        <div class="modal-close"><img src="http://<?=$_SERVER["SERVER_NAME"]?>/resources/img/close.png"></div>
+        <div class="modal-close"><img src="<?=base_url()?>resources/img/close.png"></div>
     </div>
     <div class="modal-background fade_in"></div>
 </div>
@@ -48,7 +48,7 @@
         } else {
             $.ajax({
                     type: 'POST',
-                    url: 'http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managereviews/<?=$rid?>/respondToReview',
+                    url: '<?=base_url()?>vendor/managereviews/<?=$rid?>/respondToReview',
                     data: {rid:ri,reviewid:reviewd,response:responses},
                     success: function (data) {
                         $("#formin").hide();
@@ -71,7 +71,7 @@
 </script>
 
 <!--[if lte IE 9]>
-<script type="text/javascript" src="http://<?=$_SERVER["SERVER_NAME"]?>/resources/js/ie-scripts.js"></script>
+<script type="text/javascript" src="<?=base_url()?>resources/js/ie-scripts.js"></script>
 <![endif]-->
 </body>
 </html>

@@ -48,10 +48,10 @@ class Vendor_model extends CI_Model {
         $query = $this->db->query($sql);
         if ($query->row()->totalitems > 0) { $taskscompleted += 1; } else { $tasksnotcomplete[] = "Add menu items."; }
         $sql = $query = null;
-        $sql = "SELECT COALESCE(hours,0) as 'hours', COALESCE(description,0) as 'description' FROM leads WHERE id = ".$this->db->escape((int)$rid);
+        $sql = "SELECT COALESCE(hours,'') as 'hours', COALESCE(description,0) as 'description' FROM leads WHERE id = ".$this->db->escape((int)$rid);
         $query = $this->db->query($sql);
-        if ($query->row()->hours != 0) { $taskscompleted += 1; } else { $tasksnotcomplete[] = "Set hours of operation."; }
-        if ($query->row()->description != 0) { $taskscompleted += 1; } else { $tasksnotcomplete[] = "Set a business description/bio."; }
+        if (strlen($query->row()->hours) > 0) { $taskscompleted += 1; } else { $tasksnotcomplete[] = "Set hours of operation."; }
+        if (strlen($query->row()->description) > 0) { $taskscompleted += 1; } else { $tasksnotcomplete[] = "Set a business description/bio."; }
         $sql = $query = null;
         $sql = "SELECT COALESCE(COUNT(id),0) as 'totalcoupons' FROM coupons WHERE rid = ".$this->db->escape((int)$rid);
         $query = $this->db->query($sql);
@@ -247,21 +247,17 @@ class Vendor_model extends CI_Model {
     }
 
     public function getBizImpressions($rid, $fromdate=1) {
-        if ($fromdate == null) { $fromdate = ""; } else { $fromdate = " AND vs.date >= '".strtotime("-".(int)$fromdate." day", time())."'"; }
-        return 0;
+        if ($fromdate == null) { $fromdate = ""; } else { $fromdate = " AND vs.date >= '".strtotime("-".(int)$fromdate." day", time())."'"; } 
         if ($rid == null) { return 0; }
+        $impressions = 0;
         $sql = "SELECT COALESCE(count(vs.id),0) as 'count'
             FROM vendorstats vs 
             LEFT JOIN vendorstats_type vst ON vs.type = vst.id 
             WHERE vs.rid = ".$this->db->escape((int)$rid).$fromdate."
-            AND vst.id IN (10,12,18)";
-        $query = $this->db->query($sql);
-        if ($query->num_rows() > 0) {
-                $impressions = $query->row()->count;
-        } else {
-            return 0;
-        }
-        return 0;
+            AND vst.id IN (8,9,10,16,17,18)";   
+        $query = $this->db->query($sql); 
+        $impressions = $query->row()->count; 
+        return $impressions;
     }
 
     public function getBizStats($rid) {
@@ -332,7 +328,7 @@ class Vendor_model extends CI_Model {
     public function getBizInformation($rid=0) {
             if ($rid == 0) { return FALSE; }
             $buildarray = [];
-            $sql = "SELECT * FROM leads WHERE id = ".$this->db->escape((int)$rid);
+            $sql = "SELECT *, COALESCE(rating,0) as 'rating' FROM leads WHERE id = ".$this->db->escape((int)$rid);
             $query = $this->db->query($sql);
             if ($query->num_rows() > 0) {
                 foreach($query->result_array() as $v) {
@@ -399,8 +395,8 @@ class Vendor_model extends CI_Model {
 
     public function uploadPhotos($_FILE=null, $rid=null) {
         if(!empty($_FILE['file']) && $_FILE['file']['error'] == 0 && $rid != null) {
-        $uploaddir = 'uploads/';
-        $url_path = "http://".$_SERVER["SERVER_NAME"]."/";
+        $uploaddir = 'uploads/'; 
+        $url_path = base_url();
         $verifyimg = getimagesize($_FILE['file']['tmp_name']);
         /* Make sure the MIME type is an image */
         $pattern = "#^(image/)[^\s\n<]+$#i";

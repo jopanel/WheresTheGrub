@@ -31,7 +31,7 @@
                                     <li>Control Over Some Reviews</li>
                                     <li>Much, Much, More!</li>
                                 </ul>
-                                <a href="http://<?=$_SERVER["SERVER_NAME"]?>/signin" class="btn btn-default">Create Business</a>
+                                <a href="<?=base_url()?>signin" class="btn btn-default">Create Business</a>
                             </div>
                         </div>
 

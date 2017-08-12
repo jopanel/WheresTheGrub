@@ -185,7 +185,7 @@ if ($this->uri->segment(1)) {
         //});
         $.ajax({
             type: 'POST',
-            url: 'http://<?=$_SERVER["SERVER_NAME"]?>/api/search',
+            url: '<?=base_url()?>api/search',
             data: apiData,
             cache: false,
             success: function (data) { 
@@ -199,11 +199,11 @@ if ($this->uri->segment(1)) {
                 var postData = { "rid": rid }
                 $.ajax({
                     type: 'POST',
-                    url: 'http://<?=$_SERVER["SERVER_NAME"]?>/place/openListing/'+rid+'/'+uri,
+                    url: '<?=base_url()?>place/openListing/'+rid+'/'+uri,
                     data: postData,
                     cache: false,
                     success: function (data) { 
-                       window.location.href = "http://<?=$_SERVER["SERVER_NAME"]?>/place/"+url;
+                       window.location.href = "<?=base_url()?>place/"+url;
                     }
                 });
             }

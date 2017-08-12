@@ -50,10 +50,13 @@
                     echo $type." ";
                      } 
                         ?></span></div>
-                    <div class="owl-carousel gallery">
-                        <img src="resources/img/items/1.jpg">
-                        <img src="resources/img/items/5.jpg">
-                        <img src="resources/img/items/4.jpg">
+                    <div class="owl-carousel gallery"> 
+                    <?php
+                    if (!isset($arraydata["photo"]) || empty($arraydata["photo"])) {
+                        echo "<img src='resources/img/itemes/1.jpg'>";
+                    } else {
+                        echo "<img src='uploads/".$arraydata["photo"]."'>";
+                    } ?>
                     </div>
                 </div>
                 <div class="features"><h3>Features</h3>

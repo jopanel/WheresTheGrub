@@ -78,9 +78,9 @@
                                         </div>
                                     </div>
                                     <div class="in-queue">
-                                        <a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managebusiness/<?=$v["id"]?>"><p class="btn framed icon">Manage Business <i class="fa fa-angle-right"></i></p></a>
+                                        <a href="<?=base_url()?>vendor/managebusiness/<?=$v["id"]?>"><p class="btn framed icon">Manage Business <i class="fa fa-angle-right"></i></p></a>
                                         <?php 
-                                        if ($v["premium"] == 1) { ?> <a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managebusiness/<?=$v["id"]?>"><p class="btn framed icon">Premium Access</p></a> <?php } else { ?> <a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/premium/<?=$v["id"]?>"><p class="btn framed icon" style="border-color: green;">Sign Up For Premium!</p></a> <?php } ?> 
+                                        if ($v["premium"] == 1) { ?> <a href="<?=base_url()?>vendor/managebusiness/<?=$v["id"]?>"><p class="btn framed icon">Premium Access</p></a> <?php } else { ?> <a href="<?=base_url()?>vendor/premium/<?=$v["id"]?>"><p class="btn framed icon" style="border-color: green;">Sign Up For Premium!</p></a> <?php } ?> 
                                     </div>
                                 </div>
                                <?php }?>

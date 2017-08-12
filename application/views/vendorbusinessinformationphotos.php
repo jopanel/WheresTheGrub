@@ -13,43 +13,43 @@
                             <aside id="sidebar">
                                 <ul class="navigation-sidebar list-unstyled"> 
                                     <li>
-                                        <a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managebusiness/<?=$rid?>">
+                                        <a href="<?=base_url()?>vendor/managebusiness/<?=$rid?>">
                                             <i class="fa fa-info"></i>
                                             <span>Overview</span>
                                         </a>
                                     </li>
                                     <li class="active">
-                                        <a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/businessinformation/<?=$rid?>">
+                                        <a href="<?=base_url()?>vendor/businessinformation/<?=$rid?>">
                                             <i class="fa fa-edit"></i>
                                             <span>Information</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managemenu/<?=$rid?>">
+                                        <a href="<?=base_url()?>vendor/managemenu/<?=$rid?>">
                                             <i class="fa fa-align-justify"></i>
                                             <span>Menu</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managepromos/<?=$rid?>">
+                                        <a href="<?=base_url()?>vendor/managepromos/<?=$rid?>">
                                             <i class="fa fa-bolt"></i>
                                             <span>Promotions</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/managereviews/<?=$rid?>">
+                                        <a href="<?=base_url()?>vendor/managereviews/<?=$rid?>">
                                             <i class="fa fa-bullhorn"></i>
                                             <span>Reviews</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/ppc/<?=$rid?>">
+                                        <a href="<?=base_url()?>vendor/ppc/<?=$rid?>">
                                             <i class="fa fa-dollar"></i>
                                             <span>Adwords</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/reports/<?=$rid?>">
+                                        <a href="<?=base_url()?>vendor/reports/<?=$rid?>">
                                             <i class="fa fa-bar-chart"></i>
                                             <span>Business Reports</span>
                                         </a>
@@ -61,9 +61,9 @@
 
                                             <header>
                                                 <ul class="nav nav-pills">
-                                                    <li><a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/businessinformation/<?=$rid?>/"><h1 class="page-title">Manage Information</h1></a></li>
-                                                    <li class="active"><a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/businessinformation/<?=$rid?>/photos"><h1 class="page-title">Manage Photos</h1></a></li>
-                                                    <li><a href="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/businessinformation/<?=$rid?>/seo"><h1 class="page-title">Manage SEO</h1></a></li>
+                                                    <li><a href="<?=base_url()?>vendor/businessinformation/<?=$rid?>/"><h1 class="page-title">Manage Information</h1></a></li>
+                                                    <li class="active"><a href="<?=base_url()?>vendor/businessinformation/<?=$rid?>/photos"><h1 class="page-title">Manage Photos</h1></a></li>
+                                                    <li><a href="<?=base_url()?>vendor/businessinformation/<?=$rid?>/seo"><h1 class="page-title">Manage SEO</h1></a></li>
                                                 </ul>
                                             </header> 
                                             <header>
@@ -72,7 +72,7 @@
                                                 
                                                 <section>
                                                     <h3>Gallery (.jpg, .png only)</h3>
-                                                    <form action="http://<?=$_SERVER["SERVER_NAME"]?>/vendor/businessinformation/<?=$rid?>/photos/upload" method="post" class="dropzone">
+                                                    <form action="<?=base_url()?>vendor/businessinformation/<?=$rid?>/photos/upload" method="post" class="dropzone">
                                                     <div id="file-submit" class="dropzone">
                                                         <input name="file" type="file" multiple>
                                                         <div class="dz-default dz-message"><span>Click or Drop Images Here</span></div>
@@ -91,8 +91,9 @@
                                                             $counter = 0;
                                                             foreach ($vendorphotos as $v) {
                                                                 $counter += 1;
-                                                                if ($counter == 5) {
+                                                                if ($counter == 4) {
                                                                     echo "</div><div class='row'>";
+                                                                    $counter = 1;
                                                                 }
                                                                 ?>
                                                                 <div id="pic-<?=$v["id"]?>" class="col-md-3 col-sm-3">

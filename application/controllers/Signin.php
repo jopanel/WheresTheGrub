@@ -57,7 +57,7 @@ class Signin extends CI_Controller {
 			if ($verifyUser == "SUCCESS") {
 				redirect("../../user/feed");
 			} elseif ($verifyUser == "VENDOR") {
-				redirect("http://".$_SERVER["SERVER_NAME"]."/vendor/");
+				redirect(base_url()."vendor/");
 			} else {
 				$data["problem"] = $verifyUser;
 			}

@@ -50,7 +50,7 @@ class User extends CI_Controller {
 	public function logout() { 
             foreach (array_keys($this->session->userdata) as $key) {   $this->session->unset_userdata($key); }
          	$this->session->sess_destroy();
-			redirect("http://".$_SERVER["SERVER_NAME"]);
+			redirect(base_url());
 	}
 
 	public function feed() {
@@ -107,7 +107,7 @@ class User extends CI_Controller {
 				
 			} // end ajax scripts
 		} else {
-			redirect("http://".$_SERVER["SERVER_NAME"]);
+			redirect(base_url(););
 		}//end ajax scripts
 	}
 
