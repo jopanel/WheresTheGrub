@@ -302,6 +302,125 @@ class Vendor_model extends CI_Model {
         $sql = null; $query = null;
         
     }
+    public function getBizStatsDesktop($rid) {
+        $data = [];
+        $sql = "SELECT COALESCE(count(vs.id),0) as 'count', vst.name as 'typename', vst.id as 'typeid' 
+            FROM vendorstats vs 
+            LEFT JOIN vendorstats_type vst ON vs.type = vst.id 
+            WHERE vs.rid = ".$this->db->escape((int)$rid)." 
+            AND vs.type IN (2,3,7,13,14,15,8,9,10,16,17,18,6)
+            GROUP BY vs.type";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            foreach ($query->result_array() as $v) {
+                $data["total"][] = array("typename" => $v["typename"], "typeid" => $v["typeid"], "count" => $v["count"]);
+            } 
+        }
+        $sql = null; $query = null;
+        $sql = "SELECT COALESCE(count(vs.id),0) as 'count', vst.name as 'typename', vst.id as 'typeid' 
+            FROM vendorstats vs 
+            LEFT JOIN vendorstats_type vst ON vs.type = vst.id 
+            WHERE vs.rid = ".$this->db->escape((int)$rid)."
+            AND vs.date >= ".strtotime("-7 day", time())." 
+            AND vs.type IN (2,3,7,13,14,15,8,9,10,16,17,18,6)
+            GROUP BY vs.type";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            foreach ($query->result_array() as $v) {
+                $data["7"][] = array("typename" => $v["typename"], "typeid" => $v["typeid"], "count" => $v["count"]);
+            } 
+        }
+        $sql = null; $query = null;
+        $sql = "SELECT COALESCE(count(vs.id),0) as 'count', vst.name as 'typename', vst.id as 'typeid' 
+            FROM vendorstats vs 
+            LEFT JOIN vendorstats_type vst ON vs.type = vst.id 
+            WHERE vs.rid = ".$this->db->escape((int)$rid)."
+            AND vs.date >= ".strtotime("-30 day", time())." 
+            AND vs.type IN (2,3,7,13,14,15,8,9,10,16,17,18,6)
+            GROUP BY vs.type";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            foreach ($query->result_array() as $v) {
+                $data["30"][] = array("typename" => $v["typename"], "typeid" => $v["typeid"], "count" => $v["count"]);
+            } 
+        }
+        $sql = null; $query = null;
+        $sql = "SELECT COALESCE(count(vs.id),0) as 'count', vst.name as 'typename', vst.id as 'typeid' 
+            FROM vendorstats vs 
+            LEFT JOIN vendorstats_type vst ON vs.type = vst.id 
+            WHERE vs.rid = ".$this->db->escape((int)$rid)."
+            AND vs.date >= ".strtotime("-365 day", time())."
+            AND vs.type IN (2,3,7,13,14,15,8,9,10,16,17,18,6)
+            GROUP BY vs.type";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            foreach ($query->result_array() as $v) {
+                $data["1y"][] = array("typename" => $v["typename"], "typeid" => $v["typeid"], "count" => $v["count"]);
+            } 
+        }
+        $sql = null; $query = null;
+        
+    }
+    public function getBizStatsMobile($rid) {
+        $data = [];
+        $sql = "SELECT COALESCE(count(vs.id),0) as 'count', vst.name as 'typename', vst.id as 'typeid' 
+            FROM vendorstats vs 
+            LEFT JOIN vendorstats_type vst ON vs.type = vst.id 
+            WHERE vs.rid = ".$this->db->escape((int)$rid)." 
+            AND vs.type IN (11,12,5,4)
+            GROUP BY vs.type";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            foreach ($query->result_array() as $v) {
+                $data["total"][] = array("typename" => $v["typename"], "typeid" => $v["typeid"], "count" => $v["count"]);
+            } 
+        }
+        $sql = null; $query = null;
+        $sql = "SELECT COALESCE(count(vs.id),0) as 'count', vst.name as 'typename', vst.id as 'typeid' 
+            FROM vendorstats vs 
+            LEFT JOIN vendorstats_type vst ON vs.type = vst.id 
+            WHERE vs.rid = ".$this->db->escape((int)$rid)."
+            AND vs.date >= ".strtotime("-7 day", time())." 
+            AND vs.type IN (11,12,5,4)
+            GROUP BY vs.type";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            foreach ($query->result_array() as $v) {
+                $data["7"][] = array("typename" => $v["typename"], "typeid" => $v["typeid"], "count" => $v["count"]);
+            } 
+        }
+        $sql = null; $query = null;
+        $sql = "SELECT COALESCE(count(vs.id),0) as 'count', vst.name as 'typename', vst.id as 'typeid' 
+            FROM vendorstats vs 
+            LEFT JOIN vendorstats_type vst ON vs.type = vst.id 
+            WHERE vs.rid = ".$this->db->escape((int)$rid)."
+            AND vs.date >= ".strtotime("-30 day", time())." 
+            AND vs.type IN (11,12,5,4)
+            GROUP BY vs.type";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            foreach ($query->result_array() as $v) {
+                $data["30"][] = array("typename" => $v["typename"], "typeid" => $v["typeid"], "count" => $v["count"]);
+            } 
+        }
+        $sql = null; $query = null;
+        $sql = "SELECT COALESCE(count(vs.id),0) as 'count', vst.name as 'typename', vst.id as 'typeid' 
+            FROM vendorstats vs 
+            LEFT JOIN vendorstats_type vst ON vs.type = vst.id 
+            WHERE vs.rid = ".$this->db->escape((int)$rid)."
+            AND vs.date >= ".strtotime("-365 day", time())."
+            AND vs.type IN (11,12,5,4)
+            GROUP BY vs.type";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            foreach ($query->result_array() as $v) {
+                $data["1y"][] = array("typename" => $v["typename"], "typeid" => $v["typeid"], "count" => $v["count"]);
+            } 
+        }
+        $sql = null; $query = null;
+        
+    }
+
 
     public function getPPCStats($rid=null, $fromdate=null) {
         if ($fromdate == null) { $fromdate = ""; $additional = "";} else { $fromdate = " AND vs.date >= '".strtotime("-".(int)$fromdate." day", time())."'"; $additional = ", DAY(vs.date)";}

@@ -58,22 +58,7 @@
                             </aside>
                         </div>
                         <?php
-                        /*  
-                            Things To Include (on this page):
-                            -> Review Stats: reviewratingstats
-                            - Total Reviews (All-Time, This Month, 7 Days) - done
-                            - How Many Rating Stars (5,4,3,2,1) (All-Time, This Month, 7 Days) - done
-                            - Average Rating - done 
-
-                            -> Follower Stats:
-                            - How many total, this month, 7 days
-                            - How many average per month
-                            - How many un-follow total, this month, 7 days
-
-                            -> Promotional Stats:
-                            - How many seen a promotion (impression) total, this month, 7 days (of specific promotion)
-                            - How many redeemed voucher total, this month, 7 days
-
+                        /*   
                             -> Mobile Device Stats: bizstats
                             - How many times viewed on listing  (all time, month, 7 day) - done
                             - How many times viewed on map (all time, month, 7 day) - done
@@ -82,17 +67,7 @@
                             - How many times viewed on PPC-BASED listing  (all time, month, 7 day) - done
                             - How many times viewed on PPC-BASED map (all time, month, 7 day) - done
                             - How many times clicked on PPC-BASED map (all time, month, 7 day) - done
-                            - How many times clicked on PPC-BASED listing (all time, month, 7 day) - done
-
-                            -> Desktop Device Stats: bizstats
-                            - How many times viewed on listing  (all time, month, 7 day) - done
-                            - How many times viewed on map (all time, month, 7 day) - done
-                            - How many times clicked on map (all time, month, 7 day) - done
-                            - How many times clicked on listing (all time, month, 7 day) - done
-                            - How many times viewed on PPC-BASED listing  (all time, month, 7 day) - done
-                            - How many times viewed on PPC-BASED map (all time, month, 7 day) - done
-                            - How many times clicked on PPC-BASED map (all time, month, 7 day) - done
-                            - How many times clicked on PPC-BASED listing (all time, month, 7 day) - done
+                            - How many times clicked on PPC-BASED listing (all time, month, 7 day) - done 
                         */
                         ?>
                         <div class="col-md-9 col-sm-9">
@@ -106,18 +81,53 @@
                         <?php } else { ?>
                             <header>
                                 <ul class="nav nav-pills">
-                                    <li class="active"><a href="<?=base_url()?>vendor/reports/<?=$rid?>/"><h1 class="page-title">Overview</h1></a></li>
+                                    <li><a href="<?=base_url()?>vendor/reports/<?=$rid?>/"><h1 class="page-title">Overview</h1></a></li>
                                     <li><a href="<?=base_url()?>vendor/reports/<?=$rid?>/followers"><h1 class="page-title">Followers</h1></a></li>
                                     <li><a href="<?=base_url()?>vendor/reports/<?=$rid?>/reviews"><h1 class="page-title">Reviews</h1></a></li>
                                     <li><a href="<?=base_url()?>vendor/reports/<?=$rid?>/desktop"><h1 class="page-title">Desktop</h1></a></li>
-                                    <li><a href="<?=base_url()?>vendor/reports/<?=$rid?>/mobile"><h1 class="page-title">Mobile</h1></a></li>
+                                    <li class="active"><a href="<?=base_url()?>vendor/reports/<?=$rid?>/mobile"><h1 class="page-title">Mobile</h1></a></li>
                                     <li><a href="<?=base_url()?>vendor/reports/<?=$rid?>/adwords"><h1 class="page-title">Adwords</h1></a></li>
                                 </ul>
                             </header> 
                             <header>
-                                <h1 class="page-title">Reports: Overview</h1>
+                                <h1 class="page-title">Reports: Mobile Device Stats</h1>
                             </header>  
-                        
+                            <div class="row"> 
+                                <div class="rol-lg-3 col-md-6"> 
+                                      <p>Overall</p>
+                                      <ul class="list-group">  
+                                      <?php foreach ($bizstats["total"] as $v) { ?>
+                                        <li class="list-group-item "><?=$v["typename"]?> <?=$v["count"]?></li> 
+                                      <?php } ?> 
+                                        </ul> 
+                                </div>
+                                <div class="rol-lg-3 col-md-6"> 
+                                      <p>7 Days</p>
+                                      <ul class="list-group">  
+                                      <?php foreach ($bizstats["7"] as $v) { ?>
+                                        <li class="list-group-item "><?=$v["typename"]?> <?=$v["count"]?></li> 
+                                      <?php } ?> 
+                                        </ul> 
+                                </div>
+                            </div>
+                            <div class="row"> 
+                                <div class="rol-lg-3 col-md-6"> 
+                                      <p>30 Days</p>
+                                      <ul class="list-group">  
+                                      <?php foreach ($bizstats["30"] as $v) { ?>
+                                        <li class="list-group-item "><?=$v["typename"]?> <?=$v["count"]?></li> 
+                                      <?php } ?> 
+                                        </ul> 
+                                </div>
+                                <div class="rol-lg-3 col-md-6"> 
+                                      <p>1 Year</p>
+                                      <ul class="list-group">  
+                                      <?php foreach ($bizstats["1y"] as $v) { ?>
+                                        <li class="list-group-item "><?=$v["typename"]?> <?=$v["count"]?></li> 
+                                      <?php } ?> 
+                                        </ul> 
+                                </div>
+                            </div>
 
                         <?php } ?>
 

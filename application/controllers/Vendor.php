@@ -281,11 +281,11 @@ class Vendor extends CI_Controller {
 				$this->load->view('vendorreports_reviews', $data);
 			}
 			if ($page == "desktop") {
-				$data["bizstats"] = $this->Vendor_model->getBizStats($rid);
+				$data["bizstats"] = $this->Vendor_model->getBizStatsDesktop($rid);
 				$this->load->view('vendorreports_desktop', $data);
 			}
 			if ($page == "mobile") {
-				$data["bizstats"] = $this->Vendor_model->getBizStats($rid);
+				$data["bizstats"] = $this->Vendor_model->getBizStatsMobile($rid);
 				$this->load->view('vendorreports_mobile', $data);
 			}
 			if ($page == "adwords") {
