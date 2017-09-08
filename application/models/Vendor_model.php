@@ -877,11 +877,10 @@ class Vendor_model extends CI_Model {
     }
     public function getPremiumStatus($rid=0) {
         if ($rid == 0) {return array();}
-        $sql = "SELECT COALESCE(v.premium, 0) as 'premium', COALESCE(vs.sponsoredads,0) as 'sponsoredads', COALESCE(vs.reviews,0) as 'reviews', COALESCE(vs.ppc,0) as 'ppc' FROM vendors v 
-        LEFT JOIN vendor_privileges vs ON v.rid = vs.rid
-        WHERE v.rid = ".$this->db->escape((int)$rid);
+        $sql = "SELECT COALESCE(vs.premium, 0) as 'premium', COALESCE(vs.sponsoredads,0) as 'sponsoredads', COALESCE(vs.reviews,0) as 'reviews', COALESCE(vs.ppc,0) as 'ppc' FROM vendor_privileges vs
+        WHERE vs.rid = ".$this->db->escape((int)$rid);
         $query = $this->db->query($sql);
-        return $query->row();
+        return (array)$query->row();
     }
 
     public function getBizReviews($rid=0) {
@@ -1037,7 +1036,8 @@ class Vendor_model extends CI_Model {
     }
 
     public function getMyBusinesses() {
-        $sql = "SELECT l.*, COALESCE(vu.premium, 0) as 'premium' FROM vendor_userpermissions vup  
+        $sql = "SELECT l.*, COALESCE(vp.premium, 0) as 'premium' FROM vendor_userpermissions vup  
+        LEFT JOIN vendor_privileges vp ON vup.rid = vp.rid
         LEFT JOIN vendors vu ON vup.rid = vu.rid 
         LEFT JOIN leads l ON vup.rid = l.id 
         WHERE vup.uid = ".$this->db->escape((int)$this->session->userdata("uid"));

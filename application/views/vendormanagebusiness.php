@@ -164,7 +164,7 @@
                             <div class="rol-lg-3 col-md-6"> 
                                   <ul class="list-group">
                                   <?php
-                                  if ($premiumstatus == 1) { ?>
+                                  if ($premiumstatus["premium"] == 1) { ?>
                                       <li class="list-group-item list-group-item-success">Premium Membership: Active</li>
                                       <li class="list-group-item ">Reviews Past 7 Days: <?=$reviewstats["reviews_total"]?></li> 
                                       <li class="list-group-item ">Rating Power Past 7 Days: <?=$reviewstats["rating_powertotal"]?></li> 
