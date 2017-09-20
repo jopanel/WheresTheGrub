@@ -252,14 +252,32 @@ class Vendor extends CI_Controller {
 
 	}
 
-	public function ppc($rid=null) {
+	public function ppc($rid=null, $page=null, $campaign=null, $keyword=null) {
 		if ($rid == null) { return; }
 		if ($this->Vendor_model->verifyUser($rid)) {
 			$data["rid"] = $rid;
 			$data["premiumstatus"] = $this->Vendor_model->getPremiumStatus($rid);
 			//$data[""] = $this->Vendor_model->userFeed();
 			$this->load->view('landingheader');
-			$this->load->view('vendorppc', $data);
+			if ($page == null) {
+				$this->load->view('vendorppc', $data);
+			}
+			if ($page == "createcampaign") {
+				$this->load->view('vendorppc_createcampaign', $data);
+			}
+			if ($page == "editcampaign") {
+				$this->load->view('vendorppc_editcampaign', $data);
+			}
+			if ($page == "addkeyword") {
+				$this->load->view('vendorppc_addkeyword', $data);
+			}
+			if ($page == "editkeyword") {
+				$this->load->view('vendorppc_editkeyword', $data);
+			}
+			if ($page == "reports") {
+				$this->load->view('vendorppc_reports', $data);
+			}
+			
 			$this->load->view('landingfooter');
 		}
 	}
