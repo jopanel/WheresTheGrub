@@ -90,7 +90,7 @@ class Restaurant_model extends CI_Model {
                       * cos( radians( rl.latitude ) ) 
                       * cos( radians( rl.longitude ) - radians('".$buildarray["longitude"]."') ) 
                       + sin( radians('".$buildarray["latitude"]."') ) 
-                      * sin( radians( rl.latitude ) ) ) ) AS distance FROM restaurantlist rl
+                      * sin( radians( rl.latitude ) ) ) ) AS distance FROM leads rl
                       LEFT JOIN vendors v ON rl.id = v.rid
                       WHERE rl.active = '1'".$category.$cuisine."  HAVING distance < 10 ORDER BY rl.rating DESC LIMIT 6";
             $query4 = $this->db->query($sql4);

@@ -232,7 +232,7 @@ class Api extends CI_Controller {
 		              * cos( radians( rl.latitude ) ) 
 		              * cos( radians( rl.longitude ) - radians(".$this->db->escape($longitude).") ) 
 		              + sin( radians(".$this->db->escape($latitude).") ) 
-		              * sin( radians( rl.latitude ) ) ) ) AS distance FROM restaurantlist rl
+		              * sin( radians( rl.latitude ) ) ) ) AS distance FROM leads rl
 		              LEFT JOIN vendors v ON rl.id = v.rid
 		               WHERE rl.active = '1'";
 				$yes = 1;
@@ -316,7 +316,7 @@ class Api extends CI_Controller {
 		              * cos( radians( latitude ) ) 
 		              * cos( radians( longitude ) - radians(-118.1181199) ) 
 		              + sin( radians(33.8477257) ) 
-		              * sin( radians( latitude ) ) ) ) AS distance FROM restaurantlist WHERE active = '1' AND (name LIKE '%%' OR category_labels LIKE '%%' OR cuisine LIKE '%%' OR description LIKE '%%') HAVING distance < 2
+		              * sin( radians( latitude ) ) ) ) AS distance FROM leads WHERE active = '1' AND (name LIKE '%%' OR category_labels LIKE '%%' OR cuisine LIKE '%%' OR description LIKE '%%') HAVING distance < 2
 		        */
 		        $ip = $this->getIP();
 				$result = $this->db->query($sql);
